@@ -195,6 +195,30 @@ class Game{
 			}
 		});	
 	}
+
+	PlayerKeyboard() {
+		window.onkeydown = function(e) {
+			var key = e.keyCode || e.which;
+			switch (key) {
+				case 37:
+
+				//-Move left
+				break;
+			case 39:
+				//-Move right
+				break;
+			case 38:
+				//-Move up
+				if (this.player.action!='Walking' && this.player.action!='Running') this.player.action = 'Walking';
+				break;
+			case 40:
+				//-Move down
+				break;
+			default:
+				break;
+			}
+		};
+	}
 	
 	playerControl(forward, turn){
 		turn = -turn;

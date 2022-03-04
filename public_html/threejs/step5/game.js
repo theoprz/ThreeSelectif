@@ -23,6 +23,7 @@ class Game{
         
         this.init();
 
+		document.addEventListener("keydown", test)
 		window.onError = function(error){
 			console.error(JSON.stringify(error));
 		}
@@ -119,10 +120,10 @@ class Game{
 				game.loadNextAnim(loader);
 			}else{
                 game.createCameras();
-                game.joystick = new JoyStick({
+                /*game.joystick = new JoyStick({
                     onMove: game.playerControl,
                     game: game
-                });
+                });*/
 				delete game.anims;
 				game.action = "Idle";
 				game.animate();
@@ -133,6 +134,7 @@ class Game{
     movePlayer(dt){	
         if (this.player.move.forward>0){
             const speed = (this.player.action=='Running') ? 400 : 150;
+			console.log(this.player.move);
             this.player.object.translateZ(dt*speed);
         }else{
             this.player.object.translateZ(-dt*30);
@@ -164,23 +166,21 @@ class Game{
         return this.player.action;
     }
     
-    playerControl(forward, turn){
-		turn = -turn;
+    playerControl(event){
 		
-		if (forward>0.3){
+		if (event.key === "ArrowUp"){
 			if (this.player.action!='Walking' && this.player.action!='Running') this.action = 'Walking';
-		}else if (forward<-0.3){
+		}else if (event.key === "ArrowDown"){
 			if (this.player.action!='Walking Backwards') this.action = 'Walking Backwards';
 		}else{
-			forward = 0;
-			if (Math.abs(turn)>0.1){
+			if (event.key === "ArrowRight"){
 				if (this.player.action != 'Turn') this.action = 'Turn';
 			}else if (this.player.action!="Idle"){
 				this.action = 'Idle';
 			}
 		}
 		
-		if (forward==0 && turn==0){
+		if (event.key == undefined){
 			delete this.player.move;
 		}else{
 			this.player.move = { forward, turn }; 
@@ -245,5 +245,11 @@ class Game{
         
 		this.renderer.render( this.scene, this.camera );
 
+	}
+}
+
+function test(game, event){
+	if (event.key === "ArrowUp"){
+		if (game.player.action!='Walking' && game.player.action!='Running') game.action = 'Walking';
 	}
 }

@@ -33,6 +33,7 @@ io.sockets.on('connection', function(socket){
 	});
 	
 	socket.on('update', function(data){
+		console.log(socket.userData.x);
 		socket.userData.x = data.x;
 		socket.userData.y = data.y;
 		socket.userData.z = data.z;

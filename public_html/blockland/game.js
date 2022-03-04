@@ -197,9 +197,9 @@ class Game{
 	}
 	
 	playerControl(forward, turn){
-		turn = -turn;
-		
-		if (forward>0.3){
+		turn = -turn;                   
+
+		if (forward>0.3) {
 			if (this.player.action!='Walking' && this.player.action!='Running') this.player.action = 'Walking';
 		}else if (forward<-0.3){
 			if (this.player.action!='Walking Backwards') this.player.action = 'Walking Backwards';
@@ -505,7 +505,8 @@ class Player{
 	set action(name){
 		//Make a copy of the clip if this is a remote player
 		if (this.actionName == name) return;
-		const clip = (this.local) ? this.animations[name] : THREE.AnimationClip.parse(THREE.AnimationClip.toJSON(this.animations[name])); 
+		const clip = (this.local) ? this.animations[name] : THREE.AnimationClip.parse(THREE.AnimationClip.toJSON(this.animations[name]));
+		console.log(clip); 
 		const action = this.mixer.clipAction( clip );
         action.time = 0;
 		this.mixer.stopAllAction();
