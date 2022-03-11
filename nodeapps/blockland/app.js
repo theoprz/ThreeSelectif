@@ -5,9 +5,8 @@ const io = require('socket.io')(http);
 
 app.use(express.static('../../public_html/blockland/'));
 app.use(express.static('../../public_html/libs'));
-app.use(express.static('../../public_html/blockland/v3'));
 app.get('/',function(req, res) {
-    res.sendFile(__dirname + '../../public_html/blockland/v3/index.html');
+    res.sendFile(__dirname + '../../public_html/blockland/index.html');
 });
 
 io.sockets.on('connection', function(socket){
@@ -28,21 +27,20 @@ io.sockets.on('connection', function(socket){
 		socket.userData.y = data.y;
 		socket.userData.z = data.z;
 		socket.userData.heading = data.h;
-		socket.userData.pb = data.pb;
+		socket.userData.pb = data.pb,
 		socket.userData.action = "Idle";
 	});
 
 	socket.on('update', function(data){
-		console.log(socket.userData.x);
 		socket.userData.x = data.x;
 		socket.userData.y = data.y;
 		socket.userData.z = data.z;
 		socket.userData.heading = data.h;
-		socket.userData.pb = data.pb;
+		socket.userData.pb = data.pb,
 		socket.userData.action = data.action;
 	});
 
-	socket.on('r	 message', function(data){
+	socket.on('chat message', function(data){
 		console.log(`chat message:${data.id} ${data.message}`);
 		io.to(data.id).emit('chat message', { id: socket.id, message: data.message });
 	})
