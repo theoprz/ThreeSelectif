@@ -169,10 +169,10 @@ class BasicCharacterControllerInput {
 
     _onKeyDown(event) {
         switch (event.keyCode) {
-            case 87: // w
+            case 90: // z
                 this._keys.forward = true;
                 break;
-            case 65: // a
+            case 81: // q
                 this._keys.left = true;
                 break;
             case 83: // s
@@ -192,10 +192,10 @@ class BasicCharacterControllerInput {
 
     _onKeyUp(event) {
         switch(event.keyCode) {
-            case 87: // w
+            case 90: // z
                 this._keys.forward = false;
                 break;
-            case 65: // a
+            case 81: // q
                 this._keys.left = false;
                 break;
             case 83: // s
