@@ -550,9 +550,23 @@ class CharacterControllerDemo {
         this._RAF();
     }
 
+    ramdomPos() {
+
+        //Postion à déterminer en fonction de la map
+
+        let pos1 = { x: 10 , z: 10};
+        let pos2= { x: 20 , z: 20};
+        let pos3 = { x: 30 , z: 30};
+        let values = [pos1,pos2,pos3];
+        let valueToUse = values[Math.floor(Math.random() * values.length)];
+        return valueToUse;
+    }
+    
     addObject(type){
         let scale = { x: 6, y: 6, z: 6 }
-        let pos = { x: 15, y: scale.y / 2, z: 15 }
+        let tempPos = this.ramdomPos();
+        //console.log(tempPos)
+        let pos = { x: tempPos.x, y: scale.y / 2, z: tempPos.z }
         let object = null;
 
         switch(type){
