@@ -1,8 +1,8 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
 
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/FBXLoader.js';
-import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js';
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
+import {OBJLoader} from "https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/loaders/OBJLoader.js";
 
 
 class BasicCharacterControllerProxy {
@@ -35,10 +35,7 @@ class BasicCharacterController {
     }
 
     _LoadModels() {
-        const loaderTrash = new FBXLoader();
         const loader = new FBXLoader();
-        loaderTrash.setPath('')
-        loaderTrash
         loader.setPath('/static/assets/game/zombie/');
         loader.load('mremireh_o_desbiens.fbx', (fbx) => {
             fbx.scale.setScalar(0.1);
@@ -172,10 +169,10 @@ class BasicCharacterControllerInput {
 
     _onKeyDown(event) {
         switch (event.keyCode) {
-            case 90: // z
+            case 87: // w
                 this._keys.forward = true;
                 break;
-            case 81: // q
+            case 65: // a
                 this._keys.left = true;
                 break;
             case 83: // s
@@ -195,10 +192,10 @@ class BasicCharacterControllerInput {
 
     _onKeyUp(event) {
         switch(event.keyCode) {
-            case 90: // z
+            case 87: // w
                 this._keys.forward = false;
                 break;
-            case 81: // q
+            case 65: // a
                 this._keys.left = false;
                 break;
             case 83: // s
@@ -480,8 +477,10 @@ class CharacterControllerDemo {
         const aspect = 1920 / 1080;
         const near = 1.0;
         const far = 1000.0;
-        this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        this._camera.position.set(0, 150, 400);
+        // CAMERA
+        this._camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1500);
+        this._camera.position.set(-35, 70, 100);
+        this._camera.lookAt(new THREE.Vector3(0, 0, 0));
 
         this._scene = new THREE.Scene();
 
@@ -531,6 +530,18 @@ class CharacterControllerDemo {
         plane.receiveShadow = true;
         plane.rotation.x = -Math.PI / 2;
         this._scene.add(plane);
+        // -----------------------------------------------------
+        this.objects = []
+        this.raycast = new THREE.Raycaster();
+        this.clickMouse = new THREE.Vector2();
+        const clickedObject = null;
+
+        this.addObject("box2");
+        this.clickOnObject();
+
+
+
+        // -----------------------------------------------------
 
         this._mixers = [];
         this._previousRAF = null;
@@ -539,44 +550,63 @@ class CharacterControllerDemo {
         this._RAF();
     }
 
+    addObject(type){
+        let scale = { x: 6, y: 6, z: 6 }
+        let pos = { x: 15, y: scale.y / 2, z: 15 }
+        let object = null;
+
+        switch(type){
+            case "box": {
+                object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xDC143C }));
+                object.position.set(pos.x, pos.y, pos.z);
+                object.scale.set(scale.x, scale.y, scale.z);
+                object.userData.name = 'Boite'
+                break;
+            }
+            case "box2": {
+                object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00FFFF }));
+                object.position.set(pos.x, pos.y, pos.z);
+                object.scale.set(scale.x, scale.y, scale.z);
+                object.userData.name = 'Boite2'
+                break;
+            }
+        }
+
+        object.castShadow = true;
+        object.receiveShadow = true;
+        object.userData.draggable = true
+
+        this._scene.add(object)
+    }
+
+    clickOnObject() {
+        window.addEventListener('click', event =>{
+            this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            const found = this.intersect(this.clickMouse);
+            console.log(found);
+            if(found.length > 0){
+                if(found[0].object.userData.draggable) {
+                    // Ajouter la condition clickable
+                    this.clickedObject = found[0].object;
+                    console.log(`Clicked on ${this.clickedObject.userData.name}`);
+                }
+            }
+        })
+    }
+
+    intersect(pos) {
+        this.raycast.setFromCamera(pos, this._camera);
+        return this.raycast.intersectObjects(this._scene.children);
+    }
+
     _LoadAnimatedModel() {
         const params = {
             camera: this._camera,
             scene: this._scene,
         }
         this._controls = new BasicCharacterController(params);
-    }
-
-    _LoadAnimatedModelAndPlay(path, modelFile, animFile, offset) {
-        const loader = new FBXLoader();
-        loader.setPath(path);
-        loader.load(modelFile, (fbx) => {
-            fbx.scale.setScalar(0.1);
-            fbx.traverse(c => {
-                c.castShadow = true;
-            });
-            fbx.position.copy(offset);
-
-            const anim = new FBXLoader();
-            anim.setPath(path);
-            anim.load(animFile, (anim) => {
-                const m = new THREE.AnimationMixer(fbx);
-                this._mixers.push(m);
-                const idle = m.clipAction(anim.animations[0]);
-                idle.play();
-            });
-            this._scene.add(fbx);
-        });
-    }
-
-    _LoadModel() {
-        const loader = new GLTFLoader();
-        loader.load('/static/assets/game/thing.glb', (gltf) => {
-            gltf.scene.traverse(c => {
-                c.castShadow = true;
-            });
-            this._scene.add(gltf.scene);
-        });
     }
 
     _OnWindowResize() {
@@ -613,7 +643,6 @@ class CharacterControllerDemo {
 
 
 let _APP = null;
-
 window.addEventListener('DOMContentLoaded', () => {
     _APP = new CharacterControllerDemo();
 });
