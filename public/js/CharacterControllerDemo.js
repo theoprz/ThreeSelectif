@@ -1,6 +1,7 @@
 import { THREE, FBXLoader, OrbitControls, OBJLoader } from "/static/js/libs.js"
 import ApiFetching from "/static/js/ApiFetching.js"
 import BasicCharacterController from "/static/js/BasicCharacterController.js"
+import ThirdPersonCamera from "/static/js/ThirdPersonCamera.js"
 
 class CharacterControllerDemo {
     constructor() {
@@ -23,9 +24,12 @@ class CharacterControllerDemo {
             this._OnWindowResize();
         }, false);
 
-        this._camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1500);
-        this._camera.position.set(-35, 70, 100);
-        this._camera.lookAt(new THREE.Vector3(0, 0, 0));
+        const fov = 60;
+        const aspect = 1920 / 1080;
+        const near = 1.0;
+        const far = 1000.0;
+        this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+        this._camera.position.set(25, 10, 25);
 
         this._scene = new THREE.Scene();
 
@@ -50,11 +54,6 @@ class CharacterControllerDemo {
 
         light = new THREE.AmbientLight(0xFFFFFF, 0.25);
         this._scene.add(light);
-
-        const controls = new OrbitControls(
-            this._camera, this._threejs.domElement);
-        controls.target.set(0, 10, 0);
-        controls.update();
 
         const loader = new THREE.CubeTextureLoader();
         const texture = loader.load([
@@ -145,6 +144,14 @@ class CharacterControllerDemo {
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
+            //création de l'image pour l'afficher dans l'inventaire
+            let img1 = document.createElement("img");
+            img1.src = "/static/assets/game/trash-glass-bottle.png";
+            img1.setAttribute("style", "height: 100%");
+            img1.setAttribute("position", "absolute")
+
+            let div1 = document.getElementById("texteSlot1");
+
             const found = this.intersect(this.clickMouse);
             console.log(found);
             if(found.length > 0){
@@ -152,6 +159,8 @@ class CharacterControllerDemo {
                     this.clickedObject = found[0].object;
                     this._scene.remove(found[0].object);
                     console.log(`Clicked on ${this.clickedObject.userData.name}`);
+                    div1.appendChild(img1);
+                    div1.setAttribute("style", "text-align:center");
                 }
             }
         })
@@ -168,6 +177,11 @@ class CharacterControllerDemo {
             scene: this._scene,
         }
         this._controls = new BasicCharacterController(params);
+
+        this._thirdPersonCamera = new ThirdPersonCamera({
+            camera: this._camera,
+            target: this._controls,
+        });
     }
 
     _OnWindowResize() {
@@ -199,6 +213,7 @@ class CharacterControllerDemo {
         if (this._controls) {
             this._controls.Update(timeElapsedS);
         }
+        this._thirdPersonCamera.Update(timeElapsedS);
     }
 }
 
