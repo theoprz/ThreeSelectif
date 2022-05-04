@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fcc4b355-6a34-4ab3-8440-4853f4bd3044" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/js/ThirdPersonCamera.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/BasicCharacterController.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/BasicCharacterController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Questions.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Questions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/ApiFetching.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/ApiFetching.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/CharacterControllerDemo.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/CharacterControllerDemo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/styles/game.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/styles/game.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/game.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/game.ejs" afterDir="false" />
     </list>

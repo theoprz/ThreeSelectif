@@ -1,5 +1,8 @@
 body {
     margin: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
 }
 
 /*MENU DEROULANT*/
@@ -9,8 +12,6 @@ body {
     top: 1em;
     left: 1em;
 }
-
-
 
 .circular-menu .floating-btn {
     display: block;
@@ -115,6 +116,7 @@ body {
     transform: translate3d(3.5em, 6.3em, 0);
 }
 
+
 .circular-menu.circular-menu.active .menu-item:nth-child(3) {
     transform: translate3d(6.5em, 3.2em, 0);
 }
@@ -135,21 +137,18 @@ body {
     align-content: center;
     position: fixed;
     bottom: 1vh;
-    left: 33vw;
-    width: 530px;
-    height: 100px;
+    left: 31vw;
+    width: 35vw;
+    height: auto;
     border: #009E44 5px solid;
 }
 
 .slot {
-
-    width: 80px;
-    height: 80px;
-    text-align: center;
-    margin: 10px 0.75% 10px 0.75%;
+    width: 5vw;
+    height: 5vw;
+    margin: 8px 0;
     color: white;
     background: RGBA(40, 40, 40, 0.8);
-    float: left;
     box-shadow: 0 0px 9px black, inset 0 0 25px lightblue;
 }
 
@@ -159,9 +158,16 @@ body {
     vertical-align: middle;
 }
 
+.TexteSlot {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 .TexteSlot img {
-    vertical-align: middle;
-    width: 100%;
+    max-width: 4vw;
+
+
+
 }
 
 .ItemCount {

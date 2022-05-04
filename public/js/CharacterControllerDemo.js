@@ -88,6 +88,7 @@ class CharacterControllerDemo {
         console.log(this.db.getUser("Test"));
 
         this.addObject("box2");
+        this.addObject("box")
         this.clickOnObject();
 
         this._mixers = [];
@@ -118,7 +119,7 @@ class CharacterControllerDemo {
         switch(type){
             case "box": {
                 object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xDC143C }));
-                object.position.set(pos.x, pos.y, pos.z);
+                object.position.set(50, 6, 50);
                 object.scale.set(scale.x, scale.y, scale.z);
                 object.userData.name = 'Boite';
                 break;
@@ -127,7 +128,7 @@ class CharacterControllerDemo {
                 object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00FFFF }));
                 object.position.set(pos.x, pos.y, pos.z);
                 object.scale.set(scale.x, scale.y, scale.z);
-                object.userData.name = 'Boite2'
+                object.userData.name = 'Boite2';
                 break;
             }
         }
@@ -139,7 +140,92 @@ class CharacterControllerDemo {
         this._scene.add(object)
     }
 
+    question(questionNumber){
+        var choix1, choix2, choix3, questions, solution, good_response, bad_response;
+        this.db.getQuestion(questionNumber).then(async data => {
+            choix1 = await data.choix1;
+            choix2 = await data.choix2;
+            choix3 = await data.choix3;
+            questions = data.questions;
+            console.log(questions);
+            console.log(data.questions);
+            solution = await data.solution;
+            good_response = await data.good;
+            bad_response = await data.bad;
+        });
+
+        console.log(questions);
+        (async () => {
+
+            /* inputOptions can be an object or Promise */
+            const inputOptions = new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        '1': choix1,
+                        '2': choix2,
+                        '3': choix3
+                    })
+                }, 1000)
+            });
+
+            const { value: color } = await Swal.fire({
+                title: questions,
+                icon: 'question',
+                input: 'radio',
+                inputOptions: inputOptions,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Vous devez mettre une réponse !'
+                    }
+                    console.log(value);
+                }
+            })
+
+            if( color === solution){
+                Swal.fire({
+                    icon: 'success',
+                    html: good_response,
+                    confirmButtonText: 'Suivant'
+                }).then((result)=> this.question('Plastique','Ferraille','Dêchets Alimentaires', 'Qu\'elles déchets sont destinés à la poubelle jaune','2','Il sagit bien de la ferraille', 'Faux CONNARD'))
+
+            }else {
+                Swal.fire({
+                    icon: 'error',
+                    html: bad_response,
+                    confirmButtonText: 'Suivant'
+                })
+            }
+
+
+        })()
+
+    }
+
+    endgame_quest(){
+
+        (async () => {
+
+            const {value: accept} = await Swal.fire({
+                title: 'Combien avez-vous fait economiser de temp de dégradation avec vos déchets triés ?',
+                icon: 'question',
+                input: 'range',
+                inputLabel: 'Temp ( en millier d\'année)',
+                inputAttributes: {
+                    min: 0,
+                    max: 10000,
+                    step: 1
+                },
+                inputValue: 200
+            })
+            if (accept == 300) {
+                console.log("ahahahahahah");
+            }then
+
+        })()
+    }
+
     clickOnObject() {
+        let count1 =0;
         window.addEventListener('click', event => {
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -151,16 +237,27 @@ class CharacterControllerDemo {
             img1.setAttribute("position", "absolute")
 
             let div1 = document.getElementById("texteSlot1");
-
+            div1.setAttribute("style", "text-align:center");
             const found = this.intersect(this.clickMouse);
             console.log(found);
             if(found.length > 0){
                 if(found[0].object.userData.draggable) {
                     this.clickedObject = found[0].object;
-                    this._scene.remove(found[0].object);
+                    if (this.clickedObject.userData.name == "Boite") {
+                        this.question(0);
+                        this._scene.remove(found[0].object);
+                    }
                     console.log(`Clicked on ${this.clickedObject.userData.name}`);
-                    div1.appendChild(img1);
-                    div1.setAttribute("style", "text-align:center");
+                    if (div1.childElementCount == 0 & this.clickedObject.userData.name == "Boite2") {
+                        div1.appendChild(img1);
+                        count1 += 1;
+                        console.log(count1)
+                    }
+
+                    else if (this.clickedObject.userData.name == "Boite2") {
+                        count1 += 1;
+                        console.log(count1)
+                    }
                 }
             }
         })

@@ -16,6 +16,12 @@ class ApiFetching {
         );
         return response.data;
     }
+    async getQuestion(questionNumber){
+        const response = await axios.get(
+            `/api/questions`
+        );
+        return response.data[questionNumber];
+    }
 
 }
 

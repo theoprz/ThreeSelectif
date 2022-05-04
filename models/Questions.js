@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const schema = mongoose.Schema({
-    question: String,
+    questions: String,
     choix1: String,
     choix2: String,
     choix3: String,
