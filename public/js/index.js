@@ -1,4 +1,4 @@
-import CharacterControllerDemo from "/static/js/CharacterControllerDemo.js";
+import {CharacterControllerDemo} from "/static/js/CharacterControllerDemo.js";
 
 let _APP = null;
 

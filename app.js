@@ -9,6 +9,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const session = require('express-session');
 
 mongoose.connect("mongodb://admin:stillnix@vmi779869.contaboserver.net:27017/ThreeSelectif?authSource=admin", {
         useNewUrlParser: true,
@@ -31,6 +32,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+    secret: "ThreeSelectif",
+    resave: "false",
+    saveUninitialised: true,
+}));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);

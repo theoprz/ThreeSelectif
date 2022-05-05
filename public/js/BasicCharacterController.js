@@ -2,6 +2,8 @@ import BasicCharacterControllerInput from "/static/js/BasicCharacterControllerIn
 import CharacterFSM from "/static/js/CharacterFSM.js"
 import BasicCharacterControllerProxy from "/static/js/BasicCharacterControllerProxy.js"
 
+import { colliders } from "/static/js/CharacterControllerDemo.js"
+
 class BasicCharacterController {
     constructor(params) {
         this._Init(params);
@@ -29,6 +31,8 @@ class BasicCharacterController {
             fbx.traverse(c => {
                 c.castShadow = true;
             });
+            fbx.position.x = 100;
+            fbx.position.z = 100;
 
             this._target = fbx;
             this._params.scene.add(this._target);

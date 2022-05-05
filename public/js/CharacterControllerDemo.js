@@ -2,6 +2,8 @@ import ApiFetching from "/static/js/ApiFetching.js"
 import BasicCharacterController from "/static/js/BasicCharacterController.js"
 import ThirdPersonCamera from "/static/js/ThirdPersonCamera.js"
 
+let colliders = [];
+
 class CharacterControllerDemo {
     constructor() {
         this._Initialize();
@@ -51,9 +53,10 @@ class CharacterControllerDemo {
 
         };
 
-        this.manager.onLoad = function ( ) {
+        this.manager.onLoad = async function ( ) {
             const loadingScreen = document.getElementById( 'loading-screen' );
-            loadingScreen.classList.add( 'fade-out' );
+            await loadingScreen.classList.add( 'fade-out' );
+            setInterval(function () {loadingScreen.remove()}, 1900);
             console.log( 'Loading complete!');
 
         };
@@ -326,12 +329,11 @@ class CharacterControllerDemo {
         var loaderrrr = new THREE.FBXLoader(this.manager);
         loaderrrr.load("/static/assets/game/town.fbx", function (object) {
             object.scale.multiplyScalar(0.1);
-            game.colliders = [];
             game._scene.add(object);
             object.traverse(function (child) {
                 if (child.isMesh) {
                     if (child.name.startsWith("proxy")) {
-                        game.colliders.push(child);
+                        colliders.push(child);
                         child.material.visible = false;
                     } else {
                         child.castShadow = true;
@@ -375,4 +377,5 @@ class CharacterControllerDemo {
     }
 }
 
-export default CharacterControllerDemo;
+export { CharacterControllerDemo };
+export { colliders };
