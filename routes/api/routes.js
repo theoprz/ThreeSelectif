@@ -12,6 +12,15 @@ router.get("/users", async (req, res) => {
 router.post("/users", async (req, res) => {
     const user = new Users({
         username: "Test",
+        ingame: 0,
+        inventory: {
+            cannettes: 0,
+            bouteillesverre: 0,
+            aliments: 0,
+            plastiques: 0,
+            cigarettes: 0,
+            carton: 0
+        },
         chapter: 0,
     });
     await user.save();
@@ -21,6 +30,22 @@ router.post("/users", async (req, res) => {
 router.get("/users/:username", async (req, res) => {
     const users = await Users.find({ username: req.params.username });
     res.send(users);
+});
+
+router.put("/users/update/:username", function(req, res) {
+    Users.findOne({ username: req.params.username }, async function(err, foundObject){
+        if(err){
+            console.log(err);
+            res.status(500).send();
+        }else{
+            if(!foundObject){
+                res.status(404).send();
+            }else{
+                foundObject.inventory.cannettes += 1;
+                foundObject.save();
+            }
+        }
+    })
 });
 
 router.get("/questions", async (req, res) => {

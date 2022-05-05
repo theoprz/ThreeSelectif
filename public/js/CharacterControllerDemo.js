@@ -1,4 +1,3 @@
-import { THREE, FBXLoader, OrbitControls, OBJLoader } from "/static/js/libs.js"
 import ApiFetching from "/static/js/ApiFetching.js"
 import BasicCharacterController from "/static/js/BasicCharacterController.js"
 import ThirdPersonCamera from "/static/js/ThirdPersonCamera.js"
@@ -9,6 +8,11 @@ class CharacterControllerDemo {
     }
 
     _Initialize() {
+
+        function onTransitionEnd( event ) {
+            event.target.remove();
+        }
+
         this._threejs = new THREE.WebGLRenderer({
             antialias: true,
         });
@@ -35,6 +39,38 @@ class CharacterControllerDemo {
 
         this.db = new ApiFetching();
 
+        this.manager = new THREE.LoadingManager(() => {
+            const loadingScreen = document.getElementById( 'loading-screen' );
+
+            // optional: remove loader from DOM via event listener
+            loadingScreen.addEventListener( 'transitionend', onTransitionEnd );
+        });
+        this.manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
+
+            console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+
+        };
+
+        this.manager.onLoad = function ( ) {
+            const loadingScreen = document.getElementById( 'loading-screen' );
+            loadingScreen.classList.add( 'fade-out' );
+            console.log( 'Loading complete!');
+
+        };
+
+
+        this.manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+
+            console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+
+        };
+
+        this.manager.onError = function ( url ) {
+
+            console.log( 'There was an error loading ' + url );
+
+        };
+
         let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
         light.position.set(-100, 100, 100);
         light.target.position.set(0, 0, 0);
@@ -55,7 +91,7 @@ class CharacterControllerDemo {
         light = new THREE.AmbientLight(0xFFFFFF, 0.25);
         this._scene.add(light);
 
-        const loader = new THREE.CubeTextureLoader();
+        const loader = new THREE.CubeTextureLoader(this.manager);
         const texture = loader.load([
             '/static/assets/game/posx.jpg',
             '/static/assets/game/negx.jpg',
@@ -66,6 +102,8 @@ class CharacterControllerDemo {
         ]);
         texture.encoding = THREE.sRGBEncoding;
         this._scene.background = texture;
+
+        this._LoadMap();
 
         /*const plane = new THREE.Mesh(
             new THREE.PlaneGeometry(1000, 1000, 10, 10),
@@ -85,7 +123,6 @@ class CharacterControllerDemo {
         let test = this.db.getAllUsers().then(data => {
             console.log(data);
         });
-        console.log(this.db.getUser("Test"));
 
         this.addObject("box2");
         this.addObject("box")
@@ -186,7 +223,7 @@ class CharacterControllerDemo {
                     icon: 'success',
                     html: good_response,
                     confirmButtonText: 'Suivant'
-                }).then((result)=> this.question('Plastique','Ferraille','Dêchets Alimentaires', 'Qu\'elles déchets sont destinés à la poubelle jaune','2','Il sagit bien de la ferraille', 'Faux CONNARD'))
+                }).then((result)=> this.question(0))
 
             }else {
                 Swal.fire({
@@ -251,11 +288,13 @@ class CharacterControllerDemo {
                     if (div1.childElementCount == 0 & this.clickedObject.userData.name == "Boite2") {
                         div1.appendChild(img1);
                         count1 += 1;
+                        this.db.updateInventory("Test", {inventory: {cannettes: count1}});
                         console.log(count1)
                     }
 
                     else if (this.clickedObject.userData.name == "Boite2") {
                         count1 += 1;
+                        this.db.updateInventory("Test", {inventory: {cannettes: count1}});
                         console.log(count1)
                     }
                 }
@@ -272,13 +311,35 @@ class CharacterControllerDemo {
         const params = {
             camera: this._camera,
             scene: this._scene,
-        }
+            manager: this.manager
+        };
         this._controls = new BasicCharacterController(params);
 
         this._thirdPersonCamera = new ThirdPersonCamera({
             camera: this._camera,
             target: this._controls,
         });
+    }
+
+    _LoadMap() {
+        const game = this;
+        var loaderrrr = new THREE.FBXLoader(this.manager);
+        loaderrrr.load("/static/assets/game/town.fbx", function (object) {
+            object.scale.multiplyScalar(0.1);
+            game.colliders = [];
+            game._scene.add(object);
+            object.traverse(function (child) {
+                if (child.isMesh) {
+                    if (child.name.startsWith("proxy")) {
+                        game.colliders.push(child);
+                        child.material.visible = false;
+                    } else {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                }
+            });
+        })
     }
 
     _OnWindowResize() {

@@ -1,4 +1,3 @@
-import { THREE, FBXLoader, OrbitControls, OBJLoader } from "/static/js/libs.js"
 import BasicCharacterControllerInput from "/static/js/BasicCharacterControllerInput.js"
 import CharacterFSM from "/static/js/CharacterFSM.js"
 import BasicCharacterControllerProxy from "/static/js/BasicCharacterControllerProxy.js"
@@ -20,13 +19,12 @@ class BasicCharacterController {
         this._stateMachine = new CharacterFSM(
             new BasicCharacterControllerProxy(this._animations));
 
-        this._LoadModels();
+        this._LoadModels(params);
     }
 
-    _LoadModels() {
-        const loader = new FBXLoader();
-        loader.setPath('/static/assets/game/zombie/');
-        loader.load('mremireh_o_desbiens.fbx', (fbx) => {
+    _LoadModels(params) {
+        const loader = new THREE.FBXLoader();
+        loader.load('/static/assets/game/zombie/mremireh_o_desbiens.fbx', (fbx) => {
             fbx.scale.setScalar(0.1);
             fbx.traverse(c => {
                 c.castShadow = true;
@@ -52,11 +50,10 @@ class BasicCharacterController {
                 };
             };
 
-            const loader = new FBXLoader(this._manager);
-            loader.setPath('/static/assets/game/zombie/');
-            loader.load('walk.fbx', (a) => { _OnLoad('walk', a); });
-            loader.load('run.fbx', (a) => { _OnLoad('run', a); });
-            loader.load('idle.fbx', (a) => { _OnLoad('idle', a); });
+            const loader = new THREE.FBXLoader(this._manager);
+            loader.load('/static/assets/game/zombie/walk.fbx', (a) => { _OnLoad('walk', a); });
+            loader.load('/static/assets/game/zombie/run.fbx', (a) => { _OnLoad('run', a); });
+            loader.load('/static/assets/game/zombie/idle.fbx', (a) => { _OnLoad('idle', a); });
         });
 
         /*const objLoader = new OBJLoader();

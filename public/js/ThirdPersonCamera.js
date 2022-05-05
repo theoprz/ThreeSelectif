@@ -1,5 +1,3 @@
-import { THREE } from "/static/js/libs.js"
-
 class ThirdPersonCamera {
     constructor(params) {
         this._params = params;
