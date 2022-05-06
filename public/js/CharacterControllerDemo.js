@@ -11,7 +11,7 @@ class CharacterControllerDemo {
 
     _Initialize() {
 
-        function onTransitionEnd( event ) {
+        function onTransitionEnd(event) {
             event.target.remove();
         }
 
@@ -42,35 +42,35 @@ class CharacterControllerDemo {
         this.db = new ApiFetching();
 
         this.manager = new THREE.LoadingManager(() => {
-            const loadingScreen = document.getElementById( 'loading-screen' );
+            const loadingScreen = document.getElementById('loading-screen');
 
             // optional: remove loader from DOM via event listener
-            loadingScreen.addEventListener( 'transitionend', onTransitionEnd );
+            loadingScreen.addEventListener('transitionend', onTransitionEnd);
         });
-        this.manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
+        this.manager.onStart = function(url, itemsLoaded, itemsTotal) {
 
-            console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
-
-        };
-
-        this.manager.onLoad = async function ( ) {
-            const loadingScreen = document.getElementById( 'loading-screen' );
-            await loadingScreen.classList.add( 'fade-out' );
-            setInterval(function () {loadingScreen.remove()}, 1900);
-            console.log( 'Loading complete!');
+            console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
 
         };
 
-
-        this.manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
-
-            console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+        this.manager.onLoad = async function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            await loadingScreen.classList.add('fade-out');
+            setInterval(function() { loadingScreen.remove() }, 1900);
+            console.log('Loading complete!');
 
         };
 
-        this.manager.onError = function ( url ) {
 
-            console.log( 'There was an error loading ' + url );
+        this.manager.onProgress = function(url, itemsLoaded, itemsTotal) {
+
+            console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+
+        };
+
+        this.manager.onError = function(url) {
+
+            console.log('There was an error loading ' + url);
 
         };
 
@@ -127,8 +127,15 @@ class CharacterControllerDemo {
             console.log(data);
         });
 
-        this.addObject("box2");
-        this.addObject("box")
+
+        this.addObject("box");
+
+        this.addObject("trash1");
+        this.addObject("trash2");
+        this.addObject("trash3");
+        this.addObject("trash4");
+        this.addObject("trash5");
+        this.addObject("trash6");
         this.clickOnObject();
 
         this._mixers = [];
@@ -142,35 +149,78 @@ class CharacterControllerDemo {
 
         //Postion à déterminer en fonction de la map
 
-        let pos1 = { x: 10 , z: 10};
-        let pos2= { x: 20 , z: 20};
-        let pos3 = { x: 30 , z: 30};
-        let values = [pos1,pos2,pos3];
+        let pos1 = { x: 290, z: -93 };
+        let pos2 = { x: 386, z: -93 };
+        let pos3 = { x: 452, z: -93 };
+        let values = [pos1, pos2, pos3];
         let valueToUse = values[Math.floor(Math.random() * values.length)];
         return valueToUse;
     }
 
-    addObject(type){
+    addObject(type) {
         let scale = { x: 6, y: 6, z: 6 }
         let tempPos = this.ramdomPos();
         let pos = { x: tempPos.x, y: scale.y / 2, z: tempPos.z }
         let object = null;
 
-        switch(type){
-            case "box": {
-                object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xDC143C }));
-                object.position.set(50, 6, 50);
-                object.scale.set(scale.x, scale.y, scale.z);
-                object.userData.name = 'Boite';
-                break;
-            }
-            case "box2": {
-                object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00FFFF }));
-                object.position.set(pos.x, pos.y, pos.z);
-                object.scale.set(scale.x, scale.y, scale.z);
-                object.userData.name = 'Boite2';
-                break;
-            }
+        switch (type) {
+            case "box":
+                {
+                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xDC143C }));
+                    object.position.set(500, 6, -93);
+                    object.scale.set(scale.x, scale.y, scale.z);
+                    object.userData.name = 'Boite';
+                    break;
+                }
+            case "trash1":
+                {
+                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00FFFF }));
+                    object.position.set(pos.x, pos.y, pos.z);
+                    object.scale.set(scale.x, scale.y, scale.z);
+                    object.userData.name = 'Dechet1';
+                    break;
+                }
+            case "trash2":
+                {
+                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00FF00 }));
+                    object.position.set(450, pos.y, -60);
+                    object.scale.set(scale.x, scale.y, scale.z);
+                    object.userData.name = 'Dechet2';
+                    break;
+                }
+            case "trash3":
+                {
+                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xFFFF00 }));
+                    object.position.set(440, pos.y, 0);
+                    object.scale.set(scale.x, scale.y, scale.z);
+                    object.userData.name = 'Dechet3';
+                    break;
+                }
+            case "trash4":
+                {
+                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x000000 }));
+                    object.position.set(425, pos.y, 0);
+                    object.scale.set(scale.x, scale.y, scale.z);
+                    object.userData.name = 'Dechet4';
+                    break;
+                }
+            case "trash5":
+                {
+                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xFFFFFF }));
+                    object.position.set(410, pos.y, 0);
+                    object.scale.set(scale.x, scale.y, scale.z);
+                    object.userData.name = 'Dechet5';
+                    break;
+                }
+            case "trash6":
+                {
+                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00000F }));
+                    object.position.set(390, pos.y, 0);
+                    object.scale.set(scale.x, scale.y, scale.z);
+                    object.userData.name = 'Dechet6';
+                    break;
+                }
+
         }
 
         object.castShadow = true;
@@ -180,7 +230,7 @@ class CharacterControllerDemo {
         this._scene.add(object)
     }
 
-    question(questionNumber){
+    question(questionNumber) {
         var choix1, choix2, choix3, questions, solution, good_response, bad_response;
         this.db.getQuestion(questionNumber).then(async data => {
             choix1 = await data.choix1;
@@ -195,7 +245,7 @@ class CharacterControllerDemo {
         });
 
         console.log(questions);
-        (async () => {
+        (async() => {
 
             /* inputOptions can be an object or Promise */
             const inputOptions = new Promise((resolve) => {
@@ -221,14 +271,14 @@ class CharacterControllerDemo {
                 }
             })
 
-            if( color === solution){
+            if (color === solution) {
                 Swal.fire({
                     icon: 'success',
                     html: good_response,
                     confirmButtonText: 'Suivant'
-                }).then((result)=> this.question(0))
+                }).then((result) => this.question(0))
 
-            }else {
+            } else {
                 Swal.fire({
                     icon: 'error',
                     html: bad_response,
@@ -241,11 +291,11 @@ class CharacterControllerDemo {
 
     }
 
-    endgame_quest(){
+    endgame_quest() {
 
-        (async () => {
+        (async() => {
 
-            const {value: accept} = await Swal.fire({
+            const { value: accept } = await Swal.fire({
                 title: 'Combien avez-vous fait economiser de temp de dégradation avec vos déchets triés ?',
                 icon: 'question',
                 input: 'range',
@@ -259,46 +309,198 @@ class CharacterControllerDemo {
             })
             if (accept == 300) {
                 console.log("ahahahahahah");
-            }then
+            }
+            then
 
         })()
     }
 
     clickOnObject() {
-        let count1 =0;
+        let count1 = 0;
+        let count2 = 0;
+        let count3 = 0;
+        let count4 = 0;
+        let count5 = 0;
+        let count6 = 0;
+
         window.addEventListener('click', event => {
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            console.log()
 
             //création de l'image pour l'afficher dans l'inventaire
+
+            //Bouteille en Verre
             let img1 = document.createElement("img");
             img1.src = "/static/assets/game/trash-glass-bottle.png";
-            img1.setAttribute("style", "height: 100%");
             img1.setAttribute("position", "absolute")
 
+            //Canette
+            let img2 = document.createElement("img");
+            img2.src = "/static/assets/game/trash-canette.png";
+            img2.setAttribute("position", "absolute")
+            img2.setAttribute("style", "margin-top: 15px")
+
+            //Déchets Alimentaire
+            let img3 = document.createElement("img");
+            img3.src = "/static/assets/game/trash-aliments.png";
+            img3.setAttribute("position", "absolute")
+            img3.setAttribute("style", "margin-top: 17px")
+
+
+            //Carton
+            let img4 = document.createElement("img");
+            img4.src = "/static/assets/game/trash-carton.png";
+            img4.setAttribute("position", "absolute")
+            img4.setAttribute("style", "margin-top: 17px")
+
+            //plastique
+            let img5 = document.createElement("img");
+            img5.src = "/static/assets/game/trash-plastique.png";
+            img5.setAttribute("position", "absolute");
+
+            //Mégot
+            let img6 = document.createElement("img");
+            img6.src = "/static/assets/game/trash-megot.png";
+            img6.setAttribute("position", "absolute");
+            img6.setAttribute("style", "margin-top: 12px")
+
+            //première case de l'inventaire
             let div1 = document.getElementById("texteSlot1");
-            div1.setAttribute("style", "text-align:center");
+
+            //Deuxième case de l'inventaire
+            let div2 = document.getElementById("texteSlot2");
+
+            //Troisième case de l'inventaire
+            let div3 = document.getElementById("texteSlot3");
+
+            //Quatrième case de l'inventaire
+            let div4 = document.getElementById("texteSlot4")
+
+            //Cinqième case de l'inventaire
+            let div5 = document.getElementById("texteSlot5")
+
+            //Sixième case de l'inventaire
+            let div6 = document.getElementById("texteSlot6")
+
+
+
+
             const found = this.intersect(this.clickMouse);
-            console.log(found);
-            if(found.length > 0){
-                if(found[0].object.userData.draggable) {
+            if (found.length > 0) {
+                if (found[0].object.userData.draggable) {
                     this.clickedObject = found[0].object;
+
+                    // Quand on appuie sur l'objet de l'étape 1 question
                     if (this.clickedObject.userData.name == "Boite") {
                         this.question(0);
                         this._scene.remove(found[0].object);
                     }
                     console.log(`Clicked on ${this.clickedObject.userData.name}`);
-                    if (div1.childElementCount == 0 & this.clickedObject.userData.name == "Boite2") {
+
+                    //Pour l'inventaire:
+
+                    //Premier Objet
+                    if (div1.childElementCount == 0 & this.clickedObject.userData.name == "Dechet1") {
                         div1.appendChild(img1);
                         count1 += 1;
-                        this.db.updateInventory("Test", {inventory: {cannettes: count1}});
+                        document.getElementById("countSlot1").innerHTML = count1;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                         console.log(count1)
                     }
 
-                    else if (this.clickedObject.userData.name == "Boite2") {
+                    // Si il y a déjà l'image
+                    else if (this.clickedObject.userData.name == "Dechet1") {
                         count1 += 1;
-                        this.db.updateInventory("Test", {inventory: {cannettes: count1}});
+                        document.getElementById("countSlot1").innerHTML = count1;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                         console.log(count1)
+                    }
+
+                    //Deuxième Objet
+                    if (div2.childElementCount == 0 & this.clickedObject.userData.name == "Dechet2") {
+                        div2.appendChild(img2);
+                        count2 += 1;
+                        document.getElementById("countSlot2").innerHTML = count2;
+
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count2)
+                    }
+
+                    // Si il y a déjà l'image
+                    else if (this.clickedObject.userData.name == "Dechet2") {
+                        count2 += 1;
+                        document.getElementById("countSlot2").innerHTML = count2;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count2)
+                    }
+
+                    //Troisème Objet
+                    if (div3.childElementCount == 0 & this.clickedObject.userData.name == "Dechet3") {
+                        div3.appendChild(img3);
+                        count3 += 1;
+                        document.getElementById("countSlot3").innerHTML = count3;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count3)
+                    }
+
+                    // Si il y a déjà l'image
+                    else if (this.clickedObject.userData.name == "Dechet3") {
+                        count3 += 1;
+                        document.getElementById("countSlot3").innerHTML = count3;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count3)
+                    }
+
+                    //Quatrièmee Objet
+                    if (div4.childElementCount == 0 & this.clickedObject.userData.name == "Dechet4") {
+                        div4.appendChild(img4);
+                        count4 += 1;
+                        document.getElementById("countSlot4").innerHTML = count4;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count4)
+                    }
+
+                    // Si il y a déjà l'image
+                    else if (this.clickedObject.userData.name == "Dechet4") {
+                        count4 += 1;
+                        document.getElementById("countSlot4").innerHTML = count4;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count4)
+                    }
+
+                    //Cinqièmee Objet
+                    if (div5.childElementCount == 0 & this.clickedObject.userData.name == "Dechet5") {
+                        div5.appendChild(img5);
+                        count5 += 1;
+                        document.getElementById("countSlot5").innerHTML = count5;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count5)
+                    }
+
+                    // Si il y a déjà l'image
+                    else if (this.clickedObject.userData.name == "Dechet5") {
+                        count5 += 1;
+                        document.getElementById("countSlot5").innerHTML = count5;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count5)
+                    }
+
+                    //Sixièmee Objet
+                    if (div6.childElementCount == 0 & this.clickedObject.userData.name == "Dechet6") {
+                        div6.appendChild(img6);
+                        count6 += 1;
+                        document.getElementById("countSlot6").innerHTML = count6;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count6)
+                    }
+
+                    // Si il y a déjà l'image
+                    else if (this.clickedObject.userData.name == "Dechet6") {
+                        count6 += 1;
+                        document.getElementById("countSlot6").innerHTML = count6;
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        console.log(count6)
                     }
                 }
             }
@@ -327,10 +529,10 @@ class CharacterControllerDemo {
     _LoadMap() {
         const game = this;
         var loaderrrr = new THREE.FBXLoader(this.manager);
-        loaderrrr.load("/static/assets/game/town.fbx", function (object) {
+        loaderrrr.load("/static/assets/game/town.fbx", function(object) {
             object.scale.multiplyScalar(0.1);
             game._scene.add(object);
-            object.traverse(function (child) {
+            object.traverse(function(child) {
                 if (child.isMesh) {
                     if (child.name.startsWith("proxy")) {
                         colliders.push(child);
