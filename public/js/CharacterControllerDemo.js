@@ -1,6 +1,8 @@
 import ApiFetching from "/static/js/ApiFetching.js"
 import BasicCharacterController from "/static/js/BasicCharacterController.js"
 import ThirdPersonCamera from "/static/js/ThirdPersonCamera.js"
+import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/loaders/OBJLoader.js";
+
 
 let colliders = [];
 
@@ -47,28 +49,28 @@ class CharacterControllerDemo {
             // optional: remove loader from DOM via event listener
             loadingScreen.addEventListener('transitionend', onTransitionEnd);
         });
-        this.manager.onStart = function(url, itemsLoaded, itemsTotal) {
+        this.manager.onStart = function (url, itemsLoaded, itemsTotal) {
 
             console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
 
         };
 
-        this.manager.onLoad = async function() {
+        this.manager.onLoad = async function () {
             const loadingScreen = document.getElementById('loading-screen');
             await loadingScreen.classList.add('fade-out');
-            setInterval(function() { loadingScreen.remove() }, 1900);
+            setInterval(function () { loadingScreen.remove() }, 1900);
             console.log('Loading complete!');
 
         };
 
 
-        this.manager.onProgress = function(url, itemsLoaded, itemsTotal) {
+        this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
 
             console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
 
         };
 
-        this.manager.onError = function(url) {
+        this.manager.onError = function (url) {
 
             console.log('There was an error loading ' + url);
 
@@ -121,7 +123,10 @@ class CharacterControllerDemo {
         this.objects = [];
         this.raycast = new THREE.Raycaster();
         this.clickMouse = new THREE.Vector2();
+        // let draggable = new THREE.Object3D;
+
         const clickedObject = null;
+
 
         let test = this.db.getAllUsers().then(data => {
             console.log(data);
@@ -161,7 +166,8 @@ class CharacterControllerDemo {
         let scale = { x: 6, y: 6, z: 6 }
         let tempPos = this.ramdomPos();
         let pos = { x: tempPos.x, y: scale.y / 2, z: tempPos.z }
-        let object = null;
+        let object = new THREE.Object3D;
+        let game = this;
 
         switch (type) {
             case "box":
@@ -170,6 +176,10 @@ class CharacterControllerDemo {
                     object.position.set(500, 6, -93);
                     object.scale.set(scale.x, scale.y, scale.z);
                     object.userData.name = 'Boite';
+                    object.castShadow = true;
+                    object.receiveShadow = true;
+                    object.userData.draggable = true;
+                    this._scene.add(object)
                     break;
                 }
             case "trash1":
@@ -178,6 +188,10 @@ class CharacterControllerDemo {
                     object.position.set(pos.x, pos.y, pos.z);
                     object.scale.set(scale.x, scale.y, scale.z);
                     object.userData.name = 'Dechet1';
+                    object.castShadow = true;
+                    object.receiveShadow = true;
+                    object.userData.draggable = true;
+                    this._scene.add(object)
                     break;
                 }
             case "trash2":
@@ -186,6 +200,10 @@ class CharacterControllerDemo {
                     object.position.set(450, pos.y, -60);
                     object.scale.set(scale.x, scale.y, scale.z);
                     object.userData.name = 'Dechet2';
+                    object.castShadow = true;
+                    object.receiveShadow = true;
+                    object.userData.draggable = true;
+                    this._scene.add(object)
                     break;
                 }
             case "trash3":
@@ -194,14 +212,36 @@ class CharacterControllerDemo {
                     object.position.set(440, pos.y, 0);
                     object.scale.set(scale.x, scale.y, scale.z);
                     object.userData.name = 'Dechet3';
+                    object.castShadow = true;
+                    object.receiveShadow = true;
+                    object.userData.draggable = true;
+                    this._scene.add(object)
                     break;
                 }
             case "trash4":
                 {
-                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x000000 }));
-                    object.position.set(425, pos.y, 0);
-                    object.scale.set(scale.x, scale.y, scale.z);
-                    object.userData.name = 'Dechet4';
+                    const game = this;
+                    let loaderTrash4 = new THREE.FBXLoader(this.manager);
+                    loaderTrash4.load("/static/assets/game/objects/trash-carton.fbx", function (object) {
+                        const carton = object.children[0];
+                        carton.scale.multiplyScalar(5)
+                        carton.position.set(400, pos.y, -50);
+                        carton.userData.name = 'Dechet4';
+                        carton.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+
+                                }
+                            }
+                        });
+                        game._scene.add(carton);
+                    })
                     break;
                 }
             case "trash5":
@@ -210,6 +250,10 @@ class CharacterControllerDemo {
                     object.position.set(410, pos.y, 0);
                     object.scale.set(scale.x, scale.y, scale.z);
                     object.userData.name = 'Dechet5';
+                    object.castShadow = true;
+                    object.receiveShadow = true;
+                    object.userData.draggable = true;
+                    this._scene.add(object)
                     break;
                 }
             case "trash6":
@@ -218,16 +262,19 @@ class CharacterControllerDemo {
                     object.position.set(390, pos.y, 0);
                     object.scale.set(scale.x, scale.y, scale.z);
                     object.userData.name = 'Dechet6';
+                    object.castShadow = true;
+                    object.receiveShadow = true;
+                    object.userData.draggable = true;
+                    this._scene.add(object)
                     break;
                 }
 
         }
 
-        object.castShadow = true;
-        object.receiveShadow = true;
-        object.userData.draggable = true;
+        //object.userData.draggable = true;
 
-        this._scene.add(object)
+        //this._scene.add(object)
+        
     }
 
     question(questionNumber) {
@@ -245,7 +292,7 @@ class CharacterControllerDemo {
         });
 
         console.log(questions);
-        (async() => {
+        (async () => {
 
             /* inputOptions can be an object or Promise */
             const inputOptions = new Promise((resolve) => {
@@ -293,7 +340,7 @@ class CharacterControllerDemo {
 
     endgame_quest() {
 
-        (async() => {
+        (async () => {
 
             const { value: accept } = await Swal.fire({
                 title: 'Combien avez-vous fait economiser de temp de dégradation avec vos déchets triés ?',
@@ -387,6 +434,7 @@ class CharacterControllerDemo {
 
 
             const found = this.intersect(this.clickMouse);
+            console.log(found);
             if (found.length > 0) {
                 if (found[0].object.userData.draggable) {
                     this.clickedObject = found[0].object;
@@ -509,6 +557,8 @@ class CharacterControllerDemo {
 
     intersect(pos) {
         this.raycast.setFromCamera(pos, this._camera);
+        console.log(this._scene.children);
+
         return this.raycast.intersectObjects(this._scene.children);
     }
 
@@ -528,11 +578,11 @@ class CharacterControllerDemo {
 
     _LoadMap() {
         const game = this;
-        var loaderrrr = new THREE.FBXLoader(this.manager);
-        loaderrrr.load("/static/assets/game/town.fbx", function(object) {
+        let loaderrrr = new THREE.FBXLoader(this.manager);
+        loaderrrr.load("/static/assets/game/town.fbx", function (object) {
             object.scale.multiplyScalar(0.1);
             game._scene.add(object);
-            object.traverse(function(child) {
+            object.traverse(function (child) {
                 if (child.isMesh) {
                     if (child.name.startsWith("proxy")) {
                         colliders.push(child);
