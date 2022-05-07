@@ -1,7 +1,26 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
-    username: String,
+    username: {type:String,
+        required: true,
+        index: {
+            unique: true,
+        }},
+
+    email: {
+        type:String,
+        required: true,
+        index: {
+            unique: true,
+        },},
+    password: {
+        type:String,
+        required: true
+    },
+    date:{
+        type: Date,
+        default: Date.now
+    },
     ingame: Boolean,
     inventory: {
         cannettes: Number,
@@ -12,6 +31,6 @@ const schema = mongoose.Schema({
         carton: Number
     },
     chapter: Number,
-})
+});
 
-module.exports = mongoose.model("Users", schema)
+module.exports = mongoose.model("Users", schema);

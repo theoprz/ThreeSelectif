@@ -38,23 +38,31 @@
             <% if(msg != ''){ %>
                 <p style="text-align: center">   <%= msg %></p>
             <% } %>
-            <form action="" method="post" class="form">
+            <form action="/signup" method="post" class="form">
 
                 <div class="form__field">
                     <input type="text" name="uname" placeholder="ACoolUsername">
                 </div>
 
                 <div class="form__field">
-                    <input type="password" name="password" placeholder="password">
+                    <input type="email" name="email" placeholder="info@mailaddress.com">
                 </div>
 
                 <div class="form__field">
-                    <input type="submit" name="submit" value="Sign In">
+                    <input type="password" name="password" placeholder="••••••••••••">
+                </div>
+
+                <div class="form__field">
+                    <input type="password" name="confpassword" placeholder="••••••••••••">
+                </div>
+
+                <div class="form__field">
+                    <input type="submit" name="submit" value="Sign Up">
                 </div>
 
             </form>
 
-            <p>Pas encore de compte ? <a href="/signup">Créez en un !</a></p>
+            <p>Already have an accout? <a href="/signin">Log in</a></p>
         </div>
     </div>
 </div>

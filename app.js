@@ -21,6 +21,7 @@ mongoose.connect("mongodb://admin:stillnix@vmi779869.contaboserver.net:27017/Thr
 const routes = require("./routes/api/routes");
 const index = require('./routes/index');
 const signinRoute = require('./routes/signin');
+const signupRoute = require('./routes/signup');
 const settingsRoute = require('./routes/settings');
 const ytbRoute = require('./routes/ytb');
 const gameRoute = require('./routes/game');
@@ -42,6 +43,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/api', routes);
 app.use('/signin', signinRoute);
+app.use('/signup', signupRoute);
 app.use('/game', gameRoute);
 app.use('/settings', settingsRoute);
 app.use('/ytb', ytbRoute);
