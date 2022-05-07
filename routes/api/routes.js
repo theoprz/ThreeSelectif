@@ -9,24 +9,6 @@ router.get("/users", async (req, res) => {
     res.send(users);
 });
 
-router.post("/users", async (req, res) => {
-    const user = new Users({
-        username: "Test",
-        ingame: 0,
-        inventory: {
-            cannettes: 0,
-            bouteillesverre: 0,
-            aliments: 0,
-            plastiques: 0,
-            cigarettes: 0,
-            carton: 0
-        },
-        chapter: 0,
-    });
-    await user.save();
-    res.send(user)
-});
-
 router.get("/users/:username", async (req, res) => {
     const users = await Users.find({ username: req.params.username });
     res.send(users);

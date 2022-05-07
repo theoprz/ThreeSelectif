@@ -48,6 +48,7 @@ class BasicCharacterController {
             const _OnLoad = (animName, anim) => {
                 const clip = anim.animations[0];
                 const action = this._mixer.clipAction(clip);
+                console.log(colliders)
 
                 this._animations[animName] = {
                     clip: clip,
@@ -150,8 +151,24 @@ class BasicCharacterController {
         sideways.multiplyScalar(velocity.x * timeInSeconds);
         forward.multiplyScalar(velocity.z * timeInSeconds);
 
-        controlObject.position.add(forward);
-        controlObject.position.add(sideways);
+        const pos = controlObject.position.clone();
+        let dir = new THREE.Vector3();
+        controlObject.getWorldDirection(dir);
+        if (forward < 0) dir = -dir;
+        let raycaster = new THREE.Raycaster(pos, dir);
+        let blocked = false;
+
+        if (colliders!==undefined){
+            const intersect = raycaster.intersectObjects(colliders);
+            if (intersect.length>0){
+                if (intersect[0].distance<0) blocked = true;
+            }
+        }
+
+        if(!blocked) {
+            controlObject.position.add(forward);
+            controlObject.position.add(sideways);
+        }
 
         this._position.copy(controlObject.position);
 
