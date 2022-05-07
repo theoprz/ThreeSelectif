@@ -31,12 +31,13 @@ class BasicCharacterController {
             fbx.traverse(c => {
                 c.castShadow = true;
             });
-            fbx.position.x = 100;
-            fbx.position.z = 100;
+            fbx.position.z = -200
+            fbx.position.y = 0
+            fbx.position.x = 330
+
 
             this._target = fbx;
             this._params.scene.add(this._target);
-
             this._mixer = new THREE.AnimationMixer(this._target);
 
             this._manager = new THREE.LoadingManager();
@@ -75,6 +76,7 @@ class BasicCharacterController {
 
     get Position() {
         return this._position;
+        
     }
 
     get Rotation() {
@@ -134,6 +136,9 @@ class BasicCharacterController {
 
         const oldPosition = new THREE.Vector3();
         oldPosition.copy(controlObject.position);
+
+        //Pour avoir la position du personnage
+        //setInterval(console.log(oldPosition), 3000)
 
         const forward = new THREE.Vector3(0, 0, 1);
         forward.applyQuaternion(controlObject.quaternion);
