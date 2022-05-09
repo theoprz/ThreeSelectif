@@ -76,7 +76,7 @@ class BasicCharacterController {
 
     get Position() {
         return this._position;
-        
+
     }
 
     get Rotation() {
@@ -111,6 +111,7 @@ class BasicCharacterController {
         const _R = controlObject.quaternion.clone();
 
         const acc = this._acceleration.clone();
+        acc.z += 30
         if (this._input._keys.shift) {
             acc.multiplyScalar(2.0);
         }
@@ -161,13 +162,31 @@ class BasicCharacterController {
         if (colliders!==undefined){
             const intersect = raycaster.intersectObjects(colliders);
             if (intersect.length>0){
-                if (intersect[0].distance<0) blocked = true;
+                if (intersect[0].distance < 5) blocked = true;
             }
         }
 
         if(!blocked) {
             controlObject.position.add(forward);
             controlObject.position.add(sideways);
+        }
+
+        if(colliders !== undefined){
+            dir.set(0,-1,0);
+            pos.y += 25;
+            let raycaster = new THREE.Raycaster(pos, dir);
+
+            let intersect = raycaster.intersectObjects(colliders);
+            if (intersect.length>0){
+                const targetY = pos.y - intersect[0].distance;
+                if (targetY > controlObject.position.y){
+                    controlObject.position.y = 0.8 * controlObject.position.y + 0.2 * targetY;
+                }else if (targetY < controlObject.position.y){
+                    if (controlObject.position.y < -targetY){
+                        controlObject.position.y = targetY;
+                    }
+                }
+            }
         }
 
         this._position.copy(controlObject.position);

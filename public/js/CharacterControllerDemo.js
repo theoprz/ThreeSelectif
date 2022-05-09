@@ -241,11 +241,10 @@ class CharacterControllerDemo {
                             }
                         });
                         game._scene.add(carton);
-                    })
+                    });
                     break;
                 }
-            case "trash5":
-                {
+            case "trash5": {
                     object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xFFFFFF }));
                     object.position.set(410, pos.y, 0);
                     object.scale.set(scale.x, scale.y, scale.z);
@@ -274,7 +273,7 @@ class CharacterControllerDemo {
         //object.userData.draggable = true;
 
         //this._scene.add(object)
-        
+
     }
 
     question(questionNumber) {
