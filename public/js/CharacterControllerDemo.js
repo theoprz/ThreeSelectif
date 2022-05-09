@@ -277,88 +277,176 @@ class CharacterControllerDemo {
     }
 
     question(questionNumber) {
-        var choix1, choix2, choix3, questions, solution, good_response, bad_response;
-        this.db.getQuestion(questionNumber).then(async data => {
-            choix1 = await data.choix1;
-            choix2 = await data.choix2;
-            choix3 = await data.choix3;
-            questions = data.questions;
-            console.log(questions);
-            console.log(data.questions);
-            solution = await data.solution;
-            good_response = await data.good;
-            bad_response = await data.bad;
-        });
 
-        console.log(questions);
-        (async () => {
+        var theRandomNumber = this.pasDeRepetitionQuestion();
 
-            /* inputOptions can be an object or Promise */
-            const inputOptions = new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve({
-                        '1': choix1,
-                        '2': choix2,
-                        '3': choix3
-                    })
-                }, 1000)
-            });
+        this.db.getQuestion(questionNumber).then(data => {
+            (async () => {
 
-            const { value: color } = await Swal.fire({
-                title: questions,
-                icon: 'question',
-                input: 'radio',
-                inputOptions: inputOptions,
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'Vous devez mettre une réponse !'
+                const inputOptions = new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            '1': data.choix1,
+                            '2': data.choix2,
+                            '3': data.choix3
+                        })
+                    }, 1000)
+                });
+
+                const {value: color} = await Swal.fire({
+                    icon: 'question',
+                    title: await data.questions,
+                    input: 'radio',
+                    inputOptions: inputOptions,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Vous devez mettre une réponse !'
+                        }
+                        console.log(value);
                     }
-                    console.log(value);
+                });
+
+                if (color === data.solution) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        html: data.good,
+                        confirmButtonText: 'Suivant',
+
+                    }).then((result) => {
+                        if (this.iterations == 9) {
+
+                            if (this.iterationsWin >= 6) {
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'CHAPITRE 1 TERMINÉ',
+                                    html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
+                                    confirmButtonText: 'Chapitre suivant',
+                                }).then((result) => {
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'CHAPITRE 2',
+                                        html: 'Dans ce chapitre vous aller devoir rammasé le plus de déchets possible en 5 min',
+                                        confirmButtonText: 'Start',
+                                    })
+                                    return;
+                                })
+                                return;
+
+                            } else {
+                                Swal.fire({
+                                    icon:'error',
+                                    title:'PERDU',
+                                    showDenyButton: true,
+                                    showConfirmButton: true,
+                                    html: `Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste`,
+                                    confirmButtonText: 'Relancer',
+                                    denyButtonText:'Menu principal',
+                                }).then((result)=>{
+                                    if (result.isConfirmed) {
+                                        this.startquestion();
+                                        // A revoir
+                                    } else if (result.isDenied) {
+                                        console.log("Revenir Menu A FAIRE ")
+                                        // A faire
+                                    }
+                                })
+                                return;
+                            }
+                        }
+                        this.iterationsWin += 1;
+                        this.iterations += 1;
+
+                        this.tab.push(theRandomNumber);
+                        console.log(this.tab, "TABLEAU");
+                        this.question(theRandomNumber);
+                    })
+
+                } else if (color !== data.solution) {
+                    Swal.fire({
+                        icon: 'error',
+                        html: data.bad,
+                        confirmButtonText: 'Suivant'
+                    }).then((result) => {
+                        if (this.iterations == 9) {
+
+                            if (this.iterationsWin >= 6) {
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'CHAPITRE 1 TERMINÉ',
+                                    html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
+                                    confirmButtonText: 'Chapitre suivant',
+                                }).then((result) => {
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'CHAPITRE 2',
+                                        html: 'Dans ce chapitre vous aller devoir rammasé le plus de déchets possible en 5 min',
+                                        confirmButtonText: 'Start',
+                                    })
+                                    return;
+                                })
+                                return;
+
+                            } else {
+                                Swal.fire({
+                                    icon:'error',
+                                    title:'PERDU',
+                                    showDenyButton: true,
+                                    showConfirmButton: true,
+                                    html: `Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste`,
+                                    confirmButtonText: 'Relancer',
+                                    denyButtonText:'Menu principal',
+                                }).then((result)=>{
+                                    if (result.isConfirmed) {
+                                        this.startquestion();
+                                        // A revoir
+                                    } else if (result.isDenied) {
+                                        console.log("Revenir Menu A FAIRE ")
+                                        // A faire
+                                    }
+                                })
+                                return;
+                            }
+                        }
+
+                        this.iterations += 1;
+                        this.tab.push(theRandomNumber);
+                        console.log(this.tab, "TABLEAU");
+                        this.question(theRandomNumber)
+                    });
+                } else {
+                    console.log("test");
                 }
-            })
-
-            if (color === solution) {
-                Swal.fire({
-                    icon: 'success',
-                    html: good_response,
-                    confirmButtonText: 'Suivant'
-                }).then((result) => this.question(0))
-
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    html: bad_response,
-                    confirmButtonText: 'Suivant'
-                })
-            }
-
-
-        })()
-
+            })()
+        });
     }
 
-    endgame_quest() {
+    pasDeRepetitionQuestion() {
+        var theRandomNumber = Math.floor(Math.random() * 20) + 1;
+        if (this.tab.includes(theRandomNumber)) {
 
-        (async () => {
-
-            const { value: accept } = await Swal.fire({
-                title: 'Combien avez-vous fait economiser de temp de dégradation avec vos déchets triés ?',
-                icon: 'question',
-                input: 'range',
-                inputLabel: 'Temp ( en millier d\'année)',
-                inputAttributes: {
-                    min: 0,
-                    max: 10000,
-                    step: 1
-                },
-                inputValue: 200
-            })
-            if (accept == 300) {
-                console.log("ahahahahahah");
+            console.log("Existe déja");
+            while ((this.tab.includes(theRandomNumber))) {
+                console.log("tt");
+                theRandomNumber = Math.floor(Math.random() * 20) + 1;
             }
-            then
+            if (!(this.tab.includes(theRandomNumber))) {
+                console.log("le nouveau nombre :", theRandomNumber);
+                return theRandomNumber;
+            }
 
-        })()
+        } else {
+            console.log("existe pas");
+            return theRandomNumber;
+        }
+    }
+
+    startquestion() {
+        var theRandomNumber = Math.floor(Math.random() * 20) + 1;
+        this.tab.push(theRandomNumber);
+        this.question(theRandomNumber);
     }
 
     clickOnObject() {
@@ -372,7 +460,6 @@ class CharacterControllerDemo {
         window.addEventListener('click', event => {
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            console.log()
 
             //création de l'image pour l'afficher dans l'inventaire
 
@@ -439,16 +526,18 @@ class CharacterControllerDemo {
                     this.clickedObject = found[0].object;
 
                     // Quand on appuie sur l'objet de l'étape 1 question
-                    if (this.clickedObject.userData.name == "Boite") {
-                        this.question(0);
-                        this._scene.remove(found[0].object);
+                    if (this.clickedObject.userData.name === "Boite") {
+                        this.iterations = 0;
+                        this.iterationsWin = 1;
+                        this.tab = [];
+                        this.startquestion();
                     }
                     console.log(`Clicked on ${this.clickedObject.userData.name}`);
 
                     //Pour l'inventaire:
 
                     //Premier Objet
-                    if (div1.childElementCount == 0 & this.clickedObject.userData.name == "Dechet1") {
+                    if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1") {
                         div1.appendChild(img1);
                         count1 += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
