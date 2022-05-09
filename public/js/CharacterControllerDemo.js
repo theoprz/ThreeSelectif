@@ -145,6 +145,26 @@ class CharacterControllerDemo {
         this._RAF();
     }
 
+    timer() {
+        const departMinutes = 5
+        let temps = departMinutes * 60
+
+        const timerElement = document.getElementById("timer")
+
+        setInterval(() => {
+            let minutes = parseInt(temps / 60, 10)
+            let secondes = parseInt(temps % 60, 10)
+
+            minutes = minutes < 10 ? "0" + minutes : minutes
+            secondes = secondes < 10 ? "0" + secondes : secondes
+
+            timerElement.innerText = `${minutes}:${secondes}`
+            temps = temps <= 0 ? 0 : temps - 1
+        }, 1000)
+
+    }
+
+
     ramdomPos() {
 
         //Postion à déterminer en fonction de la map
@@ -240,16 +260,16 @@ class CharacterControllerDemo {
                     break;
                 }
             case "trash5": {
-                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xFFFFFF }));
-                    object.position.set(410, pos.y, 0);
-                    object.scale.set(scale.x, scale.y, scale.z);
-                    object.userData.name = 'Dechet5';
-                    object.castShadow = true;
-                    object.receiveShadow = true;
-                    object.userData.draggable = true;
-                    this._scene.add(object)
-                    break;
-                }
+                object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xFFFFFF }));
+                object.position.set(410, pos.y, 0);
+                object.scale.set(scale.x, scale.y, scale.z);
+                object.userData.name = 'Dechet5';
+                object.castShadow = true;
+                object.receiveShadow = true;
+                object.userData.draggable = true;
+                this._scene.add(object)
+                break;
+            }
             case "trash6":
                 {
                     object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00000F }));
@@ -288,7 +308,7 @@ class CharacterControllerDemo {
                     }, 1000)
                 });
 
-                const {value: color} = await Swal.fire({
+                const { value: color } = await Swal.fire({
                     icon: 'question',
                     title: await data.questions,
                     input: 'radio',
@@ -323,21 +343,25 @@ class CharacterControllerDemo {
                                         title: 'CHAPITRE 2',
                                         html: 'Dans ce chapitre vous aller devoir rammasé le plus de déchets possible en 5 min',
                                         confirmButtonText: 'Start',
+                                    }).then((result) => {
+                                        this.timer();
+
                                     })
+
                                     return;
                                 })
                                 return;
 
                             } else {
                                 Swal.fire({
-                                    icon:'error',
-                                    title:'PERDU',
+                                    icon: 'error',
+                                    title: 'PERDU',
                                     showDenyButton: true,
                                     showConfirmButton: true,
                                     html: `Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste`,
                                     confirmButtonText: 'Relancer',
-                                    denyButtonText:'Menu principal',
-                                }).then((result)=>{
+                                    denyButtonText: 'Menu principal',
+                                }).then((result) => {
                                     if (result.isConfirmed) {
                                         this.startquestion();
                                         // A revoir
@@ -383,14 +407,14 @@ class CharacterControllerDemo {
 
                             } else {
                                 Swal.fire({
-                                    icon:'error',
-                                    title:'PERDU',
+                                    icon: 'error',
+                                    title: 'PERDU',
                                     showDenyButton: true,
                                     showConfirmButton: true,
                                     html: `Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste`,
                                     confirmButtonText: 'Relancer',
-                                    denyButtonText:'Menu principal',
-                                }).then((result)=>{
+                                    denyButtonText: 'Menu principal',
+                                }).then((result) => {
                                     if (result.isConfirmed) {
                                         this.startquestion();
                                         // A revoir

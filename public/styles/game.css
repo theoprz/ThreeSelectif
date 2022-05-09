@@ -123,7 +123,18 @@ body {
 .circular-menu.circular-menu.active .menu-item:nth-child(4) {
     transform: translate3d(7em, -1em, 0);
 }
+/*COOLDOWN*/
 
+#timer {
+    background: none;
+    position: absolute;
+    margin: 0 auto;
+    top: 5vh;
+    left: 45vw;
+    font-weight: 900;
+    font-size: 1.5em;
+
+}
 
 /*INVENTAIRE*/
 
