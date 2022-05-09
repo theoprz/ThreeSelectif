@@ -48,7 +48,6 @@ class BasicCharacterController {
             const _OnLoad = (animName, anim) => {
                 const clip = anim.animations[0];
                 const action = this._mixer.clipAction(clip);
-                console.log(colliders)
 
                 this._animations[animName] = {
                     clip: clip,

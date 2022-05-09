@@ -128,11 +128,6 @@ class CharacterControllerDemo {
         const clickedObject = null;
 
 
-        let test = this.db.getAllUsers().then(data => {
-            console.log(data);
-        });
-
-
         this.addObject("box");
 
         this.addObject("trash1");
@@ -302,7 +297,6 @@ class CharacterControllerDemo {
                         if (!value) {
                             return 'Vous devez mettre une réponse !'
                         }
-                        console.log(value);
                     }
                 });
 
@@ -348,7 +342,6 @@ class CharacterControllerDemo {
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
-                                        console.log("Revenir Menu A FAIRE ")
                                         // A faire
                                     }
                                 })
@@ -359,7 +352,6 @@ class CharacterControllerDemo {
                         this.iterations += 1;
 
                         this.tab.push(theRandomNumber);
-                        console.log(this.tab, "TABLEAU");
                         this.question(theRandomNumber);
                     })
 
@@ -403,7 +395,6 @@ class CharacterControllerDemo {
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
-                                        console.log("Revenir Menu A FAIRE ")
                                         // A faire
                                     }
                                 })
@@ -413,11 +404,9 @@ class CharacterControllerDemo {
 
                         this.iterations += 1;
                         this.tab.push(theRandomNumber);
-                        console.log(this.tab, "TABLEAU");
                         this.question(theRandomNumber)
                     });
                 } else {
-                    console.log("test");
                 }
             })()
         });
@@ -426,19 +415,14 @@ class CharacterControllerDemo {
     pasDeRepetitionQuestion() {
         var theRandomNumber = Math.floor(Math.random() * 20) + 1;
         if (this.tab.includes(theRandomNumber)) {
-
-            console.log("Existe déja");
             while ((this.tab.includes(theRandomNumber))) {
-                console.log("tt");
                 theRandomNumber = Math.floor(Math.random() * 20) + 1;
             }
             if (!(this.tab.includes(theRandomNumber))) {
-                console.log("le nouveau nombre :", theRandomNumber);
                 return theRandomNumber;
             }
 
         } else {
-            console.log("existe pas");
             return theRandomNumber;
         }
     }
@@ -520,7 +504,6 @@ class CharacterControllerDemo {
 
 
             const found = this.intersect(this.clickMouse);
-            console.log(found);
             if (found.length > 0) {
                 if (found[0].object.userData.draggable) {
                     this.clickedObject = found[0].object;
@@ -542,7 +525,6 @@ class CharacterControllerDemo {
                         count1 += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count1)
                     }
 
                     // Si il y a déjà l'image
@@ -550,7 +532,6 @@ class CharacterControllerDemo {
                         count1 += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count1)
                     }
 
                     //Deuxième Objet
@@ -560,7 +541,6 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot2").innerHTML = count2;
 
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count2)
                     }
 
                     // Si il y a déjà l'image
@@ -568,7 +548,6 @@ class CharacterControllerDemo {
                         count2 += 1;
                         document.getElementById("countSlot2").innerHTML = count2;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count2)
                     }
 
                     //Troisème Objet
@@ -577,7 +556,6 @@ class CharacterControllerDemo {
                         count3 += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count3)
                     }
 
                     // Si il y a déjà l'image
@@ -585,7 +563,6 @@ class CharacterControllerDemo {
                         count3 += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count3)
                     }
 
                     //Quatrièmee Objet
@@ -594,7 +571,6 @@ class CharacterControllerDemo {
                         count4 += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count4)
                     }
 
                     // Si il y a déjà l'image
@@ -602,7 +578,6 @@ class CharacterControllerDemo {
                         count4 += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count4)
                     }
 
                     //Cinqièmee Objet
@@ -611,7 +586,6 @@ class CharacterControllerDemo {
                         count5 += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count5)
                     }
 
                     // Si il y a déjà l'image
@@ -619,7 +593,6 @@ class CharacterControllerDemo {
                         count5 += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count5)
                     }
 
                     //Sixièmee Objet
@@ -628,7 +601,6 @@ class CharacterControllerDemo {
                         count6 += 1;
                         document.getElementById("countSlot6").innerHTML = count6;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count6)
                     }
 
                     // Si il y a déjà l'image
@@ -636,7 +608,6 @@ class CharacterControllerDemo {
                         count6 += 1;
                         document.getElementById("countSlot6").innerHTML = count6;
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                        console.log(count6)
                     }
                 }
             }
@@ -645,7 +616,6 @@ class CharacterControllerDemo {
 
     intersect(pos) {
         this.raycast.setFromCamera(pos, this._camera);
-        console.log(this._scene.children);
 
         return this.raycast.intersectObjects(this._scene.children);
     }
