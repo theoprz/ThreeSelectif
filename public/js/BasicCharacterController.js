@@ -160,7 +160,7 @@ class BasicCharacterController {
 
         if (colliders!==undefined){
             const intersect = raycaster.intersectObjects(colliders);
-            if (intersect.length>0){
+            if (intersect.length>0 && !(intersect[0].object.name === "proxy_(3)002" || intersect[0].object.name === "proxy_(3)001" || intersect[0].object.name === "proxy_(3)" || intersect[0].object.name === "proxy_(92)" || intersect[0].object.name === "proxy_(5)" || intersect[0].object.name === "proxy_(6)" || intersect[0].object.name === "proxy_(7)" || intersect[0].object.name === "proxy_(8)" || intersect[0].object.name === "proxy_(9)" || intersect[0].object.name === "proxy_(10)")){
                 if (intersect[0].distance < 5) blocked = true;
             }
         }

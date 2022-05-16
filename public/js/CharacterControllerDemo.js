@@ -519,95 +519,55 @@ class CharacterControllerDemo {
 
                     //Pour l'inventaire:
 
-                    //Premier Objet
-                    if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1") {
-                        div1.appendChild(img1);
-                        count1 += 1;
-                        document.getElementById("countSlot1").innerHTML = count1;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet1") {
-                        count1 += 1;
-                        document.getElementById("countSlot1").innerHTML = count1;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    //Deuxième Objet
-                    if (div2.childElementCount == 0 & this.clickedObject.userData.name == "Dechet2") {
-                        div2.appendChild(img2);
-                        count2 += 1;
-                        document.getElementById("countSlot2").innerHTML = count2;
-
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet2") {
-                        count2 += 1;
-                        document.getElementById("countSlot2").innerHTML = count2;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    //Troisème Objet
-                    if (div3.childElementCount == 0 & this.clickedObject.userData.name == "Dechet3") {
-                        div3.appendChild(img3);
-                        count3 += 1;
-                        document.getElementById("countSlot3").innerHTML = count3;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet3") {
-                        count3 += 1;
-                        document.getElementById("countSlot3").innerHTML = count3;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    //Quatrièmee Objet
-                    if (div4.childElementCount == 0 & this.clickedObject.userData.name == "Dechet4") {
-                        div4.appendChild(img4);
-                        count4 += 1;
-                        document.getElementById("countSlot4").innerHTML = count4;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet4") {
-                        count4 += 1;
-                        document.getElementById("countSlot4").innerHTML = count4;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    //Cinqièmee Objet
-                    if (div5.childElementCount == 0 & this.clickedObject.userData.name == "Dechet5") {
-                        div5.appendChild(img5);
-                        count5 += 1;
-                        document.getElementById("countSlot5").innerHTML = count5;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet5") {
-                        count5 += 1;
-                        document.getElementById("countSlot5").innerHTML = count5;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    //Sixièmee Objet
-                    if (div6.childElementCount == 0 & this.clickedObject.userData.name == "Dechet6") {
-                        div6.appendChild(img6);
-                        count6 += 1;
-                        document.getElementById("countSlot6").innerHTML = count6;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
-                    }
-
-                    // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet6") {
-                        count6 += 1;
-                        document.getElementById("countSlot6").innerHTML = count6;
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                    switch(this.clickedObject.userData.name){
+                        case "Dechet1":
+                            if(div1.childElementCount === 0) {
+                                div1.appendChild(img1);
+                            }
+                            count1 += 1;
+                            this.db.updateInventory(username, {bouteillesverre: count1});
+                            document.getElementById("countSlot1").innerHTML = count1;
+                            break;
+                        case "Dechet2":
+                            if(div2.childElementCount === 0) {
+                                div2.appendChild(img2);
+                            }
+                            count2 += 1;
+                            this.db.updateInventory(username, {cannettes: count2});
+                            document.getElementById("countSlot2").innerHTML = count2;
+                            break;
+                        case "Dechet3":
+                            if(div3.childElementCount === 0) {
+                                div3.appendChild(img3);
+                            }
+                            count3 += 1;
+                            this.db.updateInventory(username, {aliments: count3});
+                            document.getElementById("countSlot3").innerHTML = count3;
+                            break;
+                        case "Dechet4":
+                            if(div4.childElementCount === 0) {
+                                div4.appendChild(img4);
+                            }
+                            count4 += 1;
+                            this.db.updateInventory(username, {carton: count4});
+                            document.getElementById("countSlot4").innerHTML = count4;
+                            break;
+                        case "Dechet5":
+                            if(div5.childElementCount === 0) {
+                                div5.appendChild(img5);
+                            }
+                            count5 += 1;
+                            this.db.updateInventory(username, {plastiques: count5});
+                            document.getElementById("countSlot5").innerHTML = count5;
+                            break;
+                        case "Dechet6":
+                            if(div6.childElementCount === 0) {
+                                div6.appendChild(img1);
+                            }
+                            count6 += 1;
+                            this.db.updateInventory(username, {cigarettes: count6});
+                            document.getElementById("countSlot6").innerHTML = count6;
+                            break;
                     }
                 }
             }
