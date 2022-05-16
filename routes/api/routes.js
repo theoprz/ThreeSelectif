@@ -23,7 +23,9 @@ router.put("/users/update/:username", function(req, res) {
             if(!foundObject){
                 res.status(404).send();
             }else{
-                foundObject.inventory.cannettes += 1;
+                let test = Object.assign(foundObject.inventory, req.body);
+                console.log(test);
+                foundObject.inventory = test;
                 foundObject.save();
             }
         }
