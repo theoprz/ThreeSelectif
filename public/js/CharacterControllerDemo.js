@@ -254,7 +254,11 @@ class CharacterControllerDemo {
 
     }
 
+<<<<<<< Updated upstream
 
+=======
+    ramdomPos() {
+>>>>>>> Stashed changes
 
     randomPosTrash1(array) {
         let index = Math.floor(Math.random() * array.length);
