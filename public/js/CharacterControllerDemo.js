@@ -5,10 +5,68 @@ import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm
 
 
 let colliders = [];
+//Positions possibles pour les objets
+
+//Bouteille de verre
+let pos1Trash1 = { x: -187, y: 0, z: 520 };
+let pos2Trash1 = { x: 206, y: 0, z: 744 };
+let pos3Trash1 = { x: 956, y: 3, z: 494 };
+let pos4Trash1 = { x: 420, y: 0, z: -621 };
+let pos5Trash1 = { x: 103, y: 0, z: -1030 };
+let pos6Trash1 = { x: -207, y: 0, z: -445 };
+let valuesTrash1 = [pos1Trash1, pos2Trash1, pos3Trash1, pos4Trash1, pos5Trash1, pos6Trash1];
+
+//Canettes
+let pos1Trash2 = { x: 623, y: 0, z: 80 };
+let pos2Trash2 = { x: 292, y: 0, z: 99 };
+let pos3Trash2 = { x: 201, y: 0, z: 213 };
+let pos4Trash2 = { x: 407, y: -2, z: -160 };
+let pos5Trash2 = { x: -107, y: -2, z: 376 };
+let pos6Trash2 = { x: -194, y: 0, z: -743 };
+let valuesTrash2 = [pos1Trash2, pos2Trash2, pos3Trash2, pos4Trash2, pos5Trash2, pos6Trash2];
+
+//Déchets alimentaires
+let pos1Trash3 = { x: 902, y: -1, z: 230 };
+let pos2Trash3 = { x: 457, y: -1, z: 476 };
+let pos3Trash3 = { x: 194, y: -1, z: 264 };
+let pos4Trash3 = { x: 416, y: -1, z: 37 };
+let pos5Trash3 = { x: 1018, y: -1, z: 38 };
+let pos6Trash3 = { x: -186, y: -1, z: -790 };
+let valuesTrash3 = [pos1Trash3, pos2Trash3, pos3Trash3, pos4Trash3, pos5Trash3, pos6Trash3];
+
+//Cartons
+let pos1Trash4 = { x: 945, y: 7, z: -430 };
+let pos2Trash4 = { x: 22, y: 4, z: 800 };
+let pos3Trash4 = { x: 890, y: 12, z: -1030 };
+let pos4Trash4 = { x: 432, y: 1, z: -1150 };
+let pos5Trash4 = { x: -190, y: 2, z: -890 };
+let pos6Trash4 = { x: 960, y: 6, z: 121 };
+let valuesTrash4 = [pos1Trash4, pos2Trash4, pos3Trash4, pos4Trash4, pos5Trash4, pos6Trash4];
+
+
+//Plastiques
+let pos1Trash5 = { x: 983, y: 0, z: -1061 };
+let pos2Trash5 = { x: 364, y: 0, z: -237 };
+let pos3Trash5 = { x: -267, y: 0, z: 702 };
+let pos4Trash5 = { x: 74, y: 0, z: 449 };
+let pos5Trash5 = { x: 562, y: 0, z: 312 };
+let pos6Trash5 = { x: 234, y: 0, z: -438 };
+let valuesTrash5 = [pos1Trash5, pos2Trash5, pos3Trash5, pos4Trash5, pos5Trash5, pos6Trash5];
+
+
+//Mégots de cigarettes
+let pos1Trash6 = { x: 913, y: 1, z: -183 };
+let pos2Trash6 = { x: 766, y: 1, z: 771 };
+let pos3Trash6 = { x: 177, y: 1, z: 564 };
+let pos4Trash6 = { x: -209, y: 1, z: 97 };
+let pos5Trash6 = { x: 519, y: 1, z: -211 };
+let pos6Trash6 = { x: 15, y: 1, z: -946 };
+let valuesTrash6 = [pos1Trash6, pos2Trash6, pos3Trash6, pos4Trash6, pos5Trash6, pos6Trash6];
 
 class CharacterControllerDemo {
     constructor() {
         this._Initialize();
+        this.player;
     }
 
     _Initialize() {
@@ -58,7 +116,7 @@ class CharacterControllerDemo {
         this.manager.onLoad = async function () {
             const loadingScreen = document.getElementById('loading-screen');
             await loadingScreen.classList.add('fade-out');
-            setInterval(function () { loadingScreen.remove() }, 1900);
+            setInterval(function () { loadingScreen.remove() }, 3000);
             console.log('Loading complete!');
 
         };
@@ -96,46 +154,65 @@ class CharacterControllerDemo {
         light = new THREE.AmbientLight(0xFFFFFF, 0.25);
         this._scene.add(light);
 
-        const loader = new THREE.CubeTextureLoader(this.manager);
-        const texture = loader.load([
-            '/static/assets/game/posx.jpg',
-            '/static/assets/game/negx.jpg',
-            '/static/assets/game/posy.jpg',
-            '/static/assets/game/negy.jpg',
-            '/static/assets/game/posz.jpg',
-            '/static/assets/game/negz.jpg',
-        ]);
-        texture.encoding = THREE.sRGBEncoding;
-        this._scene.background = texture;
+        //Texture du background
+
+
+        // const loader = new THREE.CubeTextureLoader(this.manager);
+        // const texture = loader.load([
+        //     '/static/assets/game/posx.jpg',
+        //     '/static/assets/game/negx.jpg',
+        //     '/static/assets/game/posy.jpg',
+        //     '/static/assets/game/negy.jpg',
+        //     '/static/assets/game/posz.jpg',
+        //     '/static/assets/game/negz.jpg',
+        // ]);
+        // texture.encoding = THREE.sRGBEncoding;
+        // this._scene.background = texture;
+
 
         this._LoadMap();
 
-        /*const plane = new THREE.Mesh(
-            new THREE.PlaneGeometry(1000, 1000, 10, 10),
-            new THREE.MeshStandardMaterial({
-                color: 0x808080,
-            }));
-        plane.castShadow = false;
-        plane.receiveShadow = true;
-        plane.rotation.x = -Math.PI / 2;
-        this._scene.add(plane);*/
+
         // -----------------------------------------------------
+        //Raycaster
         this.objects = [];
         this.raycast = new THREE.Raycaster();
         this.clickMouse = new THREE.Vector2();
-        // let draggable = new THREE.Object3D;
 
         const clickedObject = null;
 
+        //Ordinhateur pour le questionnaire
+        this.addObject("questionnaire");
 
-        this.addObject("box");
+        //Ajouts des différents déchets
 
+        //bouteille
         this.addObject("trash1");
+        this.addObject("trash1");
+        this.addObject("trash1");
+        //Canette
         this.addObject("trash2");
+        this.addObject("trash2");
+        this.addObject("trash2");
+        //Aliment
         this.addObject("trash3");
+        this.addObject("trash3");
+        this.addObject("trash3");
+
+        //carton
         this.addObject("trash4");
+        this.addObject("trash4");
+        this.addObject("trash4");
+        //Plastique
         this.addObject("trash5");
+        this.addObject("trash5");
+        this.addObject("trash5");
+
+        //Cigarette
         this.addObject("trash6");
+        this.addObject("trash6");
+        this.addObject("trash6");
+
         this.clickOnObject();
 
         this._mixers = [];
@@ -143,104 +220,208 @@ class CharacterControllerDemo {
 
         this._LoadAnimatedModel();
         this._RAF();
+
+
     }
 
-    timer() {
-        const departMinutes = 5
-        let temps = departMinutes * 60
+    timer() { //Cooldown pour le chapitre 2
+        const departMinutes = 3;
+        let temps = departMinutes * 60;
 
-        const timerElement = document.getElementById("timer")
+        const timerElement = document.getElementById("timer");
 
         setInterval(() => {
-            let minutes = parseInt(temps / 60, 10)
-            let secondes = parseInt(temps % 60, 10)
+            let minutes = parseInt(temps / 60, 10);
+            let secondes = parseInt(temps % 60, 10);
 
-            minutes = minutes < 10 ? "0" + minutes : minutes
-            secondes = secondes < 10 ? "0" + secondes : secondes
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            secondes = secondes < 10 ? "0" + secondes : secondes;
+            timerElement.innerText = `${minutes}:${secondes}`;
+            timerElement.classList.add('timer');
+            if (temps == 0) {
+                return timerElement.remove()
 
-            timerElement.innerText = `${minutes}:${secondes}`
-            temps = temps <= 0 ? 0 : temps - 1
-        }, 1000)
+
+            } else if (temps < 30) {
+                timerElement.classList.remove('timer');
+                timerElement.classList.add('timer2');
+            }
+            temps = temps <= 0 ? 0 : temps - 1;
+        }, 1000);
+
+
+
 
     }
 
 
-    ramdomPos() {
 
-        //Postion à déterminer en fonction de la map
-
-        let pos1 = { x: 290, z: -93 };
-        let pos2 = { x: 386, z: -93 };
-        let pos3 = { x: 452, z: -93 };
-        let values = [pos1, pos2, pos3];
-        let valueToUse = values[Math.floor(Math.random() * values.length)];
-        return valueToUse;
+    randomPosTrash1(array) {
+        let index = Math.floor(Math.random() * array.length);
+        let valueToUse = array[index];
+        array.splice(index, 1);
+        return valueToUse
     }
+
+    randomPosTrash2(array) {
+        let index = Math.floor(Math.random() * array.length);
+        let valueToUse = array[index];
+        array.splice(index, 1);
+        return valueToUse
+    }
+
+    randomPosTrash3(array) {
+        let index = Math.floor(Math.random() * array.length);
+        let valueToUse = array[index];
+        array.splice(index, 1);
+        return valueToUse
+    }
+
+    randomPosTrash4(array) {
+        let index = Math.floor(Math.random() * array.length);
+        let valueToUse = array[index];
+        array.splice(index, 1);
+        return valueToUse
+
+    }
+
+    randomPosTrash5(array) {
+        let index = Math.floor(Math.random() * array.length);
+        let valueToUse = array[index];
+        array.splice(index, 1);
+        return valueToUse
+    }
+
+    randomPosTrash6(array) {
+        let index = Math.floor(Math.random() * array.length);
+        let valueToUse = array[index];
+        array.splice(index, 1);
+        return valueToUse
+    }
+
+
 
     addObject(type) {
-        let scale = { x: 6, y: 6, z: 6 }
-        let tempPos = this.ramdomPos();
-        let pos = { x: tempPos.x, y: scale.y / 2, z: tempPos.z }
-        let object = new THREE.Object3D;
-        let game = this;
 
         switch (type) {
-            case "box":
+            case "questionnaire":
                 {
-                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xDC143C }));
-                    object.position.set(500, 6, -93);
-                    object.scale.set(scale.x, scale.y, scale.z);
-                    object.userData.name = 'Boite';
-                    object.castShadow = true;
-                    object.receiveShadow = true;
-                    object.userData.draggable = true;
-                    this._scene.add(object)
+                    const game = this;
+                    let loaderComputer = new THREE.FBXLoader(this.manager);
+                    loaderComputer.load("/static/assets/game/objects/quest-computer.fbx", function (object) {
+                        const computer = object.children[0];
+                        computer.scale.multiplyScalar(0.005)
+                        computer.position.set(500, -2, -100);
+                        computer.userData.name = 'BoiteQuestionnaire';
+                        computer.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
+                            }
+                        });
+                        game._scene.add(computer);
+                    });
                     break;
                 }
             case "trash1":
                 {
-                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00FFFF }));
-                    object.position.set(pos.x, pos.y, pos.z);
-                    object.scale.set(scale.x, scale.y, scale.z);
-                    object.userData.name = 'Dechet1';
-                    object.castShadow = true;
-                    object.receiveShadow = true;
-                    object.userData.draggable = true;
-                    this._scene.add(object)
+                    let tempPos1 = this.randomPosTrash1(valuesTrash1);
+                    const game = this;
+                    let loaderTrash1 = new THREE.FBXLoader(this.manager);
+                    loaderTrash1.load("/static/assets/game/objects/trash-bouteille.fbx", function (object) {
+                        const bouteille = object.children[0];
+                        let pos1 = { x: tempPos1.x, y: tempPos1.y, z: tempPos1.z }
+                        bouteille.scale.multiplyScalar(0.02)
+                        bouteille.position.set(pos1.x, pos1.y, pos1.z);
+                        bouteille.userData.name = 'Dechet1';
+                        bouteille.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
+                            }
+                        });
+                        game._scene.add(bouteille);
+                    });
                     break;
                 }
             case "trash2":
                 {
-                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00FF00 }));
-                    object.position.set(450, pos.y, -60);
-                    object.scale.set(scale.x, scale.y, scale.z);
-                    object.userData.name = 'Dechet2';
-                    object.castShadow = true;
-                    object.receiveShadow = true;
-                    object.userData.draggable = true;
-                    this._scene.add(object)
+                    let tempPos2 = this.randomPosTrash2(valuesTrash2);
+                    const game = this;
+                    let loaderTrash2 = new THREE.FBXLoader(this.manager);
+                    loaderTrash2.load("/static/assets/game/objects/trash-canette.fbx", function (object) {
+                        const canette = object.children[0];
+                        let pos2 = { x: tempPos2.x, y: tempPos2.y, z: tempPos2.z }
+                        canette.scale.multiplyScalar(0.02)
+                        canette.position.set(pos2.x, pos2.y, pos2.z);
+                        canette.userData.name = 'Dechet2';
+                        canette.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
+                            }
+                        });
+                        game._scene.add(canette);
+                    });
                     break;
                 }
             case "trash3":
                 {
-                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xFFFF00 }));
-                    object.position.set(440, pos.y, 0);
-                    object.scale.set(scale.x, scale.y, scale.z);
-                    object.userData.name = 'Dechet3';
-                    object.castShadow = true;
-                    object.receiveShadow = true;
-                    object.userData.draggable = true;
-                    this._scene.add(object)
+                    let tempPos3 = this.randomPosTrash3(valuesTrash3);
+                    const game = this;
+                    let loaderTrash3 = new THREE.FBXLoader(this.manager);
+                    loaderTrash3.load("/static/assets/game/objects/trash-aliment.fbx", function (object) {
+                        const aliment = object.children[0];
+                        let pos3 = { x: tempPos3.x, y: tempPos3.y, z: tempPos3.z }
+                        aliment.scale.multiplyScalar(0.1)
+                        aliment.position.set(pos3.x, pos3.y, pos3.z);
+                        aliment.userData.name = 'Dechet3';
+                        aliment.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
+                            }
+                        });
+                        game._scene.add(aliment);
+                    });
                     break;
                 }
             case "trash4":
                 {
+
+
+                    let tempPos = this.randomPosTrash4(valuesTrash4);
                     const game = this;
                     let loaderTrash4 = new THREE.FBXLoader(this.manager);
                     loaderTrash4.load("/static/assets/game/objects/trash-carton.fbx", function (object) {
                         const carton = object.children[0];
+                        let pos = { x: tempPos.x, y: tempPos.y, z: tempPos.z }
                         carton.scale.multiplyScalar(5)
-                        carton.position.set(400, pos.y, -50);
+                        carton.position.set(pos.x, pos.y, pos.z);
                         carton.userData.name = 'Dechet4';
                         carton.userData.draggable = true;
                         object.traverse(function (child) {
@@ -251,7 +432,6 @@ class CharacterControllerDemo {
                                 } else {
                                     child.castShadow = true;
                                     child.receiveShadow = true;
-
                                 }
                             }
                         });
@@ -259,35 +439,63 @@ class CharacterControllerDemo {
                     });
                     break;
                 }
-            case "trash5": {
-                object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0xFFFFFF }));
-                object.position.set(410, pos.y, 0);
-                object.scale.set(scale.x, scale.y, scale.z);
-                object.userData.name = 'Dechet5';
-                object.castShadow = true;
-                object.receiveShadow = true;
-                object.userData.draggable = true;
-                this._scene.add(object)
-                break;
-            }
+            case "trash5":
+                {
+                    let tempPos5 = this.randomPosTrash5(valuesTrash5);
+                    const game = this;
+                    let loaderTrash5 = new THREE.FBXLoader(this.manager);
+                    loaderTrash5.load("/static/assets/game/objects/trash-plastique.fbx", function (object) {
+                        const plastique = object.children[0];
+                        let pos5 = { x: tempPos5.x, y: tempPos5.y, z: tempPos5.z }
+                        plastique.scale.multiplyScalar(0.5)
+                        plastique.position.set(pos5.x, pos5.y, pos5.z);
+                        plastique.userData.name = 'Dechet5';
+                        plastique.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
+                            }
+                        });
+                        game._scene.add(plastique);
+                    });
+                    break;
+                }
             case "trash6":
                 {
-                    object = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({ color: 0x00000F }));
-                    object.position.set(390, pos.y, 0);
-                    object.scale.set(scale.x, scale.y, scale.z);
-                    object.userData.name = 'Dechet6';
-                    object.castShadow = true;
-                    object.receiveShadow = true;
-                    object.userData.draggable = true;
-                    this._scene.add(object)
+                    let tempPos6 = this.randomPosTrash6(valuesTrash6);
+                    const game = this;
+                    let loaderTrash6 = new THREE.FBXLoader(this.manager);
+                    loaderTrash6.load("/static/assets/game/objects/trash-cigarette.fbx", function (object) {
+                        const cigarette = object.children[0];
+                        let pos6 = { x: tempPos6.x, y: tempPos6.y, z: tempPos6.z }
+                        cigarette.scale.multiplyScalar(1)  //configuration de sa taille
+                        cigarette.position.set(pos6.x, pos6.y, pos6.z); //configuration de sa position
+                        cigarette.userData.name = 'Dechet6'; //configuration du nom du déchet
+                        cigarette.userData.draggable = true;  //Rendre le déchet cliquable
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
+                            }
+                        });
+                        game._scene.add(cigarette);
+                    });
                     break;
                 }
 
         }
 
-        //object.userData.draggable = true;
-
-        //this._scene.add(object)
 
     }
 
@@ -345,7 +553,6 @@ class CharacterControllerDemo {
                                         confirmButtonText: 'Start',
                                     }).then((result) => {
                                         this.timer();
-
                                     })
 
                                     return;
@@ -430,8 +637,7 @@ class CharacterControllerDemo {
                         this.tab.push(theRandomNumber);
                         this.question(theRandomNumber)
                     });
-                } else {
-                }
+                } else { }
             })()
         });
     }
@@ -464,14 +670,18 @@ class CharacterControllerDemo {
         let count4 = 0;
         let count5 = 0;
         let count6 = 0;
+        let sommecount = 0;
 
         window.addEventListener('click', event => {
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            console.log(this.player)
+            //Pour afficher les enfants de la scène (objets/light, etc...)
+            //console.log(this._scene.children)
 
             //création de l'image pour l'afficher dans l'inventaire
 
-            //Bouteille en Verre
+            //Bouteille en Ver
             let img1 = document.createElement("img");
             img1.src = "/static/assets/game/trash-glass-bottle.png";
             img1.setAttribute("position", "absolute")
@@ -524,115 +734,216 @@ class CharacterControllerDemo {
             //Sixième case de l'inventaire
             let div6 = document.getElementById("texteSlot6")
 
-
-
-
             const found = this.intersect(this.clickMouse);
             if (found.length > 0) {
-                if (found[0].object.userData.draggable) {
-                    this.clickedObject = found[0].object;
+                this.clickedObject = found[0].object;
+
+                //distance entre l'objet et le personnage
+                let distx = Math.abs(this.clickedObject.position.x - this.player.x);
+                let disty = Math.abs(this.clickedObject.position.y - this.player.y);
+                let distz = Math.abs(this.clickedObject.position.z - this.player.z);
+
+                if (found[0].object.userData.draggable && distx < 30 && disty < 30 && distz < 30) { //Si l'objet et cliquable et que la distance est < 30 alors:
 
                     // Quand on appuie sur l'objet de l'étape 1 question
-                    if (this.clickedObject.userData.name === "Boite") {
+                    if (this.clickedObject.userData.name === "BoiteQuestionnaire") {
                         this.iterations = 0;
                         this.iterationsWin = 1;
                         this.tab = [];
                         this.startquestion();
+                        object.userData.draggable = false;
                     }
-                    console.log(`Clicked on ${this.clickedObject.userData.name}`);
+                    //Pour connaitre l'objet qu'on appuie
+                    //console.log(`Clicked on ${this.clickedObject.userData.name}`);
 
                     //Pour l'inventaire:
 
                     //Premier Objet
-                    if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1") {
+                    if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1" & sommecount <= 5) {
                         div1.appendChild(img1);
                         count1 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet1") {
+                    else if (this.clickedObject.userData.name == "Dechet1" & sommecount <= 5) {
                         count1 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Deuxième Objet
-                    if (div2.childElementCount == 0 & this.clickedObject.userData.name == "Dechet2") {
+                    if (div2.childElementCount == 0 & this.clickedObject.userData.name == "Dechet2" & sommecount <= 5) {
                         div2.appendChild(img2);
                         count2 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot2").innerHTML = count2;
-
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet2") {
+                    else if (this.clickedObject.userData.name == "Dechet2" & sommecount <= 5) {
                         count2 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot2").innerHTML = count2;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Troisème Objet
-                    if (div3.childElementCount == 0 & this.clickedObject.userData.name == "Dechet3") {
+                    if (div3.childElementCount == 0 & this.clickedObject.userData.name == "Dechet3" & sommecount <= 5) {
                         div3.appendChild(img3);
                         count3 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet3") {
+                    else if (this.clickedObject.userData.name == "Dechet3" & sommecount <= 5) {
                         count3 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Quatrièmee Objet
-                    if (div4.childElementCount == 0 & this.clickedObject.userData.name == "Dechet4") {
+                    if (div4.childElementCount == 0 & this.clickedObject.userData.name == "Dechet4" & sommecount <= 5) {
                         div4.appendChild(img4);
                         count4 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet4") {
+                    else if (this.clickedObject.userData.name == "Dechet4" & sommecount <= 5) {
+                        this._scene.remove(found[0].object);
                         count4 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Cinqièmee Objet
-                    if (div5.childElementCount == 0 & this.clickedObject.userData.name == "Dechet5") {
+                    if (div5.childElementCount == 0 & this.clickedObject.userData.name == "Dechet5" & sommecount <= 5) {
                         div5.appendChild(img5);
                         count5 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet5") {
+                    else if (this.clickedObject.userData.name == "Dechet5" & sommecount <= 5) {
                         count5 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Sixièmee Objet
-                    if (div6.childElementCount == 0 & this.clickedObject.userData.name == "Dechet6") {
+                    if (div6.childElementCount == 0 & this.clickedObject.userData.name == "Dechet6" & sommecount <= 5) {
                         div6.appendChild(img6);
                         count6 += 1;
+                        sommecount += 1;
                         document.getElementById("countSlot6").innerHTML = count6;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
-                    else if (this.clickedObject.userData.name == "Dechet6") {
+                    else if (this.clickedObject.userData.name == "Dechet6" & sommecount <= 5) {
                         count6 += 1;
+                        sommecount += 1;
+
                         document.getElementById("countSlot6").innerHTML = count6;
+                        this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
+                }
+            }
+
+            //Enlever des objets de l'inventaire grâce aux touches (1 2 3 4 5 6) du clavier
+            document.addEventListener('keydown', (e) => onKeyDown(e), false);
+           // document.addEventListener('keyup', (e) => onKeyUp(e), false);
+            function onKeyDown(event) {
+                switch (event.keyCode) {
+                    case 49: // 1
+                        if (count1 > 0) {
+                            count1 -= 1;
+                            sommecount -= 1;
+                            document.getElementById("countSlot1").innerHTML = count1;
+
+                            if (count1 == 0) {
+                                img1.remove()
+
+                            }
+                        }
+                        break;
+                    case 50: // 2
+                        if (count2 > 0) {
+                            count2 -= 1;
+                            sommecount -= 1;
+                            document.getElementById("countSlot2").innerHTML = count2;
+                            if (count2 == 0) {
+                                div2.removeChild(img2)
+                            }
+                        }
+                        break;
+                    case 51: // 3
+                        if (count3 > 0) {
+                            count3 -= 1;
+                            sommecount -= 1;
+                            document.getElementById("countSlot3").innerHTML = count3;
+                            if (count3 == 0) {
+                                img3.remove()
+                            }
+                        }
+                        break;
+                    case 52: // 4
+                        if (count4 > 0) {
+                            count4 -= 1;
+                            sommecount -= 1;
+                            document.getElementById("countSlot4").innerHTML = count4;
+                            if (count4 == 0) {
+                                img4.remove()
+                            }
+                        }
+                        break;
+                    case 53: // 5
+                        if (count5 > 0) {
+                            count5 -= 1;
+                            sommecount -= 1;
+                            document.getElementById("countSlot5").innerHTML = count5;
+                            if (count5 == 0) {
+                                img5.remove();
+                            }
+                        }
+                        break;
+                    case 54: // 6
+                        if (count6 > 0) {
+                            count6 -= 1;
+                            sommecount -= 1;
+                            document.getElementById("countSlot6").innerHTML = count6;
+                            if (count6 == 0) {
+                                img6.remove();
+                            }
+                        }
+                        break;
+
                 }
             }
         })
@@ -648,10 +959,11 @@ class CharacterControllerDemo {
         const params = {
             camera: this._camera,
             scene: this._scene,
-            manager: this.manager
+            manager: this.manager,
+
         };
         this._controls = new BasicCharacterController(params);
-
+        this.player = this._controls._position
         this._thirdPersonCamera = new ThirdPersonCamera({
             camera: this._camera,
             target: this._controls,

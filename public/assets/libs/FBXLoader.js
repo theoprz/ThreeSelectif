@@ -499,7 +499,8 @@ THREE.FBXLoader = ( function () {
 		parseParameters: function ( materialNode, textureMap, ID ) {
 
 			var parameters = {};
-
+			
+			
 			if ( materialNode.BumpFactor ) {
 
 				parameters.bumpScale = materialNode.BumpFactor.value;

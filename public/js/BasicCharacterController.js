@@ -110,7 +110,8 @@ class BasicCharacterController {
         const _R = controlObject.quaternion.clone();
 
         const acc = this._acceleration.clone();
-        acc.z += 30
+        //Vitesse du personnage
+        acc.z += 70
         if (this._input._keys.shift) {
             acc.multiplyScalar(2.0);
         }
@@ -158,30 +159,30 @@ class BasicCharacterController {
         let raycaster = new THREE.Raycaster(pos, dir);
         let blocked = false;
 
-        if (colliders!==undefined){
+        if (colliders !== undefined) {
             const intersect = raycaster.intersectObjects(colliders);
-            if (intersect.length>0){
+            if (intersect.length > 0 && !(intersect[0].object.name === "proxy_(3)002" || intersect[0].object.name === "proxy_(3)001" || intersect[0].object.name === "proxy_(3)" || intersect[0].object.name === "proxy_(92)" || intersect[0].object.name === "proxy_(5)" || intersect[0].object.name === "proxy_(6)" || intersect[0].object.name === "proxy_(7)" || intersect[0].object.name === "proxy_(8)" || intersect[0].object.name === "proxy_(9)" || intersect[0].object.name === "proxy_(10)")) {
                 if (intersect[0].distance < 5) blocked = true;
             }
         }
 
-        if(!blocked) {
+        if (!blocked) {
             controlObject.position.add(forward);
             controlObject.position.add(sideways);
         }
 
-        if(colliders !== undefined){
-            dir.set(0,-1,0);
+        if (colliders !== undefined) {
+            dir.set(0, -1, 0);
             pos.y += 25;
             let raycaster = new THREE.Raycaster(pos, dir);
 
             let intersect = raycaster.intersectObjects(colliders);
-            if (intersect.length>0){
+            if (intersect.length > 0) {
                 const targetY = pos.y - intersect[0].distance;
-                if (targetY > controlObject.position.y){
+                if (targetY > controlObject.position.y) {
                     controlObject.position.y = 0.8 * controlObject.position.y + 0.2 * targetY;
-                }else if (targetY < controlObject.position.y){
-                    if (controlObject.position.y < -targetY){
+                } else if (targetY < controlObject.position.y) {
+                    if (controlObject.position.y < -targetY) {
                         controlObject.position.y = targetY;
                     }
                 }

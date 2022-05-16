@@ -123,9 +123,11 @@ body {
 .circular-menu.circular-menu.active .menu-item:nth-child(4) {
     transform: translate3d(7em, -1em, 0);
 }
+
+
 /*COOLDOWN*/
 
-#timer {
+.timer {
     background: none;
     position: absolute;
     margin: 0 auto;
@@ -133,8 +135,46 @@ body {
     left: 45vw;
     font-weight: 900;
     font-size: 1.5em;
-
+    padding: 5px;
+    font-family: "Orbitron", sans-serif;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 2px;
+    display: inline-block;
+    text-shadow: 0 0 5px #fff;
+    border: solid 3px green;
+    background-color: black;
 }
+
+.timer2 {
+    background: none;
+    position: absolute;
+    margin: 0 auto;
+    top: 5vh;
+    left: 45vw;
+    font-weight: 900;
+    font-size: 1.5em;
+    padding: 5px;
+    font-family: "Orbitron", sans-serif;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 2px;
+    display: inline-block;
+    text-shadow: 0 0 5px #fff;
+    border: solid 3px green;
+    background-color: black;
+    animation: blink 2s linear infinite;
+}
+
+@keyframes blink {
+    0% {}
+    50% {
+        background-color: red;
+        opacity: 0.8;
+    }
+    100% {}
+}
+
 
 /*INVENTAIRE*/
 
