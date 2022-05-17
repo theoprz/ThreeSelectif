@@ -7,10 +7,17 @@ const { check, validationResult } = require('express-validator');
 
 function checkLoginUser(req,res,next){
     var userToken=localStorage.getItem('userToken');
+    var hours = 24; // Reset when storage is more than 24hours
+    var now = new Date().getTime();
+    var setupTime = localStorage.getItem('setupTime');
+
     try {
         var decoded = jwt.verify(userToken, 'loginToken');
+        if(now-setupTime > 10*60*1000) {
+            res.redirect('/logout')
+        }
     } catch(err) {
-        res.redirect('/');
+        res.redirect('/signin');
     }
     next();
 }

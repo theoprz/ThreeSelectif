@@ -33,6 +33,8 @@ router.post('/', function(req, res, next) {
                 var token = jwt.sign({ userID: getUserID }, 'loginToken');
                 localStorage.setItem('userToken', token);
                 localStorage.setItem('loginUser', username);
+                var now = new Date().getTime();
+                localStorage.setItem('setupTime', now);
                 res.redirect('/dashboard');
             }else{
                 res.render('signin', { title: 'Password Management System', msg:"Invalid Username and Password." });

@@ -25,6 +25,8 @@ const signupRoute = require('./routes/signup');
 const settingsRoute = require('./routes/settings');
 const ytbRoute = require('./routes/ytb');
 const gameRoute = require('./routes/game');
+const dashboardRoute = require('./routes/dashboard');
+const logoutRoute = require('./routes/logout');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -47,6 +49,8 @@ app.use('/signup', signupRoute);
 app.use('/game', gameRoute);
 app.use('/settings', settingsRoute);
 app.use('/ytb', ytbRoute);
+app.use('/dashboard', dashboardRoute);
+app.use('/logout', logoutRoute);
 
 app.use(function(req, res,next){
     let err = new Error('Not found');
