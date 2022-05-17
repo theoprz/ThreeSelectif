@@ -39,6 +39,10 @@ input::placeholder {
   color: #7e8ba3;
 }
 
+.form {
+  background-color: #354152;
+}
+
 .form__field {
   margin-bottom: 1rem;
 }
@@ -74,7 +78,7 @@ a {
 }
 
 .register {
-  box-shadow: 0 0 250px #4e485a;
+  box-shadow: 0 0 250px #00008b;
   text-align: center;
   padding: 4rem 2rem;
 }

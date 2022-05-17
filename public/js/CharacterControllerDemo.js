@@ -1,66 +1,66 @@
 import ApiFetching from "/static/js/ApiFetching.js"
 import BasicCharacterController from "/static/js/BasicCharacterController.js"
 import ThirdPersonCamera from "/static/js/ThirdPersonCamera.js"
-import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/loaders/OBJLoader.js";
+import {OBJLoader} from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/loaders/OBJLoader.js";
 
 
 let colliders = [];
 //Positions possibles pour les objets
 
 //Bouteille de verre
-let pos1Trash1 = { x: -187, y: 0, z: 520 };
-let pos2Trash1 = { x: 206, y: 0, z: 744 };
-let pos3Trash1 = { x: 956, y: 3, z: 494 };
-let pos4Trash1 = { x: 420, y: 0, z: -621 };
-let pos5Trash1 = { x: 103, y: 0, z: -1030 };
-let pos6Trash1 = { x: -207, y: 0, z: -445 };
+let pos1Trash1 = {x: -187, y: 0, z: 520};
+let pos2Trash1 = {x: 206, y: 0, z: 744};
+let pos3Trash1 = {x: 956, y: 3, z: 494};
+let pos4Trash1 = {x: 420, y: 0, z: -621};
+let pos5Trash1 = {x: 103, y: 0, z: -1030};
+let pos6Trash1 = {x: -207, y: 0, z: -445};
 let valuesTrash1 = [pos1Trash1, pos2Trash1, pos3Trash1, pos4Trash1, pos5Trash1, pos6Trash1];
 
 //Canettes
-let pos1Trash2 = { x: 623, y: 0, z: 80 };
-let pos2Trash2 = { x: 292, y: 0, z: 99 };
-let pos3Trash2 = { x: 201, y: 0, z: 213 };
-let pos4Trash2 = { x: 407, y: -2, z: -160 };
-let pos5Trash2 = { x: -107, y: -2, z: 376 };
-let pos6Trash2 = { x: -194, y: 0, z: -743 };
+let pos1Trash2 = {x: 623, y: 0, z: 80};
+let pos2Trash2 = {x: 292, y: 0, z: 99};
+let pos3Trash2 = {x: 201, y: 0, z: 213};
+let pos4Trash2 = {x: 407, y: -2, z: -160};
+let pos5Trash2 = {x: -107, y: -2, z: 376};
+let pos6Trash2 = {x: -194, y: 0, z: -743};
 let valuesTrash2 = [pos1Trash2, pos2Trash2, pos3Trash2, pos4Trash2, pos5Trash2, pos6Trash2];
 
 //Déchets alimentaires
-let pos1Trash3 = { x: 902, y: -1, z: 230 };
-let pos2Trash3 = { x: 457, y: -1, z: 476 };
-let pos3Trash3 = { x: 194, y: -1, z: 264 };
-let pos4Trash3 = { x: 416, y: -1, z: 37 };
-let pos5Trash3 = { x: 1018, y: -1, z: 38 };
-let pos6Trash3 = { x: -186, y: -1, z: -790 };
+let pos1Trash3 = {x: 902, y: -1, z: 230};
+let pos2Trash3 = {x: 457, y: -1, z: 476};
+let pos3Trash3 = {x: 194, y: -1, z: 264};
+let pos4Trash3 = {x: 416, y: -1, z: 37};
+let pos5Trash3 = {x: 1018, y: -1, z: 38};
+let pos6Trash3 = {x: -186, y: -1, z: -790};
 let valuesTrash3 = [pos1Trash3, pos2Trash3, pos3Trash3, pos4Trash3, pos5Trash3, pos6Trash3];
 
 //Cartons
-let pos1Trash4 = { x: 945, y: 7, z: -430 };
-let pos2Trash4 = { x: 22, y: 4, z: 800 };
-let pos3Trash4 = { x: 890, y: 12, z: -1030 };
-let pos4Trash4 = { x: 432, y: 1, z: -1150 };
-let pos5Trash4 = { x: -190, y: 2, z: -890 };
-let pos6Trash4 = { x: 960, y: 6, z: 121 };
+let pos1Trash4 = {x: 945, y: 7, z: -430};
+let pos2Trash4 = {x: 22, y: 4, z: 800};
+let pos3Trash4 = {x: 890, y: 12, z: -1030};
+let pos4Trash4 = {x: 432, y: 1, z: -1150};
+let pos5Trash4 = {x: -190, y: 2, z: -890};
+let pos6Trash4 = {x: 960, y: 6, z: 121};
 let valuesTrash4 = [pos1Trash4, pos2Trash4, pos3Trash4, pos4Trash4, pos5Trash4, pos6Trash4];
 
 
 //Plastiques
-let pos1Trash5 = { x: 983, y: 0, z: -1061 };
-let pos2Trash5 = { x: 364, y: 0, z: -237 };
-let pos3Trash5 = { x: -267, y: 0, z: 702 };
-let pos4Trash5 = { x: 74, y: 0, z: 449 };
-let pos5Trash5 = { x: 562, y: 0, z: 312 };
-let pos6Trash5 = { x: 234, y: 0, z: -438 };
+let pos1Trash5 = {x: 983, y: 0, z: -1061};
+let pos2Trash5 = {x: 364, y: 0, z: -237};
+let pos3Trash5 = {x: -267, y: 0, z: 702};
+let pos4Trash5 = {x: 74, y: 0, z: 449};
+let pos5Trash5 = {x: 562, y: 0, z: 312};
+let pos6Trash5 = {x: 234, y: 0, z: -438};
 let valuesTrash5 = [pos1Trash5, pos2Trash5, pos3Trash5, pos4Trash5, pos5Trash5, pos6Trash5];
 
 
 //Mégots de cigarettes
-let pos1Trash6 = { x: 913, y: 1, z: -183 };
-let pos2Trash6 = { x: 766, y: 1, z: 771 };
-let pos3Trash6 = { x: 177, y: 1, z: 564 };
-let pos4Trash6 = { x: -209, y: 1, z: 97 };
-let pos5Trash6 = { x: 519, y: 1, z: -211 };
-let pos6Trash6 = { x: 15, y: 1, z: -946 };
+let pos1Trash6 = {x: 913, y: 1, z: -183};
+let pos2Trash6 = {x: 766, y: 1, z: 771};
+let pos3Trash6 = {x: 177, y: 1, z: 564};
+let pos4Trash6 = {x: -209, y: 1, z: 97};
+let pos5Trash6 = {x: 519, y: 1, z: -211};
+let pos6Trash6 = {x: 15, y: 1, z: -946};
 let valuesTrash6 = [pos1Trash6, pos2Trash6, pos3Trash6, pos4Trash6, pos5Trash6, pos6Trash6];
 
 class CharacterControllerDemo {
@@ -69,7 +69,7 @@ class CharacterControllerDemo {
         this.player;
     }
 
-    _Initialize() {
+    async _Initialize() {
 
         function onTransitionEnd(event) {
             event.target.remove();
@@ -101,6 +101,9 @@ class CharacterControllerDemo {
 
         this.db = new ApiFetching();
 
+        this.user = await this.db.getUser(username);
+        console.log(this.user)
+
         this.manager = new THREE.LoadingManager(() => {
             const loadingScreen = document.getElementById('loading-screen');
 
@@ -116,7 +119,9 @@ class CharacterControllerDemo {
         this.manager.onLoad = async function () {
             const loadingScreen = document.getElementById('loading-screen');
             await loadingScreen.classList.add('fade-out');
-            setInterval(function () { loadingScreen.remove() }, 3000);
+            setInterval(function () {
+                loadingScreen.remove()
+            }, 3000);
             console.log('Loading complete!');
 
         };
@@ -181,11 +186,18 @@ class CharacterControllerDemo {
 
         const clickedObject = null;
 
-        //Ordinhateur pour le questionnaire
+        //Ordinateur pour le questionnaire
         this.addObject("questionnaire");
 
-        //Ajouts des différents déchets
+        this.clickOnObject();
 
+        this._mixers = [];
+        this._previousRAF = null;
+
+        this._LoadAnimatedModel();
+        this._RAF();
+
+        //Ajouts des différents déchets
         //bouteille
         this.addObject("trash1");
         this.addObject("trash1");
@@ -212,16 +224,6 @@ class CharacterControllerDemo {
         this.addObject("trash6");
         this.addObject("trash6");
         this.addObject("trash6");
-
-        this.clickOnObject();
-
-        this._mixers = [];
-        this._previousRAF = null;
-
-        this._LoadAnimatedModel();
-        this._RAF();
-
-
     }
 
     timer() { //Cooldown pour le chapitre 2
@@ -248,17 +250,7 @@ class CharacterControllerDemo {
             }
             temps = temps <= 0 ? 0 : temps - 1;
         }, 1000);
-
-
-
-
     }
-
-<<<<<<< Updated upstream
-
-=======
-    ramdomPos() {
->>>>>>> Stashed changes
 
     randomPosTrash1(array) {
         let index = Math.floor(Math.random() * array.length);
@@ -303,200 +295,191 @@ class CharacterControllerDemo {
         return valueToUse
     }
 
-
-
     addObject(type) {
 
         switch (type) {
-            case "questionnaire":
-                {
-                    const game = this;
-                    let loaderComputer = new THREE.FBXLoader(this.manager);
-                    loaderComputer.load("/static/assets/game/objects/quest-computer.fbx", function (object) {
-                        const computer = object.children[0];
-                        computer.scale.multiplyScalar(0.005)
-                        computer.position.set(500, -2, -100);
-                        computer.userData.name = 'BoiteQuestionnaire';
-                        computer.userData.draggable = true;
-                        object.traverse(function (child) {
-                            if (child.isMesh) {
-                                if (child.name.startsWith("proxy")) {
-                                    colliders.push(child);
-                                    child.material.visible = false;
-                                } else {
-                                    child.castShadow = true;
-                                    child.receiveShadow = true;
-                                }
+            case "questionnaire": {
+                const game = this;
+                let loaderComputer = new THREE.FBXLoader(this.manager);
+                loaderComputer.load("/static/assets/game/objects/quest-computer.fbx", function (object) {
+                    const computer = object.children[0];
+                    computer.scale.multiplyScalar(0.005)
+                    computer.position.set(500, -2, -100);
+                    computer.userData.name = 'BoiteQuestionnaire';
+                    computer.userData.draggable = true;
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            if (child.name.startsWith("proxy")) {
+                                colliders.push(child);
+                                child.material.visible = false;
+                            } else {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
                             }
-                        });
-                        game._scene.add(computer);
+                        }
                     });
-                    break;
-                }
-            case "trash1":
-                {
-                    let tempPos1 = this.randomPosTrash1(valuesTrash1);
-                    const game = this;
-                    let loaderTrash1 = new THREE.FBXLoader(this.manager);
-                    loaderTrash1.load("/static/assets/game/objects/trash-bouteille.fbx", function (object) {
-                        const bouteille = object.children[0];
-                        let pos1 = { x: tempPos1.x, y: tempPos1.y, z: tempPos1.z }
-                        bouteille.scale.multiplyScalar(0.02)
-                        bouteille.position.set(pos1.x, pos1.y, pos1.z);
-                        bouteille.userData.name = 'Dechet1';
-                        bouteille.userData.draggable = true;
-                        object.traverse(function (child) {
-                            if (child.isMesh) {
-                                if (child.name.startsWith("proxy")) {
-                                    colliders.push(child);
-                                    child.material.visible = false;
-                                } else {
-                                    child.castShadow = true;
-                                    child.receiveShadow = true;
-                                }
+                    game._scene.add(computer);
+                });
+                break;
+            }
+            case "trash1": {
+                let tempPos1 = this.randomPosTrash1(valuesTrash1);
+                const game = this;
+                let loaderTrash1 = new THREE.FBXLoader(this.manager);
+                loaderTrash1.load("/static/assets/game/objects/trash-bouteille.fbx", function (object) {
+                    const bouteille = object.children[0];
+                    let pos1 = {x: tempPos1.x, y: tempPos1.y, z: tempPos1.z}
+                    bouteille.scale.multiplyScalar(0.02)
+                    bouteille.position.set(pos1.x, pos1.y, pos1.z);
+                    bouteille.userData.name = 'Dechet1';
+                    bouteille.userData.draggable = true;
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            if (child.name.startsWith("proxy")) {
+                                colliders.push(child);
+                                child.material.visible = false;
+                            } else {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
                             }
-                        });
-                        game._scene.add(bouteille);
+                        }
                     });
-                    break;
-                }
-            case "trash2":
-                {
-                    let tempPos2 = this.randomPosTrash2(valuesTrash2);
-                    const game = this;
-                    let loaderTrash2 = new THREE.FBXLoader(this.manager);
-                    loaderTrash2.load("/static/assets/game/objects/trash-canette.fbx", function (object) {
-                        const canette = object.children[0];
-                        let pos2 = { x: tempPos2.x, y: tempPos2.y, z: tempPos2.z }
-                        canette.scale.multiplyScalar(0.02)
-                        canette.position.set(pos2.x, pos2.y, pos2.z);
-                        canette.userData.name = 'Dechet2';
-                        canette.userData.draggable = true;
-                        object.traverse(function (child) {
-                            if (child.isMesh) {
-                                if (child.name.startsWith("proxy")) {
-                                    colliders.push(child);
-                                    child.material.visible = false;
-                                } else {
-                                    child.castShadow = true;
-                                    child.receiveShadow = true;
-                                }
+                    game._scene.add(bouteille);
+                });
+                break;
+            }
+            case "trash2": {
+                let tempPos2 = this.randomPosTrash2(valuesTrash2);
+                const game = this;
+                let loaderTrash2 = new THREE.FBXLoader(this.manager);
+                loaderTrash2.load("/static/assets/game/objects/trash-canette.fbx", function (object) {
+                    const canette = object.children[0];
+                    let pos2 = {x: tempPos2.x, y: tempPos2.y, z: tempPos2.z}
+                    canette.scale.multiplyScalar(0.02)
+                    canette.position.set(pos2.x, pos2.y, pos2.z);
+                    canette.userData.name = 'Dechet2';
+                    canette.userData.draggable = true;
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            if (child.name.startsWith("proxy")) {
+                                colliders.push(child);
+                                child.material.visible = false;
+                            } else {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
                             }
-                        });
-                        game._scene.add(canette);
+                        }
                     });
-                    break;
-                }
-            case "trash3":
-                {
-                    let tempPos3 = this.randomPosTrash3(valuesTrash3);
-                    const game = this;
-                    let loaderTrash3 = new THREE.FBXLoader(this.manager);
-                    loaderTrash3.load("/static/assets/game/objects/trash-aliment.fbx", function (object) {
-                        const aliment = object.children[0];
-                        let pos3 = { x: tempPos3.x, y: tempPos3.y, z: tempPos3.z }
-                        aliment.scale.multiplyScalar(0.1)
-                        aliment.position.set(pos3.x, pos3.y, pos3.z);
-                        aliment.userData.name = 'Dechet3';
-                        aliment.userData.draggable = true;
-                        object.traverse(function (child) {
-                            if (child.isMesh) {
-                                if (child.name.startsWith("proxy")) {
-                                    colliders.push(child);
-                                    child.material.visible = false;
-                                } else {
-                                    child.castShadow = true;
-                                    child.receiveShadow = true;
-                                }
+                    game._scene.add(canette);
+                });
+                break;
+            }
+            case "trash3": {
+                let tempPos3 = this.randomPosTrash3(valuesTrash3);
+                const game = this;
+                let loaderTrash3 = new THREE.FBXLoader(this.manager);
+                loaderTrash3.load("/static/assets/game/objects/trash-aliment.fbx", function (object) {
+                    const aliment = object.children[0];
+                    let pos3 = {x: tempPos3.x, y: tempPos3.y, z: tempPos3.z}
+                    aliment.scale.multiplyScalar(0.1)
+                    aliment.position.set(pos3.x, pos3.y, pos3.z);
+                    aliment.userData.name = 'Dechet3';
+                    aliment.userData.draggable = true;
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            if (child.name.startsWith("proxy")) {
+                                colliders.push(child);
+                                child.material.visible = false;
+                            } else {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
                             }
-                        });
-                        game._scene.add(aliment);
+                        }
                     });
-                    break;
-                }
-            case "trash4":
-                {
+                    game._scene.add(aliment);
+                });
+                break;
+            }
+            case "trash4": {
 
 
-                    let tempPos = this.randomPosTrash4(valuesTrash4);
-                    const game = this;
-                    let loaderTrash4 = new THREE.FBXLoader(this.manager);
-                    loaderTrash4.load("/static/assets/game/objects/trash-carton.fbx", function (object) {
-                        const carton = object.children[0];
-                        let pos = { x: tempPos.x, y: tempPos.y, z: tempPos.z }
-                        carton.scale.multiplyScalar(5)
-                        carton.position.set(pos.x, pos.y, pos.z);
-                        carton.userData.name = 'Dechet4';
-                        carton.userData.draggable = true;
-                        object.traverse(function (child) {
-                            if (child.isMesh) {
-                                if (child.name.startsWith("proxy")) {
-                                    colliders.push(child);
-                                    child.material.visible = false;
-                                } else {
-                                    child.castShadow = true;
-                                    child.receiveShadow = true;
-                                }
+                let tempPos = this.randomPosTrash4(valuesTrash4);
+                const game = this;
+                let loaderTrash4 = new THREE.FBXLoader(this.manager);
+                loaderTrash4.load("/static/assets/game/objects/trash-carton.fbx", function (object) {
+                    const carton = object.children[0];
+                    let pos = {x: tempPos.x, y: tempPos.y, z: tempPos.z}
+                    carton.scale.multiplyScalar(5)
+                    carton.position.set(pos.x, pos.y, pos.z);
+                    carton.userData.name = 'Dechet4';
+                    carton.userData.draggable = true;
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            if (child.name.startsWith("proxy")) {
+                                colliders.push(child);
+                                child.material.visible = false;
+                            } else {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
                             }
-                        });
-                        game._scene.add(carton);
+                        }
                     });
-                    break;
-                }
-            case "trash5":
-                {
-                    let tempPos5 = this.randomPosTrash5(valuesTrash5);
-                    const game = this;
-                    let loaderTrash5 = new THREE.FBXLoader(this.manager);
-                    loaderTrash5.load("/static/assets/game/objects/trash-plastique.fbx", function (object) {
-                        const plastique = object.children[0];
-                        let pos5 = { x: tempPos5.x, y: tempPos5.y, z: tempPos5.z }
-                        plastique.scale.multiplyScalar(0.5)
-                        plastique.position.set(pos5.x, pos5.y, pos5.z);
-                        plastique.userData.name = 'Dechet5';
-                        plastique.userData.draggable = true;
-                        object.traverse(function (child) {
-                            if (child.isMesh) {
-                                if (child.name.startsWith("proxy")) {
-                                    colliders.push(child);
-                                    child.material.visible = false;
-                                } else {
-                                    child.castShadow = true;
-                                    child.receiveShadow = true;
-                                }
+                    game._scene.add(carton);
+                });
+                break;
+            }
+            case "trash5": {
+                let tempPos5 = this.randomPosTrash5(valuesTrash5);
+                const game = this;
+                let loaderTrash5 = new THREE.FBXLoader(this.manager);
+                loaderTrash5.load("/static/assets/game/objects/trash-plastique.fbx", function (object) {
+                    const plastique = object.children[0];
+                    let pos5 = {x: tempPos5.x, y: tempPos5.y, z: tempPos5.z}
+                    plastique.scale.multiplyScalar(0.5)
+                    plastique.position.set(pos5.x, pos5.y, pos5.z);
+                    plastique.userData.name = 'Dechet5';
+                    plastique.userData.draggable = true;
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            if (child.name.startsWith("proxy")) {
+                                colliders.push(child);
+                                child.material.visible = false;
+                            } else {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
                             }
-                        });
-                        game._scene.add(plastique);
+                        }
                     });
-                    break;
-                }
-            case "trash6":
-                {
-                    let tempPos6 = this.randomPosTrash6(valuesTrash6);
-                    const game = this;
-                    let loaderTrash6 = new THREE.FBXLoader(this.manager);
-                    loaderTrash6.load("/static/assets/game/objects/trash-cigarette.fbx", function (object) {
-                        const cigarette = object.children[0];
-                        let pos6 = { x: tempPos6.x, y: tempPos6.y, z: tempPos6.z }
-                        cigarette.scale.multiplyScalar(1)  //configuration de sa taille
-                        cigarette.position.set(pos6.x, pos6.y, pos6.z); //configuration de sa position
-                        cigarette.userData.name = 'Dechet6'; //configuration du nom du déchet
-                        cigarette.userData.draggable = true;  //Rendre le déchet cliquable
-                        object.traverse(function (child) {
-                            if (child.isMesh) {
-                                if (child.name.startsWith("proxy")) {
-                                    colliders.push(child);
-                                    child.material.visible = false;
-                                } else {
-                                    child.castShadow = true;
-                                    child.receiveShadow = true;
-                                }
+                    game._scene.add(plastique);
+                });
+                break;
+            }
+            case "trash6": {
+                let tempPos6 = this.randomPosTrash6(valuesTrash6);
+                const game = this;
+                let loaderTrash6 = new THREE.FBXLoader(this.manager);
+                loaderTrash6.load("/static/assets/game/objects/trash-cigarette.fbx", function (object) {
+                    const cigarette = object.children[0];
+                    let pos6 = {x: tempPos6.x, y: tempPos6.y, z: tempPos6.z}
+                    cigarette.scale.multiplyScalar(1)  //configuration de sa taille
+                    cigarette.position.set(pos6.x, pos6.y, pos6.z); //configuration de sa position
+                    cigarette.userData.name = 'Dechet6'; //configuration du nom du déchet
+                    cigarette.userData.draggable = true;  //Rendre le déchet cliquable
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            if (child.name.startsWith("proxy")) {
+                                colliders.push(child);
+                                child.material.visible = false;
+                            } else {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
                             }
-                        });
-                        game._scene.add(cigarette);
+                        }
                     });
-                    break;
-                }
+                    game._scene.add(cigarette);
+                });
+                break;
+            }
 
         }
 
@@ -520,7 +503,7 @@ class CharacterControllerDemo {
                     }, 1000)
                 });
 
-                const { value: color } = await Swal.fire({
+                const {value: color} = await Swal.fire({
                     icon: 'question',
                     title: await data.questions,
                     input: 'radio',
@@ -641,7 +624,8 @@ class CharacterControllerDemo {
                         this.tab.push(theRandomNumber);
                         this.question(theRandomNumber)
                     });
-                } else { }
+                } else {
+                }
             })()
         });
     }
@@ -679,7 +663,6 @@ class CharacterControllerDemo {
         window.addEventListener('click', event => {
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            console.log(this.player)
             //Pour afficher les enfants de la scène (objets/light, etc...)
             //console.log(this._scene.children)
 
@@ -741,6 +724,7 @@ class CharacterControllerDemo {
             const found = this.intersect(this.clickMouse);
             if (found.length > 0) {
                 this.clickedObject = found[0].object;
+                console.log(username);
 
                 //distance entre l'objet et le personnage
                 let distx = Math.abs(this.clickedObject.position.x - this.player.x);
@@ -750,12 +734,12 @@ class CharacterControllerDemo {
                 if (found[0].object.userData.draggable && distx < 30 && disty < 30 && distz < 30) { //Si l'objet et cliquable et que la distance est < 30 alors:
 
                     // Quand on appuie sur l'objet de l'étape 1 question
-                    if (this.clickedObject.userData.name === "BoiteQuestionnaire") {
+                    if (this.clickedObject.userData.name === "BoiteQuestionnaire" && this.user[0].chapter === 0) {
                         this.iterations = 0;
                         this.iterationsWin = 1;
                         this.tab = [];
                         this.startquestion();
-                        object.userData.draggable = false;
+                        this.clickedObject.userData.draggable = false;
                     }
                     //Pour connaitre l'objet qu'on appuie
                     //console.log(`Clicked on ${this.clickedObject.userData.name}`);
@@ -763,13 +747,14 @@ class CharacterControllerDemo {
                     //Pour l'inventaire:
 
                     //Premier Objet
+                    if(this.user[0].chapter !== 1) console.log("testttt");
                     if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1" & sommecount <= 5) {
                         div1.appendChild(img1);
                         count1 += 1;
                         sommecount += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {bouteillesverre: count1}});
                     }
 
                     // Si il y a déjà l'image
@@ -778,7 +763,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {bouteillesverre: count1}});
                     }
 
                     //Deuxième Objet
@@ -788,7 +773,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot2").innerHTML = count2;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {cannettes: count2}});
                     }
 
                     // Si il y a déjà l'image
@@ -797,7 +782,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot2").innerHTML = count2;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {cannettes: count2}});
                     }
 
                     //Troisème Objet
@@ -807,7 +792,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {aliments: count3}});
                     }
 
                     // Si il y a déjà l'image
@@ -816,7 +801,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {aliments: count3}});
                     }
 
                     //Quatrièmee Objet
@@ -826,7 +811,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {carton: count4}});
                     }
 
                     // Si il y a déjà l'image
@@ -836,7 +821,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {carton: count4}});
                     }
 
                     //Cinqièmee Objet
@@ -846,7 +831,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {plastiques: count5}});
                     }
 
                     // Si il y a déjà l'image
@@ -855,7 +840,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {plastiques: count5}});
                     }
 
                     //Sixièmee Objet
@@ -865,7 +850,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot6").innerHTML = count6;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {cigarettes: count1}});
                     }
 
                     // Si il y a déjà l'image
@@ -875,14 +860,15 @@ class CharacterControllerDemo {
 
                         document.getElementById("countSlot6").innerHTML = count6;
                         this._scene.remove(found[0].object);
-                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                        this.db.updateInventory(username, {inventory: {cigarettes: count1}});
                     }
                 }
             }
 
             //Enlever des objets de l'inventaire grâce aux touches (1 2 3 4 5 6) du clavier
             document.addEventListener('keydown', (e) => onKeyDown(e), false);
-           // document.addEventListener('keyup', (e) => onKeyUp(e), false);
+
+            // document.addEventListener('keyup', (e) => onKeyUp(e), false);
             function onKeyDown(event) {
                 switch (event.keyCode) {
                     case 49: // 1
@@ -1027,5 +1013,5 @@ class CharacterControllerDemo {
     }
 }
 
-export { CharacterControllerDemo };
-export { colliders };
+export {CharacterControllerDemo};
+export {colliders};
