@@ -1,78 +1,93 @@
 import ApiFetching from "/static/js/ApiFetching.js"
 import BasicCharacterController from "/static/js/BasicCharacterController.js"
 import ThirdPersonCamera from "/static/js/ThirdPersonCamera.js"
-import {OBJLoader} from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/loaders/OBJLoader.js";
+import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/loaders/OBJLoader.js";
 
 
 let colliders = [];
 //Positions possibles pour les objets
 
 //Bouteille de verre
-let pos1Trash1 = {x: -187, y: 0, z: 520};
-let pos2Trash1 = {x: 206, y: 0, z: 744};
-let pos3Trash1 = {x: 956, y: 3, z: 494};
-let pos4Trash1 = {x: 420, y: 0, z: -621};
-let pos5Trash1 = {x: 103, y: 0, z: -1030};
-let pos6Trash1 = {x: -207, y: 0, z: -445};
+let pos1Trash1 = { x: -187, y: 0, z: 520 };
+let pos2Trash1 = { x: 206, y: 0, z: 744 };
+let pos3Trash1 = { x: 956, y: 3, z: 494 };
+let pos4Trash1 = { x: 420, y: 0, z: -621 };
+let pos5Trash1 = { x: 103, y: 0, z: -1030 };
+let pos6Trash1 = { x: -207, y: 0, z: -445 };
 let valuesTrash1 = [pos1Trash1, pos2Trash1, pos3Trash1, pos4Trash1, pos5Trash1, pos6Trash1];
 
 //Canettes
-let pos1Trash2 = {x: 623, y: 0, z: 80};
-let pos2Trash2 = {x: 292, y: 0, z: 99};
-let pos3Trash2 = {x: 201, y: 0, z: 213};
-let pos4Trash2 = {x: 407, y: -2, z: -160};
-let pos5Trash2 = {x: -107, y: -2, z: 376};
-let pos6Trash2 = {x: -194, y: 0, z: -743};
+let pos1Trash2 = { x: 623, y: 0, z: 80 };
+let pos2Trash2 = { x: 292, y: 0, z: 99 };
+let pos3Trash2 = { x: 201, y: 0, z: 213 };
+let pos4Trash2 = { x: 407, y: -2, z: -160 };
+let pos5Trash2 = { x: -107, y: -2, z: 376 };
+let pos6Trash2 = { x: -194, y: 0, z: -743 };
 let valuesTrash2 = [pos1Trash2, pos2Trash2, pos3Trash2, pos4Trash2, pos5Trash2, pos6Trash2];
 
 //Déchets alimentaires
-let pos1Trash3 = {x: 902, y: -1, z: 230};
-let pos2Trash3 = {x: 457, y: -1, z: 476};
-let pos3Trash3 = {x: 194, y: -1, z: 264};
-let pos4Trash3 = {x: 416, y: -1, z: 37};
-let pos5Trash3 = {x: 1018, y: -1, z: 38};
-let pos6Trash3 = {x: -186, y: -1, z: -790};
+let pos1Trash3 = { x: 902, y: -1, z: 230 };
+let pos2Trash3 = { x: 457, y: -1, z: 476 };
+let pos3Trash3 = { x: 194, y: -1, z: 264 };
+let pos4Trash3 = { x: 416, y: -1, z: 37 };
+let pos5Trash3 = { x: 1018, y: -1, z: 38 };
+let pos6Trash3 = { x: -186, y: -1, z: -790 };
 let valuesTrash3 = [pos1Trash3, pos2Trash3, pos3Trash3, pos4Trash3, pos5Trash3, pos6Trash3];
 
 //Cartons
-let pos1Trash4 = {x: 945, y: 7, z: -430};
-let pos2Trash4 = {x: 22, y: 4, z: 800};
-let pos3Trash4 = {x: 890, y: 12, z: -1030};
-let pos4Trash4 = {x: 432, y: 1, z: -1150};
-let pos5Trash4 = {x: -190, y: 2, z: -890};
-let pos6Trash4 = {x: 960, y: 6, z: 121};
+let pos1Trash4 = { x: 945, y: 7, z: -430 };
+let pos2Trash4 = { x: 22, y: 4, z: 800 };
+let pos3Trash4 = { x: 890, y: 12, z: -1030 };
+let pos4Trash4 = { x: 432, y: 1, z: -1150 };
+let pos5Trash4 = { x: -190, y: 2, z: -890 };
+let pos6Trash4 = { x: 960, y: 6, z: 121 };
 let valuesTrash4 = [pos1Trash4, pos2Trash4, pos3Trash4, pos4Trash4, pos5Trash4, pos6Trash4];
 
 
 //Plastiques
-let pos1Trash5 = {x: 983, y: 0, z: -1061};
-let pos2Trash5 = {x: 364, y: 0, z: -237};
-let pos3Trash5 = {x: -267, y: 0, z: 702};
-let pos4Trash5 = {x: 74, y: 0, z: 449};
-let pos5Trash5 = {x: 562, y: 0, z: 312};
-let pos6Trash5 = {x: 234, y: 0, z: -438};
+let pos1Trash5 = { x: 983, y: 0, z: -1061 };
+let pos2Trash5 = { x: 364, y: 0, z: -237 };
+let pos3Trash5 = { x: -267, y: 0, z: 702 };
+let pos4Trash5 = { x: 74, y: 0, z: 449 };
+let pos5Trash5 = { x: 562, y: 0, z: 312 };
+let pos6Trash5 = { x: 234, y: 0, z: -438 };
 let valuesTrash5 = [pos1Trash5, pos2Trash5, pos3Trash5, pos4Trash5, pos5Trash5, pos6Trash5];
 
 
 //Mégots de cigarettes
-let pos1Trash6 = {x: 913, y: 1, z: -183};
-let pos2Trash6 = {x: 766, y: 1, z: 771};
-let pos3Trash6 = {x: 177, y: 1, z: 564};
-let pos4Trash6 = {x: -209, y: 1, z: 97};
-let pos5Trash6 = {x: 519, y: 1, z: -211};
-let pos6Trash6 = {x: 15, y: 1, z: -946};
+let pos1Trash6 = { x: 913, y: 1, z: -183 };
+let pos2Trash6 = { x: 766, y: 1, z: 771 };
+let pos3Trash6 = { x: 177, y: 1, z: 564 };
+let pos4Trash6 = { x: -209, y: 1, z: 97 };
+let pos5Trash6 = { x: 519, y: 1, z: -211 };
+let pos6Trash6 = { x: 15, y: 1, z: -946 };
 let valuesTrash6 = [pos1Trash6, pos2Trash6, pos3Trash6, pos4Trash6, pos5Trash6, pos6Trash6];
 
-let pospoubelleRed = { x: 450, y: -5, z: -100 };
-let pospoubelleBlue = { x: 300, y: -5, z: -100 };
-let pospoubelleYellow = { x: 400, y: -5, z: -100 };
+
+let pos1poubelleGreen = { x: 959, y: -3, z: -8 };
+let pos2poubelleGreen = { x: 582, y: -3, z: 534 };
+let pos3poubelleGreen = { x: 14, y: -3, z: 139 };
+let valuespoubelleGreen = [pos1poubelleGreen, pos2poubelleGreen, pos3poubelleGreen];
+
+
+
+let pos1poubelleGrey = { x: 20, y: -3, z: 533 }
+let pos2poubelleGrey = { x: -207, y: -3, z: 327 }
+let pos3poubelleGrey = { x: 121, y: -3, z: -1183 }
+let valuespoubelleGrey = [pos1poubelleGrey, pos2poubelleGrey, pos3poubelleGrey];
+
+
+let pos1poubelleYellow = { x: 296, y: -3, z: -1175 };
+let pos2poubelleYellow = { x: 782, y: -3, z: -1030 };
+let pos3poubelleYellow = { x: 924, y: -3, z: -735 };
+let valuespoubelleYellow = [pos1poubelleYellow, pos2poubelleYellow, pos3poubelleYellow];
 
 class CharacterControllerDemo {
     constructor() {
         this._Initialize();
     }
 
-    async _Initialize() {
+    _Initialize() {
 
         function onTransitionEnd(event) {
             event.target.remove();
@@ -105,9 +120,6 @@ class CharacterControllerDemo {
 
         this.db = new ApiFetching();
 
-        this.user = await this.db.getUser(username);
-        console.log(this.user)
-
         this.manager = new THREE.LoadingManager(() => {
             const loadingScreen = document.getElementById('loading-screen');
 
@@ -123,9 +135,7 @@ class CharacterControllerDemo {
         this.manager.onLoad = async function () {
             const loadingScreen = document.getElementById('loading-screen');
             await loadingScreen.classList.add('fade-out');
-            setInterval(function () {
-                loadingScreen.remove()
-            }, 3000);
+            setInterval(function () { loadingScreen.remove() }, 3000);
             console.log('Loading complete!');
 
         };
@@ -190,18 +200,11 @@ class CharacterControllerDemo {
 
         const clickedObject = null;
 
-        //Ordinateur pour le questionnaire
+        //Ordinhateur pour le questionnaire
         this.addObject("questionnaire");
 
-        this.clickOnObject();
-
-        this._mixers = [];
-        this._previousRAF = null;
-
-        this._LoadAnimatedModel();
-        this._RAF();
-
         //Ajouts des différents déchets
+
         //bouteille
         this.addObject("trash1");
         this.addObject("trash1");
@@ -229,13 +232,13 @@ class CharacterControllerDemo {
         this.addObject("trash6");
         this.addObject("trash6");
 
-        //poubelleRouge
-        this.addObject("poubelleRed");
+        //poubelle Verte
+        this.addObject("poubelleGreen");
 
-        //poubelleBleue
-        this.addObject("poubelleBlue");
+        //poubelle Grise
+        this.addObject("poubelleGrey");
 
-        //poubelleJaune
+        //poubelle Jaune
         this.addObject("poubelleYellow");
 
 
@@ -251,8 +254,8 @@ class CharacterControllerDemo {
     }
 
     timer() { //Cooldown pour le chapitre 2
-        const departMinutes = 3;
-        let temps = departMinutes * 60;
+        const scoreTemps = 300;
+        let temps = 300
 
         const timerElement = document.getElementById("timer");
 
@@ -266,8 +269,6 @@ class CharacterControllerDemo {
             timerElement.classList.add('timer');
             if (temps == 0) {
                 return timerElement.remove()
-
-
             } else if (temps < 30) {
                 timerElement.classList.remove('timer');
                 timerElement.classList.add('timer2');
@@ -287,25 +288,28 @@ class CharacterControllerDemo {
     addObject(type) {
 
         switch (type) {
-            case "questionnaire": {
-                const game = this;
-                let loaderComputer = new THREE.FBXLoader(this.manager);
-                loaderComputer.load("/static/assets/game/objects/quest-computer.fbx", function (object) {
-                    const computer = object.children[0];
-                    computer.scale.multiplyScalar(0.005)
-                    computer.position.set(500, -2, -100);
-                    computer.userData.name = 'BoiteQuestionnaire';
-                    computer.userData.draggable = true;
-                    object.traverse(function (child) {
-                        if (child.isMesh) {
-                            if (child.name.startsWith("proxy")) {
-                                colliders.push(child);
-                                child.material.visible = false;
-                            } else {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
+            case "questionnaire":
+                {
+                    const game = this;
+                    let loaderComputer = new THREE.FBXLoader(this.manager);
+                    loaderComputer.load("/static/assets/game/objects/quest-computer.fbx", function (object) {
+                        const computer = object.children[0];
+                        computer.scale.multiplyScalar(0.005)
+                        computer.position.set(310, 14, -720);
+                        computer.userData.name = 'BoiteQuestionnaire';
+                        computer.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
                             }
-                        }
+                        });
+                        game._scene.add(computer);
                     });
                     break;
                 }
@@ -331,7 +335,8 @@ class CharacterControllerDemo {
                                     child.receiveShadow = true;
                                 }
                             }
-                        }
+                        });
+                        game._scene.add(bouteille);
                     });
                     break;
                 }
@@ -357,7 +362,8 @@ class CharacterControllerDemo {
                                     child.receiveShadow = true;
                                 }
                             }
-                        }
+                        });
+                        game._scene.add(canette);
                     });
                     break;
                 }
@@ -383,13 +389,13 @@ class CharacterControllerDemo {
                                     child.receiveShadow = true;
                                 }
                             }
-                        }
+                        });
+                        game._scene.add(aliment);
                     });
-                    game._scene.add(aliment);
-                });
-                break;
-            }
-            case "trash4": {
+                    break;
+                }
+            case "trash4":
+                {
 
 
                     let tempPos = this.randomPosTrash(valuesTrash4);
@@ -412,7 +418,8 @@ class CharacterControllerDemo {
                                     child.receiveShadow = true;
                                 }
                             }
-                        }
+                        });
+                        game._scene.add(carton);
                     });
                     break;
                 }
@@ -438,7 +445,8 @@ class CharacterControllerDemo {
                                     child.receiveShadow = true;
                                 }
                             }
-                        }
+                        });
+                        game._scene.add(plastique);
                     });
                     break;
                 }
@@ -464,19 +472,22 @@ class CharacterControllerDemo {
                                     child.receiveShadow = true;
                                 }
                             }
-                        }
+                        });
+                        game._scene.add(cigarette);
                     });
                     break;
                 }
-            case "poubelleRed":
+            case "poubelleGreen":
                 {
+                    let tempPosPoubelleGreen = this.randomPosTrash(valuespoubelleGreen);
                     const game = this;
-                    let loaderpoubelleRed = new THREE.FBXLoader(this.manager);
-                    loaderpoubelleRed.load("/static/assets/game/objects/poubelleRed.fbx", function (object) {
-                        const poubelleRed = object.children[0];
-                        poubelleRed.scale.multiplyScalar(0.04)
-                        poubelleRed.position.set(pospoubelleRed.x, pospoubelleRed.y, pospoubelleRed.z);
-                        poubelleRed.userData.name = 'PoubelleRed';
+                    let loaderpoubelleGreen = new THREE.FBXLoader(this.manager);
+                    loaderpoubelleGreen.load("/static/assets/game/objects/poubelleGreen.fbx", function (object) {
+                        const poubelleGreen = object.children[0];
+                        let pospoubelleGreen = { x: tempPosPoubelleGreen.x, y: tempPosPoubelleGreen.y, z: tempPosPoubelleGreen.z }
+                        poubelleGreen.scale.multiplyScalar(0.04)
+                        poubelleGreen.position.set(pospoubelleGreen.x, pospoubelleGreen.y, pospoubelleGreen.z);
+                        poubelleGreen.userData.name = 'PoubelleGreen';
                         object.traverse(function (child) {
                             if (child.isMesh) {
                                 if (child.name.startsWith("proxy")) {
@@ -488,20 +499,22 @@ class CharacterControllerDemo {
                                 }
                             }
                         });
-                        game._scene.add(poubelleRed);
+                        game._scene.add(poubelleGreen);
                     });
                     break;
                 }
 
-            case "poubelleBlue":
+            case "poubelleGrey":
                 {
+                    let tempPosPoubelleGrey = this.randomPosTrash(valuespoubelleGrey);
                     const game = this;
-                    let loaderpoubelleBlue = new THREE.FBXLoader(this.manager);
-                    loaderpoubelleBlue.load("/static/assets/game/objects/poubelleBlue.fbx", function (object) {
-                        const poubelleBlue = object.children[0];
-                        poubelleBlue.scale.multiplyScalar(0.04)
-                        poubelleBlue.position.set(pospoubelleBlue.x, pospoubelleBlue.y, pospoubelleBlue.z);
-                        poubelleBlue.userData.name = 'poubelleBlue';
+                    let loaderpoubelleGrey = new THREE.FBXLoader(this.manager);
+                    loaderpoubelleGrey.load("/static/assets/game/objects/poubelleGrey.fbx", function (object) {
+                        const poubelleGrey = object.children[0];
+                        let pospoubelleGrey = { x: tempPosPoubelleGrey.x, y: tempPosPoubelleGrey.y, z: tempPosPoubelleGrey.z }
+                        poubelleGrey.scale.multiplyScalar(0.04)
+                        poubelleGrey.position.set(pospoubelleGrey.x, pospoubelleGrey.y, pospoubelleGrey.z);
+                        poubelleGrey.userData.name = 'PoubelleGrey';
                         object.traverse(function (child) {
                             if (child.isMesh) {
                                 if (child.name.startsWith("proxy")) {
@@ -513,20 +526,22 @@ class CharacterControllerDemo {
                                 }
                             }
                         });
-                        game._scene.add(poubelleBlue);
+                        game._scene.add(poubelleGrey);
                     });
                     break;
 
                 }
             case "poubelleYellow":
                 {
+                    let tempPosPoubelleYellow = this.randomPosTrash(valuespoubelleYellow);
                     const game = this;
                     let loaderpoubelleYellow = new THREE.FBXLoader(this.manager);
                     loaderpoubelleYellow.load("/static/assets/game/objects/poubelleYellow.fbx", function (object) {
                         const poubelleYellow = object.children[0];
+                        let pospoubelleYellow = { x: tempPosPoubelleYellow.x, y: tempPosPoubelleYellow.y, z: tempPosPoubelleYellow.z }
                         poubelleYellow.scale.multiplyScalar(0.04)
                         poubelleYellow.position.set(pospoubelleYellow.x, pospoubelleYellow.y, pospoubelleYellow.z);
-                        poubelleYellow.userData.name = 'poubelleYellow';
+                        poubelleYellow.userData.name = 'PoubelleYellow';
                         object.traverse(function (child) {
                             if (child.isMesh) {
                                 if (child.name.startsWith("proxy")) {
@@ -564,7 +579,7 @@ class CharacterControllerDemo {
                     }, 1000)
                 });
 
-                const {value: color} = await Swal.fire({
+                const { value: color } = await Swal.fire({
                     icon: 'question',
                     title: await data.questions,
                     input: 'radio',
@@ -685,17 +700,16 @@ class CharacterControllerDemo {
                         this.tab.push(theRandomNumber);
                         this.question(theRandomNumber)
                     });
-                } else {
-                }
+                } else { }
             })()
         });
     }
 
     pasDeRepetitionQuestion() {
-        var theRandomNumber = Math.floor(Math.random() * 20) + 1;
+        var theRandomNumber = Math.floor(Math.random() * 50) + 1;
         if (this.tab.includes(theRandomNumber)) {
             while ((this.tab.includes(theRandomNumber))) {
-                theRandomNumber = Math.floor(Math.random() * 20) + 1;
+                theRandomNumber = Math.floor(Math.random() * 50) + 1;
             }
             if (!(this.tab.includes(theRandomNumber))) {
                 return theRandomNumber;
@@ -723,6 +737,7 @@ class CharacterControllerDemo {
         let rep = false //variable pour empêcher le repeat pour le keyDown de l'inventaire
         let trashTrie = 0;
         let trashMalTrie = 0;
+
 
         //création de l'image pour l'afficher dans l'inventaire
 
@@ -765,16 +780,14 @@ class CharacterControllerDemo {
         let img5 = document.createElement("img");
         img5.src = "/static/assets/game/trash-plastique.png";
         img5.setAttribute("position", "absolute");
-        img5.setAttribute("id", "imgId5")
-        let imgRemove5 = document.getElementById("imgId5")
+        img5.setAttribute("id", "imgId5");
 
         //Mégot
         let img6 = document.createElement("img");
         img6.src = "/static/assets/game/trash-megot.png";
         img6.setAttribute("position", "absolute");
-        img6.setAttribute("style", "margin-top: 12px")
-        img6.setAttribute("id", "imgId6")
-        let imgRemove6 = document.getElementById("imgId6")
+        img6.setAttribute("style", "margin-top: 12px");
+        img6.setAttribute("id", "imgId6");
 
         //première case de l'inventaire
         let div1 = document.getElementById("texteSlot1");
@@ -795,18 +808,29 @@ class CharacterControllerDemo {
         let div6 = document.getElementById("texteSlot6")
 
         window.addEventListener('click', event => {
+            //alertify.set('notifier', 'position', 'top-right');
+            //alertify.success(`GG ${username} tu es chaud`);
+            alertify.alert()
+                .setting({
+                    'basic': true,
+                    transition: 'zoom',
+                    'modal': false,
+                    'closable': false,
+                    'padding': 10,
+                    'invokeOnCloseOff': true,
+                    'pinnable': false,
+                    'message': `Bien joué ${username}, tu as fini le mini jeu avec ${trashTrie} déchets bien trié et ${trashMalTrie} déchets mal trié`,
+                }).show()
+           
+
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            //console.log(this.player)
             //Pour afficher les enfants de la scène (objets/light, etc...)
-            //console.log(this._scene.children)
-
-
+            //console.log(this.player)
 
             const found = this.intersect(this.clickMouse);
             if (found.length > 0) {
                 this.clickedObject = found[0].object;
-                console.log(username);
 
                 //distance entre l'objet et le personnage
 
@@ -817,7 +841,7 @@ class CharacterControllerDemo {
                 if (found[0].object.userData.draggable && distx < 30 && disty < 30 && distz < 30) { //Si l'objet et cliquable et que la distance est < 30 alors:
 
                     // Quand on appuie sur l'objet de l'étape 1 question
-                    if (this.clickedObject.userData.name === "BoiteQuestionnaire" && this.user[0].chapter === 0) {
+                    if (this.clickedObject.userData.name === "BoiteQuestionnaire") {
                         this.iterations = 0;
                         this.iterationsWin = 1;
                         this.tab = [];
@@ -830,7 +854,6 @@ class CharacterControllerDemo {
                     //Pour l'inventaire:
 
                     //Premier Objet
-                    if(this.user[0].chapter !== 1) console.log("testttt");
                     if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1" & sommecount <= 5) {
                         div1.appendChild(img1);
                         count1 += 1;
@@ -839,7 +862,7 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot1").setAttribute("style", "opacity: 1")
 
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {bouteillesverre: count1}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
@@ -848,7 +871,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {bouteillesverre: count1}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Deuxième Objet
@@ -860,7 +883,7 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot2").setAttribute("style", "opacity: 1")
 
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {cannettes: count2}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
@@ -869,7 +892,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot2").innerHTML = count2;
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {cannettes: count2}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Troisème Objet
@@ -881,7 +904,7 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot3").setAttribute("style", "opacity: 1")
 
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {aliments: count3}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
@@ -890,7 +913,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {aliments: count3}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Quatrièmee Objet
@@ -901,7 +924,7 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot4").innerHTML = count4;
                         document.getElementById("countSlot4").setAttribute("style", "opacity: 1")
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {carton: count4}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
@@ -911,7 +934,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {carton: count4}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Cinqièmee Objet
@@ -922,7 +945,7 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot5").innerHTML = count5;
                         document.getElementById("countSlot5").setAttribute("style", "opacity: 1")
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {plastiques: count5}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
@@ -931,7 +954,7 @@ class CharacterControllerDemo {
                         sommecount += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {plastiques: count5}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     //Sixièmee Objet
@@ -943,7 +966,7 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot6").setAttribute("style", "opacity: 1")
 
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {cigarettes: count1}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
                     // Si il y a déjà l'image
@@ -953,36 +976,55 @@ class CharacterControllerDemo {
 
                         document.getElementById("countSlot6").innerHTML = count6;
                         this._scene.remove(found[0].object);
-                        this.db.updateInventory(username, {inventory: {cigarettes: count1}});
+                        //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
                 }
             }
         })
         //Enlever des objets de l'inventaire grâce aux touches (1 2 3 4 5 6) du clavier
-        let posPlayer = this.player
+        let posPlayer = this.player;
+        let listChildren = this._scene;
+
         document.addEventListener('keydown', (e) => KeyDown(e), false);
         document.addEventListener('keyup', (e) => KeyUp(e), false);
 
         function KeyDown(event) {
             switch (event.keyCode) {
                 case 49: // 1
-                    //Poubelle Rouge
-                    let distBoutRx = Math.abs(pospoubelleRed.x - posPlayer.x);
-                    let distBoutRy = Math.abs(pospoubelleRed.y - posPlayer.y);
-                    let distBoutRz = Math.abs(pospoubelleRed.z - posPlayer.z);
-                    //Poubelle Bleue
-                    let distBoutBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
-                    let distBoutBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
-                    let distBoutBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    let PoubelleGreen1;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGreen")
+                            PoubelleGreen1 = elem;
+
+                    })
+                    let PoubelleGrey1;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGrey")
+                            PoubelleGrey1 = elem;
+
+                    })
+                    let PoubelleYellow1;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleYellow")
+                            PoubelleYellow1 = elem;
+                    })
+                    //Poubelle Verte
+                    let distBoutRx = Math.abs(PoubelleGreen1.position.x - posPlayer.x);
+                    let distBoutRy = Math.abs(PoubelleGreen1.position.y - posPlayer.y);
+                    let distBoutRz = Math.abs(PoubelleGreen1.position.z - posPlayer.z);
+                    //Poubelle Grise
+                    let distBoutBx = Math.abs(PoubelleGrey1.position.x - posPlayer.x);
+                    let distBoutBy = Math.abs(PoubelleGrey1.position.y - posPlayer.y);
+                    let distBoutBz = Math.abs(PoubelleGrey1.position.z - posPlayer.z);
                     //Poubelle jaune
-                    let distBoutYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
-                    let distBoutYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
-                    let distBoutYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+                    let distBoutYx = Math.abs(PoubelleYellow1.position.x - posPlayer.x);
+                    let distBoutYy = Math.abs(PoubelleYellow1.position.y - posPlayer.y);
+                    let distBoutYz = Math.abs(PoubelleYellow1.position.z - posPlayer.z);
                     if (count1 > 0 && rep == false && distBoutRx < 30 && distBoutRy < 30 && distBoutRz < 30) {
                         rep = true;
                         count1 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashTrie += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -993,7 +1035,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count1 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -1004,7 +1046,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count1 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -1015,24 +1057,42 @@ class CharacterControllerDemo {
 
                     break;
                 case 50: // 2
-                    //Poubelle Rouge
-                    let distCanRx = Math.abs(pospoubelleRed.x - posPlayer.x);
-                    let distCanRy = Math.abs(pospoubelleRed.y - posPlayer.y);
-                    let distCanRz = Math.abs(pospoubelleRed.z - posPlayer.z);
-                    //Poubelle Bleue
-                    let distCanBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
-                    let distCanBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
-                    let distCanBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    let PoubelleGreen2;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGreen") {
+                            PoubelleGreen2 = elem;
+                        }
+                    })
+                    let PoubelleGrey2;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGrey") {
+                            PoubelleGrey2 = elem;
+                        }
+                    })
+                    let PoubelleYellow2;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleYellow") {
+                            PoubelleYellow2 = elem;
+                        }
+                    })
+                    //Poubelle Verte
+                    let distCanRx = Math.abs(PoubelleGreen2.position.x - posPlayer.x);
+                    let distCanRy = Math.abs(PoubelleGreen2.position.y - posPlayer.y);
+                    let distCanRz = Math.abs(PoubelleGreen2.position.z - posPlayer.z);
+                    //Poubelle Grise
+                    let distCanBx = Math.abs(PoubelleGrey2.position.x - posPlayer.x);
+                    let distCanBy = Math.abs(PoubelleGrey2.position.y - posPlayer.y);
+                    let distCanBz = Math.abs(PoubelleGrey2.position.z - posPlayer.z);
                     //Poubelle jaune
-                    let distCanYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
-                    let distCanYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
-                    let distCanYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+                    let distCanYx = Math.abs(PoubelleYellow2.position.x - posPlayer.x);
+                    let distCanYy = Math.abs(PoubelleYellow2.position.y - posPlayer.y);
+                    let distCanYz = Math.abs(PoubelleYellow2.position.z - posPlayer.z);
 
                     if (count2 > 0 && rep == false && distCanRx < 30 && distCanRy < 30 && distCanRz < 30) {
                         rep = true;
                         count2 -= 1; //on soustrait un au compteur de cannettes
                         sommecount -= 1;
-                        //trashMalTrie += 1;
+                        trashMalTrie += 1;
                         //On soustrait un à la somme des compteurs
                         document.getElementById("countSlot2").innerHTML = count2;
                         if (count2 == 0) {
@@ -1046,7 +1106,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count2 -= 1; //on soustrait un au compteur de cannettes
                         sommecount -= 1;
-                        //trashMalTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot2").innerHTML = count2;
                         if (count2 == 0) {
                             div2.removeChild(div2.children[0])
@@ -1057,7 +1117,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count2 -= 1; //on soustrait un au compteur de cannettes
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashTrie += 1;
                         document.getElementById("countSlot2").innerHTML = count2;
                         if (count2 == 0) {
                             div2.removeChild(div2.children[0])
@@ -1066,23 +1126,41 @@ class CharacterControllerDemo {
                     }
                     break;
                 case 51: // 3
-                    //Poubelle Rouge
-                    let distAlRx = Math.abs(pospoubelleRed.x - posPlayer.x);
-                    let distAlRy = Math.abs(pospoubelleRed.y - posPlayer.y);
-                    let distAlRz = Math.abs(pospoubelleRed.z - posPlayer.z);
-                    //Poubelle Bleue
-                    let distAlBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
-                    let distAlBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
-                    let distAlBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    let PoubelleGreen3;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGreen") {
+                            PoubelleGreen3 = elem;
+                        }
+                    })
+                    let PoubelleGrey3;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGrey") {
+                            PoubelleGrey3 = elem;
+                        }
+                    })
+                    let PoubelleYellow3;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleYellow") {
+                            PoubelleYellow3 = elem;
+                        }
+                    })
+                    //Poubelle Verte
+                    let distAlRx = Math.abs(PoubelleGreen3.position.x - posPlayer.x);
+                    let distAlRy = Math.abs(PoubelleGreen3.position.y - posPlayer.y);
+                    let distAlRz = Math.abs(PoubelleGreen3.position.z - posPlayer.z);
+                    //Poubelle Grise
+                    let distAlBx = Math.abs(PoubelleGrey3.position.x - posPlayer.x);
+                    let distAlBy = Math.abs(PoubelleGrey3.position.y - posPlayer.y);
+                    let distAlBz = Math.abs(PoubelleGrey3.position.z - posPlayer.z);
                     //Poubelle jaune
-                    let distAlYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
-                    let distAlYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
-                    let distAlYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+                    let distAlYx = Math.abs(PoubelleYellow3.position.x - posPlayer.x);
+                    let distAlYy = Math.abs(PoubelleYellow3.position.y - posPlayer.y);
+                    let distAlYz = Math.abs(PoubelleYellow3.position.z - posPlayer.z);
                     if (count3 > 0 && rep == false && distAlRx < 30 && distAlRy < 30 && distAlRz < 30) {
                         rep = true;
                         count3 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
                         if (count3 == 0) {
                             div3.removeChild(div3.children[0])
@@ -1094,7 +1172,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count3 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashTrie += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
                         if (count3 == 0) {
                             div3.removeChild(div3.children[0])
@@ -1106,7 +1184,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count3 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
                         if (count3 == 0) {
                             div3.removeChild(div3.children[0])
@@ -1115,24 +1193,42 @@ class CharacterControllerDemo {
                     }
                     break;
                 case 52: // 4
-                    //Poubelle Rouge
-                    let distCartRx = Math.abs(pospoubelleRed.x - posPlayer.x);
-                    let distCartRy = Math.abs(pospoubelleRed.y - posPlayer.y);
-                    let distCartRz = Math.abs(pospoubelleRed.z - posPlayer.z);
-                    //Poubelle Bleue
-                    let distCartBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
-                    let distCartBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
-                    let distCartBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    let PoubelleGreen4;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGreen") {
+                            PoubelleGreen4 = elem;
+                        }
+                    })
+                    let PoubelleGrey4;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGrey") {
+                            PoubelleGrey4 = elem;
+                        }
+                    })
+                    let PoubelleYellow4;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleYellow") {
+                            PoubelleYellow4 = elem;
+                        }
+                    })
+                    //Poubelle Verte
+                    let distCartRx = Math.abs(PoubelleGreen4.position.x - posPlayer.x);
+                    let distCartRy = Math.abs(PoubelleGreen4.position.y - posPlayer.y);
+                    let distCartRz = Math.abs(PoubelleGreen4.position.z - posPlayer.z);
+                    //Poubelle Grise
+                    let distCartBx = Math.abs(PoubelleGrey4.position.x - posPlayer.x);
+                    let distCartBy = Math.abs(PoubelleGrey4.position.y - posPlayer.y);
+                    let distCartBz = Math.abs(PoubelleGrey4.position.z - posPlayer.z);
                     //Poubelle jaune
-                    let distCartYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
-                    let distCartYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
-                    let distCartYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+                    let distCartYx = Math.abs(PoubelleYellow4.position.x - posPlayer.x);
+                    let distCartYy = Math.abs(PoubelleYellow4.position.y - posPlayer.y);
+                    let distCartYz = Math.abs(PoubelleYellow4.position.z - posPlayer.z);
 
                     if (count4 > 0 && rep == false && distCartRx < 30 && distCartRy < 30 && distCartRz < 30) {
                         rep = true;
                         count4 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
                         if (count4 == 0) {
                             div4.removeChild(div4.children[0])
@@ -1144,7 +1240,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count4 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
                         if (count4 == 0) {
                             div4.removeChild(div4.children[0])
@@ -1156,7 +1252,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count4 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashTrie += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
                         if (count4 == 0) {
                             div4.removeChild(div4.children[0])
@@ -1165,25 +1261,43 @@ class CharacterControllerDemo {
                     }
                     break;
                 case 53: // 5
-                    //Poubelle Rouge
-                    let distPlasRx = Math.abs(pospoubelleRed.x - posPlayer.x);
-                    let distPlasRy = Math.abs(pospoubelleRed.y - posPlayer.y);
-                    let distPlasRz = Math.abs(pospoubelleRed.z - posPlayer.z);
-                    //Poubelle Bleue
-                    let distPlasBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
-                    let distPlasBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
-                    let distPlasBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    let PoubelleGreen5;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGreen") {
+                            PoubelleGreen5 = elem;
+                        }
+                    })
+                    let PoubelleGrey5;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGrey") {
+                            PoubelleGrey5 = elem;
+                        }
+                    })
+                    let PoubelleYellow5;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleYellow") {
+                            PoubelleYellow5 = elem;
+                        }
+                    })
+                    //Poubelle Verte
+                    let distPlasRx = Math.abs(PoubelleGreen5.position.x - posPlayer.x);
+                    let distPlasRy = Math.abs(PoubelleGreen5.position.y - posPlayer.y);
+                    let distPlasRz = Math.abs(PoubelleGreen5.position.z - posPlayer.z);
+                    //Poubelle Grise
+                    let distPlasBx = Math.abs(PoubelleGrey5.position.x - posPlayer.x);
+                    let distPlasBy = Math.abs(PoubelleGrey5.position.y - posPlayer.y);
+                    let distPlasBz = Math.abs(PoubelleGrey5.position.z - posPlayer.z);
                     //Poubelle jaune
-                    let distPlasYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
-                    let distPlasYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
-                    let distPlasYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+                    let distPlasYx = Math.abs(PoubelleYellow5.position.x - posPlayer.x);
+                    let distPlasYy = Math.abs(PoubelleYellow5.position.y - posPlayer.y);
+                    let distPlasYz = Math.abs(PoubelleYellow5.position.z - posPlayer.z);
 
                     if (count5 > 0 && rep == false && distPlasRx < 30 && distPlasRy < 30 && distPlasRz < 30) {
 
                         rep = true;
                         count5 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
                         if (count5 == 0) {
                             div5.removeChild(div5.children[0])
@@ -1197,7 +1311,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count5 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
                         if (count5 == 0) {
                             div5.removeChild(div5.children[0])
@@ -1211,7 +1325,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count5 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashTrie += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
                         if (count5 == 0) {
                             div5.removeChild(div5.children[0])
@@ -1221,24 +1335,42 @@ class CharacterControllerDemo {
                     }
                     break;
                 case 54: // 6
-                    //Poubelle Rouge
-                    let distCigRx = Math.abs(pospoubelleRed.x - posPlayer.x);
-                    let distCigRy = Math.abs(pospoubelleRed.y - posPlayer.y);
-                    let distCigRz = Math.abs(pospoubelleRed.z - posPlayer.z);
-                    //Poubelle Bleue
-                    let distCigBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
-                    let distCigBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
-                    let distCigBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    let PoubelleGreen6;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGreen") {
+                            PoubelleGreen6 = elem;
+                        }
+                    })
+                    let PoubelleGrey6;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleGrey") {
+                            PoubelleGrey6 = elem;
+                        }
+                    })
+                    let PoubelleYellow6;
+                    listChildren.children.forEach(elem => {
+                        if (elem.userData.name === "PoubelleYellow") {
+                            PoubelleYellow6 = elem;
+                        }
+                    })
+                    //Poubelle Verte
+                    let distCigRx = Math.abs(PoubelleGreen6.position.x - posPlayer.x);
+                    let distCigRy = Math.abs(PoubelleGreen6.position.y - posPlayer.y);
+                    let distCigRz = Math.abs(PoubelleGreen6.position.z - posPlayer.z);
+                    //Poubelle Grise
+                    let distCigBx = Math.abs(PoubelleGrey6.position.x - posPlayer.x);
+                    let distCigBy = Math.abs(PoubelleGrey6.position.y - posPlayer.y);
+                    let distCigBz = Math.abs(PoubelleGrey6.position.z - posPlayer.z);
                     //Poubelle jaune
-                    let distCigYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
-                    let distCigYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
-                    let distCigYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+                    let distCigYx = Math.abs(PoubelleYellow6.position.x - posPlayer.x);
+                    let distCigYy = Math.abs(PoubelleYellow6.position.y - posPlayer.y);
+                    let distCigYz = Math.abs(PoubelleYellow6.position.z - posPlayer.z);
 
                     if (count6 > 0 && rep == false && distCigRx < 30 && distCigRy < 30 && distCigRz < 30) {
                         rep = true;
                         count6 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot6").innerHTML = count6;
                         if (count6 == 0) {
                             div6.removeChild(div6.children[0])
@@ -1250,7 +1382,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count6 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashTrie += 1;
                         document.getElementById("countSlot6").innerHTML = count6;
                         if (count6 == 0) {
                             div6.removeChild(div6.children[0])
@@ -1262,7 +1394,7 @@ class CharacterControllerDemo {
                         rep = true;
                         count6 -= 1;
                         sommecount -= 1;
-                        //trashTrie += 1;
+                        trashMalTrie += 1;
                         document.getElementById("countSlot6").innerHTML = count6;
                         if (count6 == 0) {
                             div6.removeChild(div6.children[0])
@@ -1298,6 +1430,9 @@ class CharacterControllerDemo {
                     rep = false;
                     break;
             }
+        }
+        function findTrashcan() {
+
         }
     }
 
@@ -1376,5 +1511,5 @@ class CharacterControllerDemo {
     }
 }
 
-export {CharacterControllerDemo};
-export {colliders};
+export { CharacterControllerDemo };
+export { colliders };

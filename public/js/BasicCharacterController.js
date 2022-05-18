@@ -111,7 +111,7 @@ class BasicCharacterController {
 
         const acc = this._acceleration.clone();
         //Vitesse du personnage
-        acc.z += 70
+        acc.z += 100
         if (this._input._keys.shift) {
             acc.multiplyScalar(2.0);
         }
