@@ -602,15 +602,14 @@ class CharacterControllerDemo {
 
                     }).then((result) => {
                         if (this.iterations == 9) {
-
                             if (this.iterationsWin >= 6) {
-
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'CHAPITRE 1 TERMINÉ',
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
+                                    this.db.newScore(username, {finalScore: this.iterationsWin})
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -660,13 +659,13 @@ class CharacterControllerDemo {
                         if (this.iterations == 9) {
 
                             if (this.iterationsWin >= 6) {
-
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'CHAPITRE 1 TERMINÉ',
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
+                                    this.db.newScore(username, {finalScore: this.iterationsWin})
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
