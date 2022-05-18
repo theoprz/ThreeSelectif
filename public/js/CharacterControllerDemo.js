@@ -102,7 +102,6 @@ class CharacterControllerDemo {
         this.db = new ApiFetching();
 
         this.user = await this.db.getUser(username);
-        console.log(this.user)
 
         this.manager = new THREE.LoadingManager(() => {
             const loadingScreen = document.getElementById('loading-screen');
@@ -538,12 +537,12 @@ class CharacterControllerDemo {
                                         title: 'CHAPITRE 2',
                                         html: 'Dans ce chapitre vous aller devoir rammasé le plus de déchets possible en 5 min',
                                         confirmButtonText: 'Start',
-                                    }).then((result) => {
+                                    }).then(async (result) => {
                                         this.timer();
-                                    })
-
+                                        await this.db.updateChapter(username, {chapter: 1});
+                                    });
                                     return;
-                                })
+                                });
                                 return;
 
                             } else {
@@ -562,7 +561,7 @@ class CharacterControllerDemo {
                                     } else if (result.isDenied) {
                                         // A faire
                                     }
-                                })
+                                });
                                 return;
                             }
                         }
@@ -594,9 +593,9 @@ class CharacterControllerDemo {
                                         title: 'CHAPITRE 2',
                                         html: 'Dans ce chapitre vous aller devoir rammasé le plus de déchets possible en 5 min',
                                         confirmButtonText: 'Start',
-                                    })
+                                    });
                                     return;
-                                })
+                                });
                                 return;
 
                             } else {
@@ -660,7 +659,7 @@ class CharacterControllerDemo {
         let count6 = 0;
         let sommecount = 0;
 
-        window.addEventListener('click', event => {
+        window.addEventListener('click',  event => {
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
             //Pour afficher les enfants de la scène (objets/light, etc...)
@@ -724,7 +723,6 @@ class CharacterControllerDemo {
             const found = this.intersect(this.clickMouse);
             if (found.length > 0) {
                 this.clickedObject = found[0].object;
-                console.log(username);
 
                 //distance entre l'objet et le personnage
                 let distx = Math.abs(this.clickedObject.position.x - this.player.x);
@@ -747,7 +745,7 @@ class CharacterControllerDemo {
                     //Pour l'inventaire:
 
                     //Premier Objet
-                    if(this.user[0].chapter !== 1) console.log("testttt");
+                    if(this.user[0].chapter !== 1);
                     if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1" & sommecount <= 5) {
                         div1.appendChild(img1);
                         count1 += 1;

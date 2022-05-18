@@ -19,6 +19,9 @@ class ApiFetching {
     async updateInventory(username, object){
         const res = await axios.put(this.usersApi + "/update/" + username, object);
     }
+    async updateChapter(username, chapter){
+        const res = await axios.put(this.usersApi + "/update/chapter/" + username, chapter);
+    }
     async getQuestion(questionNumber){
         const response = await axios.get(
             `/api/questions`
