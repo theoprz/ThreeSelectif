@@ -63,10 +63,13 @@ let pos5Trash6 = {x: 519, y: 1, z: -211};
 let pos6Trash6 = {x: 15, y: 1, z: -946};
 let valuesTrash6 = [pos1Trash6, pos2Trash6, pos3Trash6, pos4Trash6, pos5Trash6, pos6Trash6];
 
+let pospoubelleRed = { x: 450, y: -5, z: -100 };
+let pospoubelleBlue = { x: 300, y: -5, z: -100 };
+let pospoubelleYellow = { x: 400, y: -5, z: -100 };
+
 class CharacterControllerDemo {
     constructor() {
         this._Initialize();
-        this.player;
     }
 
     async _Initialize() {
@@ -75,6 +78,7 @@ class CharacterControllerDemo {
             event.target.remove();
         }
 
+        this.player;
         this._threejs = new THREE.WebGLRenderer({
             antialias: true,
         });
@@ -161,17 +165,17 @@ class CharacterControllerDemo {
         //Texture du background
 
 
-        // const loader = new THREE.CubeTextureLoader(this.manager);
-        // const texture = loader.load([
-        //     '/static/assets/game/posx.jpg',
-        //     '/static/assets/game/negx.jpg',
-        //     '/static/assets/game/posy.jpg',
-        //     '/static/assets/game/negy.jpg',
-        //     '/static/assets/game/posz.jpg',
-        //     '/static/assets/game/negz.jpg',
-        // ]);
-        // texture.encoding = THREE.sRGBEncoding;
-        // this._scene.background = texture;
+        const loader = new THREE.CubeTextureLoader(this.manager);
+        const texture = loader.load([
+            '/static/assets/game/posx.jpg',
+            '/static/assets/game/negx.jpg',
+            '/static/assets/game/posy.jpg',
+            '/static/assets/game/negy.jpg',
+            '/static/assets/game/posz.jpg',
+            '/static/assets/game/negz.jpg',
+        ]);
+        texture.encoding = THREE.sRGBEncoding;
+        this._scene.background = texture;
 
 
         this._LoadMap();
@@ -223,6 +227,26 @@ class CharacterControllerDemo {
         this.addObject("trash6");
         this.addObject("trash6");
         this.addObject("trash6");
+
+        //poubelleRouge
+        this.addObject("poubelleRed");
+
+        //poubelleBleue
+        this.addObject("poubelleBlue");
+
+        //poubelleJaune
+        this.addObject("poubelleYellow");
+
+
+        this._mixers = [];
+        this._previousRAF = null;
+
+        this._LoadAnimatedModel();
+
+        this.clickOnObject();
+        this._RAF();
+
+
     }
 
     timer() { //Cooldown pour le chapitre 2
@@ -251,48 +275,13 @@ class CharacterControllerDemo {
         }, 1000);
     }
 
-    randomPosTrash1(array) {
+    randomPosTrash(array) {
         let index = Math.floor(Math.random() * array.length);
         let valueToUse = array[index];
         array.splice(index, 1);
         return valueToUse
     }
 
-    randomPosTrash2(array) {
-        let index = Math.floor(Math.random() * array.length);
-        let valueToUse = array[index];
-        array.splice(index, 1);
-        return valueToUse
-    }
-
-    randomPosTrash3(array) {
-        let index = Math.floor(Math.random() * array.length);
-        let valueToUse = array[index];
-        array.splice(index, 1);
-        return valueToUse
-    }
-
-    randomPosTrash4(array) {
-        let index = Math.floor(Math.random() * array.length);
-        let valueToUse = array[index];
-        array.splice(index, 1);
-        return valueToUse
-
-    }
-
-    randomPosTrash5(array) {
-        let index = Math.floor(Math.random() * array.length);
-        let valueToUse = array[index];
-        array.splice(index, 1);
-        return valueToUse
-    }
-
-    randomPosTrash6(array) {
-        let index = Math.floor(Math.random() * array.length);
-        let valueToUse = array[index];
-        array.splice(index, 1);
-        return valueToUse
-    }
 
     addObject(type) {
 
@@ -317,81 +306,81 @@ class CharacterControllerDemo {
                             }
                         }
                     });
-                    game._scene.add(computer);
-                });
-                break;
-            }
-            case "trash1": {
-                let tempPos1 = this.randomPosTrash1(valuesTrash1);
-                const game = this;
-                let loaderTrash1 = new THREE.FBXLoader(this.manager);
-                loaderTrash1.load("/static/assets/game/objects/trash-bouteille.fbx", function (object) {
-                    const bouteille = object.children[0];
-                    let pos1 = {x: tempPos1.x, y: tempPos1.y, z: tempPos1.z}
-                    bouteille.scale.multiplyScalar(0.02)
-                    bouteille.position.set(pos1.x, pos1.y, pos1.z);
-                    bouteille.userData.name = 'Dechet1';
-                    bouteille.userData.draggable = true;
-                    object.traverse(function (child) {
-                        if (child.isMesh) {
-                            if (child.name.startsWith("proxy")) {
-                                colliders.push(child);
-                                child.material.visible = false;
-                            } else {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
+                    break;
+                }
+            case "trash1":
+                {
+                    let tempPos1 = this.randomPosTrash(valuesTrash1);
+                    const game = this;
+                    let loaderTrash1 = new THREE.FBXLoader(this.manager);
+                    loaderTrash1.load("/static/assets/game/objects/trash-bouteille.fbx", function (object) {
+                        const bouteille = object.children[0];
+                        let pos1 = { x: tempPos1.x, y: tempPos1.y, z: tempPos1.z }
+                        bouteille.scale.multiplyScalar(0.02)
+                        bouteille.position.set(pos1.x, pos1.y, pos1.z);
+                        bouteille.userData.name = 'Dechet1';
+                        bouteille.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
                             }
                         }
                     });
-                    game._scene.add(bouteille);
-                });
-                break;
-            }
-            case "trash2": {
-                let tempPos2 = this.randomPosTrash2(valuesTrash2);
-                const game = this;
-                let loaderTrash2 = new THREE.FBXLoader(this.manager);
-                loaderTrash2.load("/static/assets/game/objects/trash-canette.fbx", function (object) {
-                    const canette = object.children[0];
-                    let pos2 = {x: tempPos2.x, y: tempPos2.y, z: tempPos2.z}
-                    canette.scale.multiplyScalar(0.02)
-                    canette.position.set(pos2.x, pos2.y, pos2.z);
-                    canette.userData.name = 'Dechet2';
-                    canette.userData.draggable = true;
-                    object.traverse(function (child) {
-                        if (child.isMesh) {
-                            if (child.name.startsWith("proxy")) {
-                                colliders.push(child);
-                                child.material.visible = false;
-                            } else {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
+                    break;
+                }
+            case "trash2":
+                {
+                    let tempPos2 = this.randomPosTrash(valuesTrash2);
+                    const game = this;
+                    let loaderTrash2 = new THREE.FBXLoader(this.manager);
+                    loaderTrash2.load("/static/assets/game/objects/trash-canette.fbx", function (object) {
+                        const canette = object.children[0];
+                        let pos2 = { x: tempPos2.x, y: tempPos2.y, z: tempPos2.z }
+                        canette.scale.multiplyScalar(0.02)
+                        canette.position.set(pos2.x, pos2.y, pos2.z);
+                        canette.userData.name = 'Dechet2';
+                        canette.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
                             }
                         }
                     });
-                    game._scene.add(canette);
-                });
-                break;
-            }
-            case "trash3": {
-                let tempPos3 = this.randomPosTrash3(valuesTrash3);
-                const game = this;
-                let loaderTrash3 = new THREE.FBXLoader(this.manager);
-                loaderTrash3.load("/static/assets/game/objects/trash-aliment.fbx", function (object) {
-                    const aliment = object.children[0];
-                    let pos3 = {x: tempPos3.x, y: tempPos3.y, z: tempPos3.z}
-                    aliment.scale.multiplyScalar(0.1)
-                    aliment.position.set(pos3.x, pos3.y, pos3.z);
-                    aliment.userData.name = 'Dechet3';
-                    aliment.userData.draggable = true;
-                    object.traverse(function (child) {
-                        if (child.isMesh) {
-                            if (child.name.startsWith("proxy")) {
-                                colliders.push(child);
-                                child.material.visible = false;
-                            } else {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
+                    break;
+                }
+            case "trash3":
+                {
+                    let tempPos3 = this.randomPosTrash(valuesTrash3);
+                    const game = this;
+                    let loaderTrash3 = new THREE.FBXLoader(this.manager);
+                    loaderTrash3.load("/static/assets/game/objects/trash-aliment.fbx", function (object) {
+                        const aliment = object.children[0];
+                        let pos3 = { x: tempPos3.x, y: tempPos3.y, z: tempPos3.z }
+                        aliment.scale.multiplyScalar(0.1)
+                        aliment.position.set(pos3.x, pos3.y, pos3.z);
+                        aliment.userData.name = 'Dechet3';
+                        aliment.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
                             }
                         }
                     });
@@ -402,87 +391,159 @@ class CharacterControllerDemo {
             case "trash4": {
 
 
-                let tempPos = this.randomPosTrash4(valuesTrash4);
-                const game = this;
-                let loaderTrash4 = new THREE.FBXLoader(this.manager);
-                loaderTrash4.load("/static/assets/game/objects/trash-carton.fbx", function (object) {
-                    const carton = object.children[0];
-                    let pos = {x: tempPos.x, y: tempPos.y, z: tempPos.z}
-                    carton.scale.multiplyScalar(5)
-                    carton.position.set(pos.x, pos.y, pos.z);
-                    carton.userData.name = 'Dechet4';
-                    carton.userData.draggable = true;
-                    object.traverse(function (child) {
-                        if (child.isMesh) {
-                            if (child.name.startsWith("proxy")) {
-                                colliders.push(child);
-                                child.material.visible = false;
-                            } else {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
+                    let tempPos = this.randomPosTrash(valuesTrash4);
+                    const game = this;
+                    let loaderTrash4 = new THREE.FBXLoader(this.manager);
+                    loaderTrash4.load("/static/assets/game/objects/trash-carton.fbx", function (object) {
+                        const carton = object.children[0];
+                        let pos = { x: tempPos.x, y: tempPos.y, z: tempPos.z }
+                        carton.scale.multiplyScalar(5)
+                        carton.position.set(pos.x, pos.y, pos.z);
+                        carton.userData.name = 'Dechet4';
+                        carton.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
                             }
                         }
                     });
-                    game._scene.add(carton);
-                });
-                break;
-            }
-            case "trash5": {
-                let tempPos5 = this.randomPosTrash5(valuesTrash5);
-                const game = this;
-                let loaderTrash5 = new THREE.FBXLoader(this.manager);
-                loaderTrash5.load("/static/assets/game/objects/trash-plastique.fbx", function (object) {
-                    const plastique = object.children[0];
-                    let pos5 = {x: tempPos5.x, y: tempPos5.y, z: tempPos5.z}
-                    plastique.scale.multiplyScalar(0.5)
-                    plastique.position.set(pos5.x, pos5.y, pos5.z);
-                    plastique.userData.name = 'Dechet5';
-                    plastique.userData.draggable = true;
-                    object.traverse(function (child) {
-                        if (child.isMesh) {
-                            if (child.name.startsWith("proxy")) {
-                                colliders.push(child);
-                                child.material.visible = false;
-                            } else {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
+                    break;
+                }
+            case "trash5":
+                {
+                    let tempPos5 = this.randomPosTrash(valuesTrash5);
+                    const game = this;
+                    let loaderTrash5 = new THREE.FBXLoader(this.manager);
+                    loaderTrash5.load("/static/assets/game/objects/trash-plastique.fbx", function (object) {
+                        const plastique = object.children[0];
+                        let pos5 = { x: tempPos5.x, y: tempPos5.y, z: tempPos5.z }
+                        plastique.scale.multiplyScalar(0.5)
+                        plastique.position.set(pos5.x, pos5.y, pos5.z);
+                        plastique.userData.name = 'Dechet5';
+                        plastique.userData.draggable = true;
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
                             }
                         }
                     });
-                    game._scene.add(plastique);
-                });
-                break;
-            }
-            case "trash6": {
-                let tempPos6 = this.randomPosTrash6(valuesTrash6);
-                const game = this;
-                let loaderTrash6 = new THREE.FBXLoader(this.manager);
-                loaderTrash6.load("/static/assets/game/objects/trash-cigarette.fbx", function (object) {
-                    const cigarette = object.children[0];
-                    let pos6 = {x: tempPos6.x, y: tempPos6.y, z: tempPos6.z}
-                    cigarette.scale.multiplyScalar(1)  //configuration de sa taille
-                    cigarette.position.set(pos6.x, pos6.y, pos6.z); //configuration de sa position
-                    cigarette.userData.name = 'Dechet6'; //configuration du nom du déchet
-                    cigarette.userData.draggable = true;  //Rendre le déchet cliquable
-                    object.traverse(function (child) {
-                        if (child.isMesh) {
-                            if (child.name.startsWith("proxy")) {
-                                colliders.push(child);
-                                child.material.visible = false;
-                            } else {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
+                    break;
+                }
+            case "trash6":
+                {
+                    let tempPos6 = this.randomPosTrash(valuesTrash6);
+                    const game = this;
+                    let loaderTrash6 = new THREE.FBXLoader(this.manager);
+                    loaderTrash6.load("/static/assets/game/objects/trash-cigarette.fbx", function (object) {
+                        const cigarette = object.children[0];
+                        let pos6 = { x: tempPos6.x, y: tempPos6.y, z: tempPos6.z }
+                        cigarette.scale.multiplyScalar(1)  //configuration de sa taille
+                        cigarette.position.set(pos6.x, pos6.y, pos6.z); //configuration de sa position
+                        cigarette.userData.name = 'Dechet6'; //configuration du nom du déchet
+                        cigarette.userData.draggable = true;  //Rendre le déchet cliquable
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
                             }
                         }
                     });
-                    game._scene.add(cigarette);
-                });
-                break;
-            }
+                    break;
+                }
+            case "poubelleRed":
+                {
+                    const game = this;
+                    let loaderpoubelleRed = new THREE.FBXLoader(this.manager);
+                    loaderpoubelleRed.load("/static/assets/game/objects/poubelleRed.fbx", function (object) {
+                        const poubelleRed = object.children[0];
+                        poubelleRed.scale.multiplyScalar(0.04)
+                        poubelleRed.position.set(pospoubelleRed.x, pospoubelleRed.y, pospoubelleRed.z);
+                        poubelleRed.userData.name = 'PoubelleRed';
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
+                            }
+                        });
+                        game._scene.add(poubelleRed);
+                    });
+                    break;
+                }
+
+            case "poubelleBlue":
+                {
+                    const game = this;
+                    let loaderpoubelleBlue = new THREE.FBXLoader(this.manager);
+                    loaderpoubelleBlue.load("/static/assets/game/objects/poubelleBlue.fbx", function (object) {
+                        const poubelleBlue = object.children[0];
+                        poubelleBlue.scale.multiplyScalar(0.04)
+                        poubelleBlue.position.set(pospoubelleBlue.x, pospoubelleBlue.y, pospoubelleBlue.z);
+                        poubelleBlue.userData.name = 'poubelleBlue';
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
+                            }
+                        });
+                        game._scene.add(poubelleBlue);
+                    });
+                    break;
+
+                }
+            case "poubelleYellow":
+                {
+                    const game = this;
+                    let loaderpoubelleYellow = new THREE.FBXLoader(this.manager);
+                    loaderpoubelleYellow.load("/static/assets/game/objects/poubelleYellow.fbx", function (object) {
+                        const poubelleYellow = object.children[0];
+                        poubelleYellow.scale.multiplyScalar(0.04)
+                        poubelleYellow.position.set(pospoubelleYellow.x, pospoubelleYellow.y, pospoubelleYellow.z);
+                        poubelleYellow.userData.name = 'poubelleYellow';
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                if (child.name.startsWith("proxy")) {
+                                    colliders.push(child);
+                                    child.material.visible = false;
+                                } else {
+                                    child.castShadow = true;
+                                    child.receiveShadow = true;
+                                }
+                            }
+                        });
+                        game._scene.add(poubelleYellow);
+                    });
+                    break;
+
+                }
 
         }
-
-
     }
 
     question(questionNumber) {
@@ -658,73 +719,95 @@ class CharacterControllerDemo {
         let count5 = 0;
         let count6 = 0;
         let sommecount = 0;
+        let rep = false //variable pour empêcher le repeat pour le keyDown de l'inventaire
+        let trashTrie = 0;
+        let trashMalTrie = 0;
 
-        window.addEventListener('click',  event => {
+        //création de l'image pour l'afficher dans l'inventaire
+
+        //Bouteille en Ver
+        let img1 = document.createElement("img");
+        img1.src = "/static/assets/game/trash-glass-bottle.png";
+        img1.setAttribute("position", "absolute")
+        img1.setAttribute("id", "imgId1")
+        let imgRemove1 = document.getElementById("imgId1")
+
+
+        //Canette
+        let img2 = document.createElement("img");
+        img2.src = "/static/assets/game/trash-canette.png";
+        img2.setAttribute("position", "absolute")
+        img2.setAttribute("style", "margin-top: 15px")
+        img2.setAttribute("id", "imgId2")
+        let imgRemove2 = document.getElementById("imgId2")
+
+
+
+        //Déchets Alimentaire
+        let img3 = document.createElement("img");
+        img3.src = "/static/assets/game/trash-aliments.png";
+        img3.setAttribute("position", "absolute")
+        img3.setAttribute("style", "margin-top: 17px")
+        img3.setAttribute("id", "imgId3")
+        let imgRemove3 = document.getElementById("imgId3")
+
+        //Carton
+        let img4 = document.createElement("img");
+        img4.src = "/static/assets/game/trash-carton.png";
+        img4.setAttribute("position", "absolute")
+        img4.setAttribute("style", "margin-top: 17px")
+        img4.setAttribute("id", "imgId4")
+        let imgRemove4 = document.getElementById("imgId4")
+
+
+        //plastique
+        let img5 = document.createElement("img");
+        img5.src = "/static/assets/game/trash-plastique.png";
+        img5.setAttribute("position", "absolute");
+        img5.setAttribute("id", "imgId5")
+        let imgRemove5 = document.getElementById("imgId5")
+
+        //Mégot
+        let img6 = document.createElement("img");
+        img6.src = "/static/assets/game/trash-megot.png";
+        img6.setAttribute("position", "absolute");
+        img6.setAttribute("style", "margin-top: 12px")
+        img6.setAttribute("id", "imgId6")
+        let imgRemove6 = document.getElementById("imgId6")
+
+        //première case de l'inventaire
+        let div1 = document.getElementById("texteSlot1");
+
+        //Deuxième case de l'inventaire
+        let div2 = document.getElementById("texteSlot2");
+
+        //Troisième case de l'inventaire
+        let div3 = document.getElementById("texteSlot3");
+
+        //Quatrième case de l'inventaire
+        let div4 = document.getElementById("texteSlot4")
+
+        //Cinqième case de l'inventaire
+        let div5 = document.getElementById("texteSlot5")
+
+        //Sixième case de l'inventaire
+        let div6 = document.getElementById("texteSlot6")
+
+        window.addEventListener('click', event => {
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            //console.log(this.player)
             //Pour afficher les enfants de la scène (objets/light, etc...)
             //console.log(this._scene.children)
 
-            //création de l'image pour l'afficher dans l'inventaire
 
-            //Bouteille en Ver
-            let img1 = document.createElement("img");
-            img1.src = "/static/assets/game/trash-glass-bottle.png";
-            img1.setAttribute("position", "absolute")
-
-            //Canette
-            let img2 = document.createElement("img");
-            img2.src = "/static/assets/game/trash-canette.png";
-            img2.setAttribute("position", "absolute")
-            img2.setAttribute("style", "margin-top: 15px")
-
-            //Déchets Alimentaire
-            let img3 = document.createElement("img");
-            img3.src = "/static/assets/game/trash-aliments.png";
-            img3.setAttribute("position", "absolute")
-            img3.setAttribute("style", "margin-top: 17px")
-
-
-            //Carton
-            let img4 = document.createElement("img");
-            img4.src = "/static/assets/game/trash-carton.png";
-            img4.setAttribute("position", "absolute")
-            img4.setAttribute("style", "margin-top: 17px")
-
-            //plastique
-            let img5 = document.createElement("img");
-            img5.src = "/static/assets/game/trash-plastique.png";
-            img5.setAttribute("position", "absolute");
-
-            //Mégot
-            let img6 = document.createElement("img");
-            img6.src = "/static/assets/game/trash-megot.png";
-            img6.setAttribute("position", "absolute");
-            img6.setAttribute("style", "margin-top: 12px")
-
-            //première case de l'inventaire
-            let div1 = document.getElementById("texteSlot1");
-
-            //Deuxième case de l'inventaire
-            let div2 = document.getElementById("texteSlot2");
-
-            //Troisième case de l'inventaire
-            let div3 = document.getElementById("texteSlot3");
-
-            //Quatrième case de l'inventaire
-            let div4 = document.getElementById("texteSlot4")
-
-            //Cinqième case de l'inventaire
-            let div5 = document.getElementById("texteSlot5")
-
-            //Sixième case de l'inventaire
-            let div6 = document.getElementById("texteSlot6")
 
             const found = this.intersect(this.clickMouse);
             if (found.length > 0) {
                 this.clickedObject = found[0].object;
 
                 //distance entre l'objet et le personnage
+
                 let distx = Math.abs(this.clickedObject.position.x - this.player.x);
                 let disty = Math.abs(this.clickedObject.position.y - this.player.y);
                 let distz = Math.abs(this.clickedObject.position.z - this.player.z);
@@ -751,6 +834,8 @@ class CharacterControllerDemo {
                         count1 += 1;
                         sommecount += 1;
                         document.getElementById("countSlot1").innerHTML = count1;
+                        document.getElementById("countSlot1").setAttribute("style", "opacity: 1")
+
                         this._scene.remove(found[0].object);
                         this.db.updateInventory(username, {inventory: {bouteillesverre: count1}});
                     }
@@ -770,6 +855,8 @@ class CharacterControllerDemo {
                         count2 += 1;
                         sommecount += 1;
                         document.getElementById("countSlot2").innerHTML = count2;
+                        document.getElementById("countSlot2").setAttribute("style", "opacity: 1")
+
                         this._scene.remove(found[0].object);
                         this.db.updateInventory(username, {inventory: {cannettes: count2}});
                     }
@@ -789,6 +876,8 @@ class CharacterControllerDemo {
                         count3 += 1;
                         sommecount += 1;
                         document.getElementById("countSlot3").innerHTML = count3;
+                        document.getElementById("countSlot3").setAttribute("style", "opacity: 1")
+
                         this._scene.remove(found[0].object);
                         this.db.updateInventory(username, {inventory: {aliments: count3}});
                     }
@@ -808,6 +897,7 @@ class CharacterControllerDemo {
                         count4 += 1;
                         sommecount += 1;
                         document.getElementById("countSlot4").innerHTML = count4;
+                        document.getElementById("countSlot4").setAttribute("style", "opacity: 1")
                         this._scene.remove(found[0].object);
                         this.db.updateInventory(username, {inventory: {carton: count4}});
                     }
@@ -828,6 +918,7 @@ class CharacterControllerDemo {
                         count5 += 1;
                         sommecount += 1;
                         document.getElementById("countSlot5").innerHTML = count5;
+                        document.getElementById("countSlot5").setAttribute("style", "opacity: 1")
                         this._scene.remove(found[0].object);
                         this.db.updateInventory(username, {inventory: {plastiques: count5}});
                     }
@@ -847,6 +938,8 @@ class CharacterControllerDemo {
                         count6 += 1;
                         sommecount += 1;
                         document.getElementById("countSlot6").innerHTML = count6;
+                        document.getElementById("countSlot6").setAttribute("style", "opacity: 1")
+
                         this._scene.remove(found[0].object);
                         this.db.updateInventory(username, {inventory: {cigarettes: count1}});
                     }
@@ -862,80 +955,350 @@ class CharacterControllerDemo {
                     }
                 }
             }
-
-            //Enlever des objets de l'inventaire grâce aux touches (1 2 3 4 5 6) du clavier
-            document.addEventListener('keydown', (e) => onKeyDown(e), false);
-
-            // document.addEventListener('keyup', (e) => onKeyUp(e), false);
-            function onKeyDown(event) {
-                switch (event.keyCode) {
-                    case 49: // 1
-                        if (count1 > 0) {
-                            count1 -= 1;
-                            sommecount -= 1;
-                            document.getElementById("countSlot1").innerHTML = count1;
-
-                            if (count1 == 0) {
-                                img1.remove()
-
-                            }
-                        }
-                        break;
-                    case 50: // 2
-                        if (count2 > 0) {
-                            count2 -= 1;
-                            sommecount -= 1;
-                            document.getElementById("countSlot2").innerHTML = count2;
-                            if (count2 == 0) {
-                                div2.removeChild(img2)
-                            }
-                        }
-                        break;
-                    case 51: // 3
-                        if (count3 > 0) {
-                            count3 -= 1;
-                            sommecount -= 1;
-                            document.getElementById("countSlot3").innerHTML = count3;
-                            if (count3 == 0) {
-                                img3.remove()
-                            }
-                        }
-                        break;
-                    case 52: // 4
-                        if (count4 > 0) {
-                            count4 -= 1;
-                            sommecount -= 1;
-                            document.getElementById("countSlot4").innerHTML = count4;
-                            if (count4 == 0) {
-                                img4.remove()
-                            }
-                        }
-                        break;
-                    case 53: // 5
-                        if (count5 > 0) {
-                            count5 -= 1;
-                            sommecount -= 1;
-                            document.getElementById("countSlot5").innerHTML = count5;
-                            if (count5 == 0) {
-                                img5.remove();
-                            }
-                        }
-                        break;
-                    case 54: // 6
-                        if (count6 > 0) {
-                            count6 -= 1;
-                            sommecount -= 1;
-                            document.getElementById("countSlot6").innerHTML = count6;
-                            if (count6 == 0) {
-                                img6.remove();
-                            }
-                        }
-                        break;
-
-                }
-            }
         })
+        //Enlever des objets de l'inventaire grâce aux touches (1 2 3 4 5 6) du clavier
+        let posPlayer = this.player
+        document.addEventListener('keydown', (e) => KeyDown(e), false);
+        document.addEventListener('keyup', (e) => KeyUp(e), false);
+
+        function KeyDown(event) {
+            switch (event.keyCode) {
+                case 49: // 1
+                    //Poubelle Rouge
+                    let distBoutRx = Math.abs(pospoubelleRed.x - posPlayer.x);
+                    let distBoutRy = Math.abs(pospoubelleRed.y - posPlayer.y);
+                    let distBoutRz = Math.abs(pospoubelleRed.z - posPlayer.z);
+                    //Poubelle Bleue
+                    let distBoutBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
+                    let distBoutBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
+                    let distBoutBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    //Poubelle jaune
+                    let distBoutYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
+                    let distBoutYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
+                    let distBoutYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+                    if (count1 > 0 && rep == false && distBoutRx < 30 && distBoutRy < 30 && distBoutRz < 30) {
+                        rep = true;
+                        count1 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot1").innerHTML = count1;
+                        if (count1 == 0) {
+                            div1.removeChild(div1.children[0])
+                            document.getElementById("countSlot1").setAttribute("style", "opacity: 0")
+                        }
+                    }
+                    if (count1 > 0 && rep == false && distBoutBx < 30 && distBoutBy < 30 && distBoutBz < 30) {
+                        rep = true;
+                        count1 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot1").innerHTML = count1;
+                        if (count1 == 0) {
+                            div1.removeChild(div1.children[0])
+                            document.getElementById("countSlot1").setAttribute("style", "opacity: 0")
+                        }
+                    }
+                    if (count1 > 0 && rep == false && distBoutYx < 30 && distBoutYy < 30 && distBoutYz < 30) {
+                        rep = true;
+                        count1 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot1").innerHTML = count1;
+                        if (count1 == 0) {
+                            div1.removeChild(div1.children[0])
+                            document.getElementById("countSlot1").setAttribute("style", "opacity: 0")
+                        }
+                    }
+
+
+                    break;
+                case 50: // 2
+                    //Poubelle Rouge
+                    let distCanRx = Math.abs(pospoubelleRed.x - posPlayer.x);
+                    let distCanRy = Math.abs(pospoubelleRed.y - posPlayer.y);
+                    let distCanRz = Math.abs(pospoubelleRed.z - posPlayer.z);
+                    //Poubelle Bleue
+                    let distCanBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
+                    let distCanBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
+                    let distCanBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    //Poubelle jaune
+                    let distCanYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
+                    let distCanYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
+                    let distCanYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+
+                    if (count2 > 0 && rep == false && distCanRx < 30 && distCanRy < 30 && distCanRz < 30) {
+                        rep = true;
+                        count2 -= 1; //on soustrait un au compteur de cannettes
+                        sommecount -= 1;
+                        //trashMalTrie += 1;
+                        //On soustrait un à la somme des compteurs
+                        document.getElementById("countSlot2").innerHTML = count2;
+                        if (count2 == 0) {
+                            div2.removeChild(div2.children[0])
+                            document.getElementById("countSlot2").setAttribute("style", "opacity: 0");
+                        }
+
+                    }
+
+                    if (count2 > 0 && rep == false && distCanBx < 30 && distCanBy < 30 && distCanBz < 30) {
+                        rep = true;
+                        count2 -= 1; //on soustrait un au compteur de cannettes
+                        sommecount -= 1;
+                        //trashMalTrie += 1;
+                        document.getElementById("countSlot2").innerHTML = count2;
+                        if (count2 == 0) {
+                            div2.removeChild(div2.children[0])
+                            document.getElementById("countSlot2").setAttribute("style", "opacity: 0");
+                        }
+                    }
+                    if (count2 > 0 && rep == false && distCanYx < 30 && distCanYy < 30 && distCanYz < 30) {
+                        rep = true;
+                        count2 -= 1; //on soustrait un au compteur de cannettes
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot2").innerHTML = count2;
+                        if (count2 == 0) {
+                            div2.removeChild(div2.children[0])
+                            document.getElementById("countSlot2").setAttribute("style", "opacity: 0");
+                        }
+                    }
+                    break;
+                case 51: // 3
+                    //Poubelle Rouge
+                    let distAlRx = Math.abs(pospoubelleRed.x - posPlayer.x);
+                    let distAlRy = Math.abs(pospoubelleRed.y - posPlayer.y);
+                    let distAlRz = Math.abs(pospoubelleRed.z - posPlayer.z);
+                    //Poubelle Bleue
+                    let distAlBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
+                    let distAlBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
+                    let distAlBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    //Poubelle jaune
+                    let distAlYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
+                    let distAlYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
+                    let distAlYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+                    if (count3 > 0 && rep == false && distAlRx < 30 && distAlRy < 30 && distAlRz < 30) {
+                        rep = true;
+                        count3 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot3").innerHTML = count3;
+                        if (count3 == 0) {
+                            div3.removeChild(div3.children[0])
+                            document.getElementById("countSlot3").setAttribute("style", "opacity: 0")
+                        }
+                    }
+
+                    if (count3 > 0 && rep == false && distAlBx < 30 && distAlBy < 30 && distAlBz < 30) {
+                        rep = true;
+                        count3 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot3").innerHTML = count3;
+                        if (count3 == 0) {
+                            div3.removeChild(div3.children[0])
+                            document.getElementById("countSlot3").setAttribute("style", "opacity: 0")
+                        }
+                    }
+
+                    if (count3 > 0 && rep == false && distAlYx < 30 && distAlYy < 30 && distAlYz < 30) {
+                        rep = true;
+                        count3 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot3").innerHTML = count3;
+                        if (count3 == 0) {
+                            div3.removeChild(div3.children[0])
+                            document.getElementById("countSlot3").setAttribute("style", "opacity: 0")
+                        }
+                    }
+                    break;
+                case 52: // 4
+                    //Poubelle Rouge
+                    let distCartRx = Math.abs(pospoubelleRed.x - posPlayer.x);
+                    let distCartRy = Math.abs(pospoubelleRed.y - posPlayer.y);
+                    let distCartRz = Math.abs(pospoubelleRed.z - posPlayer.z);
+                    //Poubelle Bleue
+                    let distCartBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
+                    let distCartBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
+                    let distCartBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    //Poubelle jaune
+                    let distCartYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
+                    let distCartYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
+                    let distCartYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+
+                    if (count4 > 0 && rep == false && distCartRx < 30 && distCartRy < 30 && distCartRz < 30) {
+                        rep = true;
+                        count4 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot4").innerHTML = count4;
+                        if (count4 == 0) {
+                            div4.removeChild(div4.children[0])
+                            document.getElementById("countSlot4").setAttribute("style", "opacity: 0")
+                        }
+                    }
+
+                    if (count4 > 0 && rep == false && distCartBx < 30 && distCartBy < 30 && distCartBz < 30) {
+                        rep = true;
+                        count4 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot4").innerHTML = count4;
+                        if (count4 == 0) {
+                            div4.removeChild(div4.children[0])
+                            document.getElementById("countSlot4").setAttribute("style", "opacity: 0")
+                        }
+                    }
+
+                    if (count4 > 0 && rep == false && distCartYx < 30 && distCartYy < 30 && distCartYz < 30) {
+                        rep = true;
+                        count4 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot4").innerHTML = count4;
+                        if (count4 == 0) {
+                            div4.removeChild(div4.children[0])
+                            document.getElementById("countSlot4").setAttribute("style", "opacity: 0")
+                        }
+                    }
+                    break;
+                case 53: // 5
+                    //Poubelle Rouge
+                    let distPlasRx = Math.abs(pospoubelleRed.x - posPlayer.x);
+                    let distPlasRy = Math.abs(pospoubelleRed.y - posPlayer.y);
+                    let distPlasRz = Math.abs(pospoubelleRed.z - posPlayer.z);
+                    //Poubelle Bleue
+                    let distPlasBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
+                    let distPlasBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
+                    let distPlasBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    //Poubelle jaune
+                    let distPlasYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
+                    let distPlasYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
+                    let distPlasYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+
+                    if (count5 > 0 && rep == false && distPlasRx < 30 && distPlasRy < 30 && distPlasRz < 30) {
+
+                        rep = true;
+                        count5 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot5").innerHTML = count5;
+                        if (count5 == 0) {
+                            div5.removeChild(div5.children[0])
+                            document.getElementById("countSlot5").setAttribute("style", "opacity: 0")
+                        }
+
+                    }
+
+                    if (count5 > 0 && rep == false && distPlasBx < 30 && distPlasBy < 30 && distPlasBz < 30) {
+
+                        rep = true;
+                        count5 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot5").innerHTML = count5;
+                        if (count5 == 0) {
+                            div5.removeChild(div5.children[0])
+                            document.getElementById("countSlot5").setAttribute("style", "opacity: 0")
+                        }
+
+                    }
+
+                    if (count5 > 0 && rep == false && distPlasYx < 30 && distPlasYy < 30 && distPlasYz < 30) {
+
+                        rep = true;
+                        count5 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot5").innerHTML = count5;
+                        if (count5 == 0) {
+                            div5.removeChild(div5.children[0])
+                            document.getElementById("countSlot5").setAttribute("style", "opacity: 0")
+                        }
+
+                    }
+                    break;
+                case 54: // 6
+                    //Poubelle Rouge
+                    let distCigRx = Math.abs(pospoubelleRed.x - posPlayer.x);
+                    let distCigRy = Math.abs(pospoubelleRed.y - posPlayer.y);
+                    let distCigRz = Math.abs(pospoubelleRed.z - posPlayer.z);
+                    //Poubelle Bleue
+                    let distCigBx = Math.abs(pospoubelleBlue.x - posPlayer.x);
+                    let distCigBy = Math.abs(pospoubelleBlue.y - posPlayer.y);
+                    let distCigBz = Math.abs(pospoubelleBlue.z - posPlayer.z);
+                    //Poubelle jaune
+                    let distCigYx = Math.abs(pospoubelleYellow.x - posPlayer.x);
+                    let distCigYy = Math.abs(pospoubelleYellow.y - posPlayer.y);
+                    let distCigYz = Math.abs(pospoubelleYellow.z - posPlayer.z);
+
+                    if (count6 > 0 && rep == false && distCigRx < 30 && distCigRy < 30 && distCigRz < 30) {
+                        rep = true;
+                        count6 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot6").innerHTML = count6;
+                        if (count6 == 0) {
+                            div6.removeChild(div6.children[0])
+                            document.getElementById("countSlot6").setAttribute("style", "opacity: 0")
+                        }
+                    }
+
+                    if (count6 > 0 && rep == false && distCigBx < 30 && distCigBy < 30 && distCigBz < 30) {
+                        rep = true;
+                        count6 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot6").innerHTML = count6;
+                        if (count6 == 0) {
+                            div6.removeChild(div6.children[0])
+                            document.getElementById("countSlot6").setAttribute("style", "opacity: 0")
+                        }
+                    }
+
+                    if (count6 > 0 && rep == false && distCigYx < 30 && distCigYy < 30 && distCigYz < 30) {
+                        rep = true;
+                        count6 -= 1;
+                        sommecount -= 1;
+                        //trashTrie += 1;
+                        document.getElementById("countSlot6").innerHTML = count6;
+                        if (count6 == 0) {
+                            div6.removeChild(div6.children[0])
+                            document.getElementById("countSlot6").setAttribute("style", "opacity: 0")
+                        }
+                    }
+                    break;
+            }
+        }
+        function KeyUp(event) {
+            switch (event.keyCode) {
+                case 49: // 1
+                    rep = false;
+                    break;
+
+                case 50: //2
+                    rep = false;
+                    break;
+
+                case 51: //3
+                    rep = false;
+                    break;
+
+                case 52: //4
+                    rep = false;
+                    break;
+
+                case 53: //5
+                    rep = false;
+                    break;
+
+                case 54: //6
+                    rep = false;
+                    break;
+            }
+        }
     }
+
 
     intersect(pos) {
         this.raycast.setFromCamera(pos, this._camera);
