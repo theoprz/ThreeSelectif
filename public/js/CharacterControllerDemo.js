@@ -812,17 +812,7 @@ class CharacterControllerDemo {
         window.addEventListener('click', event => {
             //alertify.set('notifier', 'position', 'top-right');
             //alertify.success(`GG ${username} tu es chaud`);
-            alertify.alert()
-                .setting({
-                    'basic': true,
-                    transition: 'zoom',
-                    'modal': false,
-                    'closable': false,
-                    'padding': 10,
-                    'invokeOnCloseOff': true,
-                    'pinnable': false,
-                    'message': `Bien joué ${username}, tu as fini le mini jeu avec ${trashTrie} déchets bien trié et ${trashMalTrie} déchets mal trié`,
-                }).show()
+
 
 
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -980,6 +970,16 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot6").innerHTML = count6;
                         this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                    }
+
+                    else if(this.clickedObject.userData.name == ("Dechet1" && sommecount == 6) || ("Dechet2" && sommecount == 6) || ("Dechet3" && sommecount == 6) || ("Dechet4" && sommecount == 6) || ("Dechet5" && sommecount == 6) || ("Dechet6" && sommecount == 6)){
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Inventaire Remplie',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 }
             }
