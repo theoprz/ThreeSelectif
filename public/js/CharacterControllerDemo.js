@@ -87,7 +87,7 @@ class CharacterControllerDemo {
         this._Initialize();
     }
 
-    _Initialize() {
+    async _Initialize() {
 
         function onTransitionEnd(event) {
             event.target.remove();
@@ -823,7 +823,7 @@ class CharacterControllerDemo {
                     'pinnable': false,
                     'message': `Bien joué ${username}, tu as fini le mini jeu avec ${trashTrie} déchets bien trié et ${trashMalTrie} déchets mal trié`,
                 }).show()
-           
+
 
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
