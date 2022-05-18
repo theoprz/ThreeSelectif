@@ -26,7 +26,7 @@ class BasicCharacterController {
 
     _LoadModels(params) {
         const loader = new THREE.FBXLoader();
-        loader.load('/static/assets/game/zombie/mremireh_o_desbiens.fbx', (fbx) => {
+        loader.load('/static/assets/game/zombie/aj.fbx', (fbx) => {
             fbx.scale.setScalar(0.1);
             fbx.traverse(c => {
                 c.castShadow = true;
@@ -137,9 +137,6 @@ class BasicCharacterController {
 
         const oldPosition = new THREE.Vector3();
         oldPosition.copy(controlObject.position);
-
-        //Pour avoir la position du personnage
-        //setInterval(console.log(oldPosition), 3000)
 
         const forward = new THREE.Vector3(0, 0, 1);
         forward.applyQuaternion(controlObject.quaternion);

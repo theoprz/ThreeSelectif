@@ -120,6 +120,8 @@ class CharacterControllerDemo {
 
         this.db = new ApiFetching();
 
+        this.user = await this.db.getUser(username);
+
         this.manager = new THREE.LoadingManager(() => {
             const loadingScreen = document.getElementById('loading-screen');
 
@@ -614,12 +616,12 @@ class CharacterControllerDemo {
                                         title: 'CHAPITRE 2',
                                         html: 'Dans ce chapitre vous aller devoir rammasé le plus de déchets possible en 5 min',
                                         confirmButtonText: 'Start',
-                                    }).then((result) => {
+                                    }).then(async (result) => {
                                         this.timer();
-                                    })
-
+                                        await this.db.updateChapter(username, {chapter: 1});
+                                    });
                                     return;
-                                })
+                                });
                                 return;
 
                             } else {
@@ -638,7 +640,7 @@ class CharacterControllerDemo {
                                     } else if (result.isDenied) {
                                         // A faire
                                     }
-                                })
+                                });
                                 return;
                             }
                         }
@@ -670,9 +672,9 @@ class CharacterControllerDemo {
                                         title: 'CHAPITRE 2',
                                         html: 'Dans ce chapitre vous aller devoir rammasé le plus de déchets possible en 5 min',
                                         confirmButtonText: 'Start',
-                                    })
+                                    });
                                     return;
-                                })
+                                });
                                 return;
 
                             } else {
@@ -854,6 +856,7 @@ class CharacterControllerDemo {
                     //Pour l'inventaire:
 
                     //Premier Objet
+                    if(this.user[0].chapter !== 1);
                     if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1" & sommecount <= 5) {
                         div1.appendChild(img1);
                         count1 += 1;
