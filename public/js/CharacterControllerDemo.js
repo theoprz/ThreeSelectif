@@ -64,28 +64,19 @@ let pos6Trash6 = { x: 15, y: 1, z: -946 };
 let valuesTrash6 = [pos1Trash6, pos2Trash6, pos3Trash6, pos4Trash6, pos5Trash6, pos6Trash6];
 
 
-let pos1poubelleGreen = { x: 959, y: -3, z: -8 };
-let pos2poubelleGreen = { x: 582, y: -3, z: 534 };
-let pos3poubelleGreen = { x: 14, y: -3, z: 139 };
-let valuespoubelleGreen = [pos1poubelleGreen, pos2poubelleGreen, pos3poubelleGreen];
+let pospoubelleGreen = { x: 17, y: -3, z: 381 };
+let pospoubelleGrey = { x: 17, y: -3, z: 290 }
+let pospoubelleYellow = { x: 17, y: -3, z: 203 };
 
 
-
-let pos1poubelleGrey = { x: 20, y: -3, z: 533 }
-let pos2poubelleGrey = { x: -207, y: -3, z: 327 }
-let pos3poubelleGrey = { x: 121, y: -3, z: -1183 }
-let valuespoubelleGrey = [pos1poubelleGrey, pos2poubelleGrey, pos3poubelleGrey];
-
-
-let pos1poubelleYellow = { x: 296, y: -3, z: -1175 };
-let pos2poubelleYellow = { x: 782, y: -3, z: -1030 };
-let pos3poubelleYellow = { x: 924, y: -3, z: -735 };
-let valuespoubelleYellow = [pos1poubelleYellow, pos2poubelleYellow, pos3poubelleYellow];
 
 let trashTrie = 0;
 let scoreTrie = 0;
 let trashMalTrie = 0;
 let scoreMalTrie = 0;
+let timeSecChapter2 = 0;
+let timeMinChapter2 = 0;
+let timeChapter2 = 0;
 
 class CharacterControllerDemo {
     constructor() {
@@ -144,6 +135,20 @@ class CharacterControllerDemo {
             await loadingScreen.classList.add('fade-out');
             setInterval(function () { loadingScreen.remove() }, 3000);
             console.log('Loading complete!');
+            alertify.alert()
+                .setting({
+                    transition: 'zoom',
+                    'modal': false,
+                    'closable': false,
+                    'padding': 10,
+                    'invokeOnCloseOff': true,
+                    'pinnable': false,
+                    'label': 'Jouer',
+                    'message': `Bienvenue sur le <strong> Three Séléctif </strong>!
+                    <br><br> Pour commencer le jeu tu vas devoir compléter un questionnaire pour tester tes connaissances sur le tri séléctif et le recyclage. 
+                    Pour ce faire, tu vas te rendre derrière toi dans un batiment marron à côté d'un magnifique panneau Junia tu trouveras un Ordinateur où tu cliqueras pour commencer le questionnaire.
+                    <br><br> <i>Bon jeu!</i>`,
+                }).setHeader('<strong> Bienvenue </strong>').show()
 
         };
 
@@ -207,6 +212,10 @@ class CharacterControllerDemo {
 
         const clickedObject = null;
 
+        this.testTimer = function () {
+            this.timer(false)
+        }
+
         //Ordinhateur pour le questionnaire
         this.addObject("questionnaire");
 
@@ -264,28 +273,36 @@ class CharacterControllerDemo {
         let scoreTemps = 600;
         let temps = 600;
         let CheckStop = false;
-        let game = this
         const timerElement = document.getElementById("timer");
 
-        setInterval(() => {
+        let interval = setInterval(() => {
             let minutes = parseInt(temps / 60, 10);
             let secondes = parseInt(temps % 60, 10);
 
             minutes = minutes < 10 ? "0" + minutes : minutes;
             secondes = secondes < 10 ? "0" + secondes : secondes;
-            timerElement.innerText = `${minutes}:${secondes}`;
-            timerElement.classList.add('timer');
-            console.log(CheckStop);
+            if (timerElement) {
+                timerElement.innerText = `${minutes}:${secondes}`;
+                timerElement.classList.add('timer');
+            }
             if (temps == 0 || !state) {
-                timerElement.remove()
-                game.endChapter2();
+                if (timerElement) {
+                    timerElement.remove()
+                }
+                this.endChapter2();
+                clearInterval(interval);
+                return;
             } else if (temps < 30) {
                 timerElement.classList.remove('timer');
                 timerElement.classList.add('timer2');
             }
             temps = temps <= 0 ? 0 : temps - 1;
-            scoreTemps -= 1;
+            scoreTemps = scoreTemps <= 0 ? 0 : scoreTemps - 1;
+            timeChapter2 = 600 - temps;
+            timeMinChapter2 = parseInt(timeChapter2 / 60, 10);
+            timeSecChapter2 = parseInt(timeChapter2 % 60, 10);
         }, 1000);
+
 
     }
 
@@ -491,12 +508,10 @@ class CharacterControllerDemo {
                 }
             case "poubelleGreen":
                 {
-                    let tempPosPoubelleGreen = this.randomPosTrash(valuespoubelleGreen);
                     const game = this;
                     let loaderpoubelleGreen = new THREE.FBXLoader(this.manager);
                     loaderpoubelleGreen.load("/static/assets/game/objects/poubelleGreen.fbx", function (object) {
                         const poubelleGreen = object.children[0];
-                        let pospoubelleGreen = { x: tempPosPoubelleGreen.x, y: tempPosPoubelleGreen.y, z: tempPosPoubelleGreen.z }
                         poubelleGreen.scale.multiplyScalar(0.04)
                         poubelleGreen.position.set(pospoubelleGreen.x, pospoubelleGreen.y, pospoubelleGreen.z);
                         poubelleGreen.userData.name = 'PoubelleGreen';
@@ -518,12 +533,12 @@ class CharacterControllerDemo {
 
             case "poubelleGrey":
                 {
-                    let tempPosPoubelleGrey = this.randomPosTrash(valuespoubelleGrey);
+
                     const game = this;
                     let loaderpoubelleGrey = new THREE.FBXLoader(this.manager);
                     loaderpoubelleGrey.load("/static/assets/game/objects/poubelleGrey.fbx", function (object) {
                         const poubelleGrey = object.children[0];
-                        let pospoubelleGrey = { x: tempPosPoubelleGrey.x, y: tempPosPoubelleGrey.y, z: tempPosPoubelleGrey.z }
+
                         poubelleGrey.scale.multiplyScalar(0.04)
                         poubelleGrey.position.set(pospoubelleGrey.x, pospoubelleGrey.y, pospoubelleGrey.z);
                         poubelleGrey.userData.name = 'PoubelleGrey';
@@ -545,12 +560,12 @@ class CharacterControllerDemo {
                 }
             case "poubelleYellow":
                 {
-                    let tempPosPoubelleYellow = this.randomPosTrash(valuespoubelleYellow);
+
                     const game = this;
                     let loaderpoubelleYellow = new THREE.FBXLoader(this.manager);
                     loaderpoubelleYellow.load("/static/assets/game/objects/poubelleYellow.fbx", function (object) {
                         const poubelleYellow = object.children[0];
-                        let pospoubelleYellow = { x: tempPosPoubelleYellow.x, y: tempPosPoubelleYellow.y, z: tempPosPoubelleYellow.z }
+
                         poubelleYellow.scale.multiplyScalar(0.04)
                         poubelleYellow.position.set(pospoubelleYellow.x, pospoubelleYellow.y, pospoubelleYellow.z);
                         poubelleYellow.userData.name = 'PoubelleYellow';
@@ -619,7 +634,7 @@ class CharacterControllerDemo {
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
-                                    this.db.newScore(username, {finalScore: this.iterationsWin})
+                                    this.db.newScore(username, { finalScore: this.iterationsWin })
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -675,7 +690,7 @@ class CharacterControllerDemo {
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
-                                    this.db.newScore(username, {finalScore: this.iterationsWin})
+                                    this.db.newScore(username, { finalScore: this.iterationsWin })
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -746,23 +761,7 @@ class CharacterControllerDemo {
         let count6 = 0;
         let sommecount = 0;
         let rep = false //variable pour empêcher le repeat pour le keyDown de l'inventaire
-        // alertify.confirm()
-        //     .setting({
-        //         //'basic': true,
 
-        //         transition: 'zoom',
-        //         'modal': false,
-        //         'closable': false,
-        //         'padding': 10,
-        //         'invokeOnCloseOff': true,
-        //         'pinnable': false,
-        //         'labels': { ok: 'bien', cancel: 'Menu Principal' },
-        //         'onok': function (closeEvent) { alertify.success('Ok'); },
-        //         'message': `Bien joué ${username}, tu as fini le 2ème mini jeu. On va te faire un petit récapitulatif de ta performance:
-        //         Tu as bien trié: ${trashTrie}  déchets.
-        //         Tu as mal trié: ${trashMalTrie}déchets.
-        //         Et tu as fais`,
-        //     }).setHeader('Félicitations').show()
 
 
         //création de l'image pour l'afficher dans l'inventaire
@@ -823,7 +822,7 @@ class CharacterControllerDemo {
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
             //Pour afficher les enfants de la scène (objets/light, etc...)
-            console.log(this.player)
+            //console.log(this.player)
 
             const found = this.intersect(this.clickMouse);
             if (found.length > 0) {
@@ -1000,26 +999,15 @@ class CharacterControllerDemo {
                         this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
-
-                    else if(this.clickedObject.userData.name == ("Dechet1" && sommecount == 6) || ("Dechet2" && sommecount == 6) || ("Dechet3" && sommecount == 6) || ("Dechet4" && sommecount == 6) || ("Dechet5" && sommecount == 6) || ("Dechet6" && sommecount == 6)){
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: 'Inventaire Remplie',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                    }
                 }
             }
         })
         //Enlever des objets de l'inventaire grâce aux touches (1 2 3 4 5 6) du clavier
         let posPlayer = this.player;
         let listChildren = this._scene;
-        let time = this.timer;
         document.addEventListener('keydown', (e) => KeyDown(e), false);
         document.addEventListener('keyup', (e) => KeyUp(e), false);
-
+        let game = this;
         function KeyDown(event) {
             switch (event.keyCode) {
                 case 49: // 1
@@ -1453,7 +1441,9 @@ class CharacterControllerDemo {
                     break;
             }
             if (trashMalTrie + trashTrie == 18) {
-                time(false);
+                console.log(game)
+                game.testTimer();
+                return;
             }
         }
         function KeyUp(event) {
@@ -1488,17 +1478,22 @@ class CharacterControllerDemo {
         //BDD score
         alertify.confirm()
             .setting({
-                //'basic': true,
-                'header': 'Félicitations',
                 transition: 'zoom',
                 'modal': false,
                 'closable': false,
                 'padding': 10,
                 'invokeOnCloseOff': true,
                 'pinnable': false,
-                'onok': function (closeEvent) { alertify.success('Ok'); },
-                'message': `Bien joué ${username}, tu as fini le mini jeu avec  ntm déchets bien trié et ntmdéchets mal trié`,
-            }).show()
+                'labels': { ok: 'Rejouer', cancel: 'En savoir plus' },
+                'onok': function () { document.location.href = "/"; },
+                'oncancel': function () { /*document.location.href = "/ytb";*/ },
+                'message': `Bien joué<strong> ${username}</strong>, tu as fini le 2ème mini jeu. On va te faire un petit récapitulatif de ta performance:
+        <br><br>Tu as bien trié: <strong>${trashTrie}  déchets</strong>.
+        <br>Tu as mal trié: <strong>${trashMalTrie} déchets</strong>.
+        <br> Et tu as finis le jeu en<strong> ${timeMinChapter2} minutes et ${timeSecChapter2} secondes. </strong>
+        <br><br> Si jamais tu veux rejouer clique sur le bouton Rejouer et si tu veux en apprendre plus sur le tri sélectif je te laisse aller sur: En savoir plus.
+        <br><br><i> Merci d'avoir jouer à notre jeu!</i>`,
+            }).setHeader('Félicitations').show()
     }
 
     intersect(pos) {

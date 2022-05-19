@@ -96,13 +96,13 @@
 }
 
 .alertify .ajs-body .ajs-content {
-    padding: 16px 24px 16px 16px
+    padding: 16px 24px 16px 16px;
+    text-align: justify;
 }
 
 .alertify .ajs-footer {
     padding: 4px;
-    margin-left: -24px;
-    margin-right: -24px;
+    margin: 30px 10px;
     min-height: 43px;
     background-color: #fff
 }
@@ -112,7 +112,7 @@
 }
 
 .alertify .ajs-footer .ajs-buttons.ajs-primary .ajs-button {
-    margin: 4px
+    margin: 10px
 }
 
 .alertify .ajs-footer .ajs-buttons.ajs-auxiliary {
@@ -1121,7 +1121,7 @@ button.ajs-button.ajs-ok {
     margin-bottom: 20px;
     cursor: pointer;
     text-decoration: none;
-
+    font-size: 1em;
     overflow: hidden;
     transition: all .5s;
 }
@@ -1161,12 +1161,6 @@ button.ajs-button.ajs-ok:hover:after {
     transition: all .5s;
 }
 
-button.ajs-button.ajs-cancel {
-    background-color: red;
-
-}
-
-
 
 button.ajs-button.ajs-ok {
     transform-style: preserve-3d;
@@ -1181,6 +1175,80 @@ button.ajs-button.ajs-ok:after {
 
 button.ajs-button.ajs-ok:hover:before,
 button.ajs-button.ajs-ok:hover:after {
+    transform: scale(1);
+    border-radius: 0;
+}  
+
+
+button.ajs-button.ajs-cancel {
+    color: black;
+    border-radius: 10px;
+    outline: none;
+    background: lightgrey;
+    border: none;
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1em;
+    overflow: hidden;
+    transition: all .5s;
+}
+
+
+
+button.ajs-button.ajs-cancel:before,
+button.ajs-button.ajs-cancel:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    background: #0f7fff;
+    /* onhover background color */
+    z-index: -1;
+    transform: translate3D(0, -100%, 0);
+    /* move elements above button so they don't appear initially */
+    transition: all .5s;
+}
+
+button.ajs-button.ajs-cancel:before {
+    background: #fafcd6;
+    /* button default background color */
+    z-index: -2;
+    transform: translate3D(0, 0, 0);
+}
+
+button.ajs-button.ajs-cancel:hover {
+    color: white;
+}
+
+button.ajs-button.ajs-cancel:hover:after {
+    transform: translate3D(0, 0, 0);
+    transition: all .5s;
+}
+
+
+
+
+
+button.ajs-button.ajs-cancel {
+    transform-style: preserve-3d;
+}
+
+button.ajs-button.ajs-cancel:before,
+button.ajs-button.ajs-cancel:after {
+    transform-origin: center center;
+    transform: scale(1, 0);
+}
+
+
+button.ajs-button.ajs-cancel:hover:before,
+button.ajs-button.ajs-cancel:hover:after {
     transform: scale(1);
     border-radius: 0;
 }  
