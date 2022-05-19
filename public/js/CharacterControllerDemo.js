@@ -90,6 +90,7 @@ class CharacterControllerDemo {
         }
 
         this.player;
+        this.score = 0;
         this._threejs = new THREE.WebGLRenderer({
             antialias: true,
         });
@@ -304,6 +305,7 @@ class CharacterControllerDemo {
             temps = temps <= 0 ? 0 : temps - 1;
             scoreTemps = scoreTemps <= 0 ? 0 : scoreTemps - 1;
             timeChapter2 = 600 - temps;
+            this.score += timeChapter2;
             timeMinChapter2 = parseInt(timeChapter2 / 60, 10);
             timeSecChapter2 = parseInt(timeChapter2 % 60, 10);
         }, 1000);
@@ -639,7 +641,7 @@ class CharacterControllerDemo {
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
-                                    this.db.newScore(username, { finalScore: this.iterationsWin })
+                                    this.score += timeChapter2;
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -695,7 +697,7 @@ class CharacterControllerDemo {
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
-                                    this.db.newScore(username, { finalScore: this.iterationsWin })
+                                    this.score += timeChapter2;
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -1485,6 +1487,8 @@ class CharacterControllerDemo {
     }
     endChapter2() {
         //BDD score
+        this.score += scoreTrie;
+        this.score -= scoreMalTrie
         alertify.confirm()
             .setting({
                 transition: 'zoom',
@@ -1503,6 +1507,7 @@ class CharacterControllerDemo {
         <br><br> Si jamais tu veux rejouer clique sur le bouton Rejouer et si tu veux en apprendre plus sur le tri sélectif je te laisse aller sur: En savoir plus.
         <br><br><i> Merci d'avoir jouer à notre jeu!</i>`,
             }).setHeader('Félicitations').show()
+        this.db.newScore(username, {finalScore: this.score})
     }
 
     intersect(pos) {
