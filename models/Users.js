@@ -31,6 +31,11 @@ const schema = mongoose.Schema({
         carton: Number
     },
     chapter: Number,
+    score: {
+        lastScore: Number,
+        bestScore: Number,
+        bestScoreDate: Date
+    }
 });
 
 module.exports = mongoose.model("Users", schema);

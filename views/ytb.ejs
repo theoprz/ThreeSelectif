@@ -4,13 +4,71 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles/style.css">
-    <link rel="stylesheet" href="/static/styles/videocss/video.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="16x16" href="../../NewThreeSelectif/public/assets/img/threeselect.png">
+    <link rel="stylesheet" href="/static/styles/ytb.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/img/threeselect.png">
+
     <title>Video</title>
 </head>
+
+
 <body>
+
+<div class="objects">
+    <ul class="box">
+
+        <header>
+            <span style="color: white"><h1>Description du jeu</h1></span>
+        </header>
+        <main>
+            <h3>Le jeu est composé de trois chapitres principaux :</h3>
+            <br>
+            <br>
+            <h2>Chapitre 1:</h2>
+            <br>
+            <br>
+            <p>Ce chapitre consiste tout simplement à répondre à un quizz, où est-ce que vous devez avoir un certain
+                nombre de points, par conséquenr un certain seuil de bonnes réponses, pour accéder au chapitre
+                suivant.</p>
+            <br>
+            <br>
+            <h2>Chapitre 2:</h2>
+            <br>
+            <br>
+            <p>Quand ce chapitre débutera, il y aura des déchets un peu partout dans la map, générés automatiquement et
+                aléatoirement, et notre objectif c'est de ramasser tout les déchets et les jeter dans la poubelle la
+                plus proche en un minimum de temps, et biensur, la rapidité est fortement prise en compte dans le nombre
+                de points gagnés à la fin de ce jeu. Comme dans le cas précédent, il faut bel et bien valider ce
+                chapitre pour passer au suivant.</p>
+
+            <br>
+            <br>
+
+            <h2>Chapitre 3:</h2>
+            <br>
+            <br>
+            <p>Dans ce chapitre, on découvera les étapes de recyclage à l'intérieur d'une usine. Et à l'issu de ce
+                chapitre, en fonction des points gagnés au cours des 3 chapitres, vous saurez combien d'années vous avez
+                fait gagnés à la terre avec vos gestes écologiques. Vous l'aurez compris ! Le but est de faire gagner à
+                la terre un maximum d'années durant les trois chapitres !</p>
+            <iframe width="750" height="400" src="https://www.youtube.com/embed/0MfkVG-CpGU"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+
+
+        </main>
+
+        <center>
+            <div class="scrollUp">
+                <a href="#top"><img src="/static/assets/html/to_top.png"/></a>
+            </div>
+        </center>
+    </ul>
+</div>
+
+
 <!------- MENU CIRCULAIRE ------->
 <div id="circularMenu" class="circular-menu">
 
@@ -21,20 +79,42 @@
     <menu class="items-wrapper">
         <a href="/settings" class="menu-item fa fa-cog"></a>
         <a href="/ytb" class="menu-item fab fa-youtube"></a>
-        <a href="/signin" class="menu-item fa fa-user"></a>
+        <a href="/signin.ejs" class="menu-item fa fa-user"></a>
         <a href="/" class="menu-item fa fa-home"></a>
     </menu>
+
 </div>
 
-<!--VIDEO-->
-<div class="wrapper">
-    <input type="checkbox">
-    <div class="video">
-        <video src="/static/assets/video/tri.mp4" loop muted autoplay playsinline></video>
-    </div>
-    <div class="text">
-        <span data-text="Watch the video"></span>
-    </div>
+<div class="container">
+    <footer>
+        <div class="footer-content">
+
+
+            <ul class="socials">
+                <li><a href="https://www.facebook.com/Tri-S%C3%A9lectif-199186480256679/" target="_blank"><i
+                                class="fab fa-facebook-f"></i></a></li>
+                <li><a href="https://www.instagram.com/explore/tags/triselectif/?hl=fr" target="_blank"><i
+                                class="fab fa-instagram"> </i></a></li>
+                <li><a href="https://twitter.com/TriSelectifR" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="/game" class="buttons">Play</a></li>
+                <li><a class="buttons">LeaderBoard</a></li>
+                <li><a href="/"><img src="/static/assets/html/logo.png"/></a></li>
+                <li><a href="/signin" class="buttons">Log in</a></li>
+                <li><a href="/ytb" class="buttons">Presentation</a></li>
+                <li><a href="https://www.youtube.com/watch?v=0MfkVG-CpGU" target="_blank"> <i
+                                class="fab fa-youtube"></i></a></li>
+                <li><a href="https://github.com/theoprz/ThreeSelectif" target="_blank"><i class="fab fa-github"></i></a>
+                </li>
+                <li><a href="https://www.linkedin.com/in/th%C3%A9o-porzio-6537b11a4/?originalSubdomain=fr"
+                       target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>copyright &copy;2022</p>
+        </div>
+
+    </footer>
 </div>
 </body>
 </html>

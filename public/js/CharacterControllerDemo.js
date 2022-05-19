@@ -611,16 +611,15 @@ class CharacterControllerDemo {
                         confirmButtonText: 'Suivant',
 
                     }).then((result) => {
-                        if (this.iterations == 1) {
-
-                            if (this.iterationsWin >= 1) {
-
+                        if (this.iterations == 9) {
+                            if (this.iterationsWin >= 6) {
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'CHAPITRE 1 TERMINÉ',
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
+                                    this.db.newScore(username, {finalScore: this.iterationsWin})
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -670,13 +669,13 @@ class CharacterControllerDemo {
                         if (this.iterations == 9) {
 
                             if (this.iterationsWin >= 6) {
-
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'CHAPITRE 1 TERMINÉ',
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
+                                    this.db.newScore(username, {finalScore: this.iterationsWin})
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -1000,6 +999,16 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot6").innerHTML = count6;
                         this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
+                    }
+
+                    else if(this.clickedObject.userData.name == ("Dechet1" && sommecount == 6) || ("Dechet2" && sommecount == 6) || ("Dechet3" && sommecount == 6) || ("Dechet4" && sommecount == 6) || ("Dechet5" && sommecount == 6) || ("Dechet6" && sommecount == 6)){
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Inventaire Remplie',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 }
             }
