@@ -156,8 +156,8 @@ class CharacterControllerDemo {
         };
 
         let light = new THREE.DirectionalLight(0xFFFFFF, 1.0);
-        light.position.set(-100, 100, 100);
-        light.target.position.set(0, 0, 0);
+        light.position.set(-239, 300, 856);
+        light.target.position.set(1063, 0, -1072);
         light.castShadow = true;
         light.shadow.bias = -0.001;
         light.shadow.mapSize.width = 4096;
