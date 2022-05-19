@@ -49,6 +49,34 @@ router.put("/users/update/chapter/:username", function(req, res) {
     })
 });
 
+router.put("/users/update/newFinalScore/:username", function(req, res) {
+    Users.findOne({ username: req.params.username }, async function(err, foundObject){
+        if(err){
+            console.log(err);
+            res.status(500).send();
+        }else{
+            if(!foundObject){
+                res.status(404).send();
+            }else{
+                const obj = JSON.parse(JSON.stringify(req.body));
+                if(foundObject.score.bestScore){
+                    if(foundObject.score.bestScore < obj.finalScore){
+                        foundObject.score.bestScore = obj.finalScore;
+                        foundObject.score.bestScoreDate = Date.now();
+                    }
+                    foundObject.score.lastScore = obj.finalScore;
+                }else{
+                    foundObject.score.bestScore = obj.finalScore;
+                    foundObject.score.lastScore = obj.finalScore;
+                    foundObject.score.bestScoreDate = Date.now();
+                }
+
+                foundObject.save();
+            }
+        }
+    })
+});
+
 router.get("/questions", async (req, res) => {
     const questions = await Questions.find();
     res.send(questions);

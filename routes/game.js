@@ -13,7 +13,7 @@ function checkLoginUser(req,res,next){
 
     try {
         var decoded = jwt.verify(userToken, 'loginToken');
-        if(now-setupTime > 10*60*1000) {
+        if(now-setupTime > 60*60*1000) {
             res.redirect('/logout')
         }
     } catch(err) {

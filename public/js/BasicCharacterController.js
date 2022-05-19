@@ -61,16 +61,6 @@ class BasicCharacterController {
             loader.load('/static/assets/game/zombie/idle.fbx', (a) => { _OnLoad('idle', a); });
         });
 
-        /*const objLoader = new OBJLoader();
-        objLoader.setPath('/static/assets/game/');
-        objLoader.load('town.obj', (object) => {
-            object.traverse(c => {
-                c.castShadow = true;
-            });
-
-            this._target = object;
-            this._params.scene.add(this._target);
-        })*/
     }
 
     get Position() {
@@ -111,7 +101,7 @@ class BasicCharacterController {
 
         const acc = this._acceleration.clone();
         //Vitesse du personnage
-        acc.z += 100
+        acc.z += 60;
         if (this._input._keys.shift) {
             acc.multiplyScalar(2.0);
         }

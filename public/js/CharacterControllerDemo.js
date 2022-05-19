@@ -82,6 +82,11 @@ let pos2poubelleYellow = { x: 782, y: -3, z: -1030 };
 let pos3poubelleYellow = { x: 924, y: -3, z: -735 };
 let valuespoubelleYellow = [pos1poubelleYellow, pos2poubelleYellow, pos3poubelleYellow];
 
+let trashTrie = 0;
+let scoreTrie = 0;
+let trashMalTrie = 0;
+let scoreMalTrie = 0;
+
 class CharacterControllerDemo {
     constructor() {
         this._Initialize();
@@ -255,10 +260,11 @@ class CharacterControllerDemo {
 
     }
 
-    timer() { //Cooldown pour le chapitre 2
-        const scoreTemps = 300;
-        let temps = 300
-
+    timer(state) { //Cooldown pour le chapitre 2
+        let scoreTemps = 600;
+        let temps = 600;
+        let CheckStop = false;
+        let game = this
         const timerElement = document.getElementById("timer");
 
         setInterval(() => {
@@ -269,14 +275,18 @@ class CharacterControllerDemo {
             secondes = secondes < 10 ? "0" + secondes : secondes;
             timerElement.innerText = `${minutes}:${secondes}`;
             timerElement.classList.add('timer');
-            if (temps == 0) {
-                return timerElement.remove()
+            console.log(CheckStop);
+            if (temps == 0 || !state) {
+                timerElement.remove()
+                game.endChapter2();
             } else if (temps < 30) {
                 timerElement.classList.remove('timer');
                 timerElement.classList.add('timer2');
             }
             temps = temps <= 0 ? 0 : temps - 1;
+            scoreTemps -= 1;
         }, 1000);
+
     }
 
     randomPosTrash(array) {
@@ -601,9 +611,9 @@ class CharacterControllerDemo {
                         confirmButtonText: 'Suivant',
 
                     }).then((result) => {
-                        if (this.iterations == 9) {
+                        if (this.iterations == 1) {
 
-                            if (this.iterationsWin >= 6) {
+                            if (this.iterationsWin >= 1) {
 
                                 Swal.fire({
                                     icon: 'success',
@@ -614,11 +624,11 @@ class CharacterControllerDemo {
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
-                                        html: 'Dans ce chapitre vous aller devoir rammasé le plus de déchets possible en 5 min',
+                                        html: 'Dans ce chapitre vous aller devoir ramassé le plus de déchets possible en 5 min',
                                         confirmButtonText: 'Start',
                                     }).then(async (result) => {
-                                        this.timer();
-                                        await this.db.updateChapter(username, {chapter: 1});
+                                        this.timer(true);
+                                        await this.db.updateChapter(username, { chapter: 1 });
                                     });
                                     return;
                                 });
@@ -670,7 +680,7 @@ class CharacterControllerDemo {
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
-                                        html: 'Dans ce chapitre vous aller devoir rammasé le plus de déchets possible en 5 min',
+                                        html: 'Dans ce chapitre vous aller devoir ramassé le plus de déchets possible en 5 min',
                                         confirmButtonText: 'Start',
                                     });
                                     return;
@@ -737,20 +747,32 @@ class CharacterControllerDemo {
         let count6 = 0;
         let sommecount = 0;
         let rep = false //variable pour empêcher le repeat pour le keyDown de l'inventaire
-        let trashTrie = 0;
-        let trashMalTrie = 0;
+        // alertify.confirm()
+        //     .setting({
+        //         //'basic': true,
+
+        //         transition: 'zoom',
+        //         'modal': false,
+        //         'closable': false,
+        //         'padding': 10,
+        //         'invokeOnCloseOff': true,
+        //         'pinnable': false,
+        //         'labels': { ok: 'bien', cancel: 'Menu Principal' },
+        //         'onok': function (closeEvent) { alertify.success('Ok'); },
+        //         'message': `Bien joué ${username}, tu as fini le 2ème mini jeu. On va te faire un petit récapitulatif de ta performance:
+        //         Tu as bien trié: ${trashTrie}  déchets.
+        //         Tu as mal trié: ${trashMalTrie}déchets.
+        //         Et tu as fais`,
+        //     }).setHeader('Félicitations').show()
 
 
         //création de l'image pour l'afficher dans l'inventaire
-
         //Bouteille en Ver
         let img1 = document.createElement("img");
         img1.src = "/static/assets/game/trash-glass-bottle.png";
         img1.setAttribute("position", "absolute")
         img1.setAttribute("id", "imgId1")
         let imgRemove1 = document.getElementById("imgId1")
-
-
         //Canette
         let img2 = document.createElement("img");
         img2.src = "/static/assets/game/trash-canette.png";
@@ -758,9 +780,6 @@ class CharacterControllerDemo {
         img2.setAttribute("style", "margin-top: 15px")
         img2.setAttribute("id", "imgId2")
         let imgRemove2 = document.getElementById("imgId2")
-
-
-
         //Déchets Alimentaire
         let img3 = document.createElement("img");
         img3.src = "/static/assets/game/trash-aliments.png";
@@ -768,7 +787,6 @@ class CharacterControllerDemo {
         img3.setAttribute("style", "margin-top: 17px")
         img3.setAttribute("id", "imgId3")
         let imgRemove3 = document.getElementById("imgId3")
-
         //Carton
         let img4 = document.createElement("img");
         img4.src = "/static/assets/game/trash-carton.png";
@@ -776,66 +794,42 @@ class CharacterControllerDemo {
         img4.setAttribute("style", "margin-top: 17px")
         img4.setAttribute("id", "imgId4")
         let imgRemove4 = document.getElementById("imgId4")
-
-
         //plastique
         let img5 = document.createElement("img");
         img5.src = "/static/assets/game/trash-plastique.png";
         img5.setAttribute("position", "absolute");
         img5.setAttribute("id", "imgId5");
-
         //Mégot
         let img6 = document.createElement("img");
         img6.src = "/static/assets/game/trash-megot.png";
         img6.setAttribute("position", "absolute");
         img6.setAttribute("style", "margin-top: 12px");
         img6.setAttribute("id", "imgId6");
-
         //première case de l'inventaire
         let div1 = document.getElementById("texteSlot1");
-
         //Deuxième case de l'inventaire
         let div2 = document.getElementById("texteSlot2");
-
         //Troisième case de l'inventaire
         let div3 = document.getElementById("texteSlot3");
-
         //Quatrième case de l'inventaire
         let div4 = document.getElementById("texteSlot4")
-
         //Cinqième case de l'inventaire
         let div5 = document.getElementById("texteSlot5")
-
         //Sixième case de l'inventaire
         let div6 = document.getElementById("texteSlot6")
-
         window.addEventListener('click', event => {
             //alertify.set('notifier', 'position', 'top-right');
             //alertify.success(`GG ${username} tu es chaud`);
-            alertify.alert()
-                .setting({
-                    'basic': true,
-                    transition: 'zoom',
-                    'modal': false,
-                    'closable': false,
-                    'padding': 10,
-                    'invokeOnCloseOff': true,
-                    'pinnable': false,
-                    'message': `Bien joué ${username}, tu as fini le mini jeu avec ${trashTrie} déchets bien trié et ${trashMalTrie} déchets mal trié`,
-                }).show()
-
 
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
             //Pour afficher les enfants de la scène (objets/light, etc...)
-            //console.log(this.player)
+            console.log(this.player)
 
             const found = this.intersect(this.clickMouse);
             if (found.length > 0) {
                 this.clickedObject = found[0].object;
-
                 //distance entre l'objet et le personnage
-
                 let distx = Math.abs(this.clickedObject.position.x - this.player.x);
                 let disty = Math.abs(this.clickedObject.position.y - this.player.y);
                 let distz = Math.abs(this.clickedObject.position.z - this.player.z);
@@ -854,13 +848,18 @@ class CharacterControllerDemo {
                     //console.log(`Clicked on ${this.clickedObject.userData.name}`);
 
                     //Pour l'inventaire:
-
+                    if (sommecount > 5) {
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.error('Ton inventaire est plein, va trier tes déchets dans les poubelles');
+                    }
                     //Premier Objet
-                    if(this.user[0].chapter !== 1);
+                    if (this.user[0].chapter !== 1) return;
                     if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1" & sommecount <= 5) {
                         div1.appendChild(img1);
                         count1 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé une Bouteille en verre');
                         document.getElementById("countSlot1").innerHTML = count1;
                         document.getElementById("countSlot1").setAttribute("style", "opacity: 1")
 
@@ -872,6 +871,8 @@ class CharacterControllerDemo {
                     else if (this.clickedObject.userData.name == "Dechet1" & sommecount <= 5) {
                         count1 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé une Bouteille en verre');
                         document.getElementById("countSlot1").innerHTML = count1;
                         this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
@@ -882,6 +883,8 @@ class CharacterControllerDemo {
                         div2.appendChild(img2);
                         count2 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé une canette');
                         document.getElementById("countSlot2").innerHTML = count2;
                         document.getElementById("countSlot2").setAttribute("style", "opacity: 1")
 
@@ -893,6 +896,8 @@ class CharacterControllerDemo {
                     else if (this.clickedObject.userData.name == "Dechet2" & sommecount <= 5) {
                         count2 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé une canette');
                         document.getElementById("countSlot2").innerHTML = count2;
                         this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
@@ -903,6 +908,8 @@ class CharacterControllerDemo {
                         div3.appendChild(img3);
                         count3 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé des déchets alimentaires');
                         document.getElementById("countSlot3").innerHTML = count3;
                         document.getElementById("countSlot3").setAttribute("style", "opacity: 1")
 
@@ -914,16 +921,20 @@ class CharacterControllerDemo {
                     else if (this.clickedObject.userData.name == "Dechet3" & sommecount <= 5) {
                         count3 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé des déchets alimentaires');
                         document.getElementById("countSlot3").innerHTML = count3;
                         this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
-                    //Quatrièmee Objet
+                    //Quatrième Objet
                     if (div4.childElementCount == 0 & this.clickedObject.userData.name == "Dechet4" & sommecount <= 5) {
                         div4.appendChild(img4);
                         count4 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé des cartons usagés');
                         document.getElementById("countSlot4").innerHTML = count4;
                         document.getElementById("countSlot4").setAttribute("style", "opacity: 1")
                         this._scene.remove(found[0].object);
@@ -935,16 +946,20 @@ class CharacterControllerDemo {
                         this._scene.remove(found[0].object);
                         count4 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé des cartons usagés');
                         document.getElementById("countSlot4").innerHTML = count4;
                         this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
-                    //Cinqièmee Objet
+                    //Cinqième Objet
                     if (div5.childElementCount == 0 & this.clickedObject.userData.name == "Dechet5" & sommecount <= 5) {
                         div5.appendChild(img5);
                         count5 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé une bouteille en plastique');
                         document.getElementById("countSlot5").innerHTML = count5;
                         document.getElementById("countSlot5").setAttribute("style", "opacity: 1")
                         this._scene.remove(found[0].object);
@@ -955,16 +970,20 @@ class CharacterControllerDemo {
                     else if (this.clickedObject.userData.name == "Dechet5" & sommecount <= 5) {
                         count5 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé une bouteille en plastique');
                         document.getElementById("countSlot5").innerHTML = count5;
                         this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
-                    //Sixièmee Objet
+                    //Sixième Objet
                     if (div6.childElementCount == 0 & this.clickedObject.userData.name == "Dechet6" & sommecount <= 5) {
                         div6.appendChild(img6);
                         count6 += 1;
                         sommecount += 1;
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé un mégot');
                         document.getElementById("countSlot6").innerHTML = count6;
                         document.getElementById("countSlot6").setAttribute("style", "opacity: 1")
 
@@ -976,7 +995,8 @@ class CharacterControllerDemo {
                     else if (this.clickedObject.userData.name == "Dechet6" & sommecount <= 5) {
                         count6 += 1;
                         sommecount += 1;
-
+                        alertify.set('notifier', 'position', 'bottom-left');
+                        alertify.success('Tu as ramassé un mégot');
                         document.getElementById("countSlot6").innerHTML = count6;
                         this._scene.remove(found[0].object);
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
@@ -987,13 +1007,14 @@ class CharacterControllerDemo {
         //Enlever des objets de l'inventaire grâce aux touches (1 2 3 4 5 6) du clavier
         let posPlayer = this.player;
         let listChildren = this._scene;
-
+        let time = this.timer;
         document.addEventListener('keydown', (e) => KeyDown(e), false);
         document.addEventListener('keyup', (e) => KeyUp(e), false);
 
         function KeyDown(event) {
             switch (event.keyCode) {
                 case 49: // 1
+                    console.log("trié " + trashTrie + " Maltrié " + trashMalTrie + " Score: " + scoreTrie + " : " + scoreMalTrie)
                     let PoubelleGreen1;
                     listChildren.children.forEach(elem => {
                         if (elem.userData.name === "PoubelleGreen")
@@ -1028,6 +1049,8 @@ class CharacterControllerDemo {
                         count1 -= 1;
                         sommecount -= 1;
                         trashTrie += 1;
+                        scoreTrie = trashTrie * 10;
+
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -1039,6 +1062,8 @@ class CharacterControllerDemo {
                         count1 -= 1;
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
+
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -1050,6 +1075,8 @@ class CharacterControllerDemo {
                         count1 -= 1;
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
+
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -1096,6 +1123,8 @@ class CharacterControllerDemo {
                         count2 -= 1; //on soustrait un au compteur de cannettes
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
+
                         //On soustrait un à la somme des compteurs
                         document.getElementById("countSlot2").innerHTML = count2;
                         if (count2 == 0) {
@@ -1110,6 +1139,7 @@ class CharacterControllerDemo {
                         count2 -= 1; //on soustrait un au compteur de cannettes
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
                         document.getElementById("countSlot2").innerHTML = count2;
                         if (count2 == 0) {
                             div2.removeChild(div2.children[0])
@@ -1121,6 +1151,8 @@ class CharacterControllerDemo {
                         count2 -= 1; //on soustrait un au compteur de cannettes
                         sommecount -= 1;
                         trashTrie += 1;
+                        scoreTrie = trashTrie * 10
+
                         document.getElementById("countSlot2").innerHTML = count2;
                         if (count2 == 0) {
                             div2.removeChild(div2.children[0])
@@ -1164,6 +1196,8 @@ class CharacterControllerDemo {
                         count3 -= 1;
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
+
                         document.getElementById("countSlot3").innerHTML = count3;
                         if (count3 == 0) {
                             div3.removeChild(div3.children[0])
@@ -1176,6 +1210,8 @@ class CharacterControllerDemo {
                         count3 -= 1;
                         sommecount -= 1;
                         trashTrie += 1;
+                        scoreTrie = trashTrie * 10;
+
                         document.getElementById("countSlot3").innerHTML = count3;
                         if (count3 == 0) {
                             div3.removeChild(div3.children[0])
@@ -1188,6 +1224,8 @@ class CharacterControllerDemo {
                         count3 -= 1;
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
+
                         document.getElementById("countSlot3").innerHTML = count3;
                         if (count3 == 0) {
                             div3.removeChild(div3.children[0])
@@ -1227,35 +1265,23 @@ class CharacterControllerDemo {
                     let distCartYy = Math.abs(PoubelleYellow4.position.y - posPlayer.y);
                     let distCartYz = Math.abs(PoubelleYellow4.position.z - posPlayer.z);
 
-                    if (count4 > 0 && rep == false && distCartRx < 30 && distCartRy < 30 && distCartRz < 30) {
-                        rep = true;
-                        count4 -= 1;
-                        sommecount -= 1;
-                        trashMalTrie += 1;
-                        document.getElementById("countSlot4").innerHTML = count4;
-                        if (count4 == 0) {
-                            div4.removeChild(div4.children[0])
-                            document.getElementById("countSlot4").setAttribute("style", "opacity: 0")
-                        }
-                    }
-
-                    if (count4 > 0 && rep == false && distCartBx < 30 && distCartBy < 30 && distCartBz < 30) {
-                        rep = true;
-                        count4 -= 1;
-                        sommecount -= 1;
-                        trashMalTrie += 1;
-                        document.getElementById("countSlot4").innerHTML = count4;
-                        if (count4 == 0) {
-                            div4.removeChild(div4.children[0])
-                            document.getElementById("countSlot4").setAttribute("style", "opacity: 0")
-                        }
-                    }
-
                     if (count4 > 0 && rep == false && distCartYx < 30 && distCartYy < 30 && distCartYz < 30) {
                         rep = true;
                         count4 -= 1;
                         sommecount -= 1;
                         trashTrie += 1;
+                        scoreTrie = trashTrie * 10;
+                        document.getElementById("countSlot4").innerHTML = count4;
+                        if (count4 == 0) {
+                            div4.removeChild(div4.children[0])
+                            document.getElementById("countSlot4").setAttribute("style", "opacity: 0")
+                        }
+                    } else if (count4 > 0 && rep == false && ((distCartBx < 30 && distCartBy < 30 && distCartBz < 30) || (distCartRx < 30 && distCartRy < 30 && distCartRz < 30))) {
+                        rep = true;
+                        count4 -= 1;
+                        sommecount -= 1;
+                        trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
                         document.getElementById("countSlot4").innerHTML = count4;
                         if (count4 == 0) {
                             div4.removeChild(div4.children[0])
@@ -1301,6 +1327,8 @@ class CharacterControllerDemo {
                         count5 -= 1;
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
+
                         document.getElementById("countSlot5").innerHTML = count5;
                         if (count5 == 0) {
                             div5.removeChild(div5.children[0])
@@ -1315,6 +1343,8 @@ class CharacterControllerDemo {
                         count5 -= 1;
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
+
                         document.getElementById("countSlot5").innerHTML = count5;
                         if (count5 == 0) {
                             div5.removeChild(div5.children[0])
@@ -1329,6 +1359,8 @@ class CharacterControllerDemo {
                         count5 -= 1;
                         sommecount -= 1;
                         trashTrie += 1;
+                        scoreTrie = trashTrie * 10;
+
                         document.getElementById("countSlot5").innerHTML = count5;
                         if (count5 == 0) {
                             div5.removeChild(div5.children[0])
@@ -1374,6 +1406,8 @@ class CharacterControllerDemo {
                         count6 -= 1;
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
+
                         document.getElementById("countSlot6").innerHTML = count6;
                         if (count6 == 0) {
                             div6.removeChild(div6.children[0])
@@ -1386,6 +1420,8 @@ class CharacterControllerDemo {
                         count6 -= 1;
                         sommecount -= 1;
                         trashTrie += 1;
+                        scoreTrie = trashTrie * 10;
+
                         document.getElementById("countSlot6").innerHTML = count6;
                         if (count6 == 0) {
                             div6.removeChild(div6.children[0])
@@ -1398,6 +1434,7 @@ class CharacterControllerDemo {
                         count6 -= 1;
                         sommecount -= 1;
                         trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
                         document.getElementById("countSlot6").innerHTML = count6;
                         if (count6 == 0) {
                             div6.removeChild(div6.children[0])
@@ -1405,6 +1442,9 @@ class CharacterControllerDemo {
                         }
                     }
                     break;
+            }
+            if (trashMalTrie + trashTrie == 18) {
+                time(false);
             }
         }
         function KeyUp(event) {
@@ -1434,11 +1474,23 @@ class CharacterControllerDemo {
                     break;
             }
         }
-        function findTrashcan() {
-
-        }
     }
-
+    endChapter2() {
+        //BDD score
+        alertify.confirm()
+            .setting({
+                //'basic': true,
+                'header': 'Félicitations',
+                transition: 'zoom',
+                'modal': false,
+                'closable': false,
+                'padding': 10,
+                'invokeOnCloseOff': true,
+                'pinnable': false,
+                'onok': function (closeEvent) { alertify.success('Ok'); },
+                'message': `Bien joué ${username}, tu as fini le mini jeu avec  ntm déchets bien trié et ntmdéchets mal trié`,
+            }).show()
+    }
 
     intersect(pos) {
         this.raycast.setFromCamera(pos, this._camera);
