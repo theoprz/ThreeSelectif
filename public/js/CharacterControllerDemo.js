@@ -112,7 +112,7 @@ class CharacterControllerDemo {
         const fov = 60;
         const aspect = 1920 / 1080;
         const near = 1.0;
-        const far = 1000.0;
+        const far = 3000.0;
         this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
         this._camera.position.set(25, 10, 25);
 
@@ -128,8 +128,9 @@ class CharacterControllerDemo {
             // optional: remove loader from DOM via event listener
             loadingScreen.addEventListener('transitionend', onTransitionEnd);
         });
-        this.manager.onStart = function (url, itemsLoaded, itemsTotal) {
 
+        this.manager.onStart = function (url, itemsLoaded, itemsTotal) {
+            // Number from 0.0 to 1.0
             console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
 
         };
@@ -154,17 +155,45 @@ class CharacterControllerDemo {
                     <br><br> <i>Bon jeu!</i>`,
                     }).setHeader('<strong> Bienvenue </strong>').show()
                 clearInterval(intervalLoading);
-            }, 3000);
+           }, 3000);
             console.log('Loading complete!');
-
 
 
         };
 
+        let bar = new ProgressBar.Line("#progressBar", {
+            strokeWidth: 4,
+            easing: 'linear',
+            duration: 100,
+            color: '#93c47d',
+            trailColor: '#eee',
+            trailWidth: 1,
+            svgStyle: {width: '100%', height: '100%'},
+            text: {
+                style: {
+                    // Text color.
+                    // Default: same as stroke color (options.color)
+                    color: '#999',
+                    position: 'absolute',
+                    right: '40%',
+                    top: '50%',
+                    padding: 0,
+                    margin: 0,
+
+
+
+                    transform: null
+                },
+                autoStyleContainer: false
+            },
+            from: {color: '#FFEA82'},
+            to: {color: '#ED6A5A'},
+        });
 
         this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-
-            console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+            let percent = Math.floor(itemsLoaded / itemsTotal * 100);
+            bar.animate(percent / 100);
+            //console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
 
         };
 
@@ -1101,8 +1130,6 @@ class CharacterControllerDemo {
             switch (event.keyCode) {
 
                 case 49: // 1
-                    //console.log("trié " + trashTrie + " Maltrié " + trashMalTrie + " Score: " + scoreTrie + " : " + scoreMalTrie)
-
                     let PoubelleGreen1;
                     listChildren.children.forEach(elem => {
                         if (elem.userData.name === "PoubelleGreen")
@@ -1602,7 +1629,6 @@ class CharacterControllerDemo {
 
             }
             if (trashMalTrie + trashTrie == 18) {
-                console.log(game)
                 game.testTimer();
                 return;
             }
@@ -1636,7 +1662,7 @@ class CharacterControllerDemo {
             }
         }
     }
-    endChapter2() {
+    async endChapter2() {
         //BDD score
         this.score += scoreTrie;
         this.score -= scoreMalTrie
@@ -1659,6 +1685,7 @@ class CharacterControllerDemo {
         <br><br><i> Merci d'avoir jouer à notre jeu!</i>`,
             }).setHeader('Félicitations').show()
         this.db.newScore(username, {finalScore: this.score})
+        await this.db.updateChapter(username, { chapter: 0 });
     }
 
     intersect(pos) {

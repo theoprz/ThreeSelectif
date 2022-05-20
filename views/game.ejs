@@ -19,7 +19,12 @@
 
   <section id="loading-screen">
 
-    <div id="loader"></div>
+    <div id="loader">
+      <img src="/static/assets/html/logo.png" class="loadingImage">
+    </div>
+    <div id="progressBar">
+
+    </div>
 
   </section>
 
@@ -113,11 +118,11 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
   <script src="/static/assets/libs/inflate.min.js"></script>
   <script src="/static/assets/libs/FBXLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/0.6.1/progressbar.min.js" integrity="sha512-7IoDEsIJGxz/gNyJY/0LRtS45wDSvPFXGPuC7Fo4YueWMNOmWKMAllEqo2Im3pgOjeEwsOoieyliRgdkZnY0ow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
   <script>
     let username = "<%=username%>"
-    console.log(username)
   </script>
   <script src="/static/js/index.js" type="module"></script>
 </body>

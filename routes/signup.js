@@ -51,7 +51,7 @@ function checkEmail(req,res,next){
 router.get('/', function(req, res, next) {
     var loginUser=localStorage.getItem('loginUser');
     if(loginUser){
-        res.redirect('./dashboard');
+        res.redirect('/');
     }else{
         res.render('signup', { title: 'Password Management System', msg:'' });
     }
@@ -59,12 +59,9 @@ router.get('/', function(req, res, next) {
 router.post('/',checkUsername,checkEmail,function(req, res, next) {
     var userDetails;
     var username=req.body.uname;
-    console.log("hjqdbjkfbh qdjhksbfjhk")
     var email=req.body.email;
     var password=req.body.password;
-    ;    var confpassword=req.body.confpassword;
-    console.log(password);
-    console.log(confpassword)
+    var confpassword=req.body.confpassword;
     if(password !== confpassword){
         res.render('signup', { msg:'Password not matched!' });
 
@@ -86,7 +83,6 @@ router.post('/',checkUsername,checkEmail,function(req, res, next) {
             chapter: 0,
         });
         userDetails.save((err,doc)=>{
-            console.log(doc)
             if(err) throw err;
             res.render('signup', { msg:'User Registerd Successfully' });
         })  ;
