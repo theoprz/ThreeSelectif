@@ -7,6 +7,7 @@ import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm
 
 let colliders = [];
 let pickup = false;
+let jeter = false;
 //Positions possibles pour les objets
 
 //Bouteille de verre
@@ -866,6 +867,7 @@ class CharacterControllerDemo {
             const found = this.intersect(this.clickMouse);
             if (found.length > 0) {
                 this.clickedObject = found[0].object;
+
                 //distance entre l'objet et le personnage
                 let distx = Math.abs(this.clickedObject.position.x - this.player.x);
                 let disty = Math.abs(this.clickedObject.position.y - this.player.y);
@@ -892,6 +894,10 @@ class CharacterControllerDemo {
                     //Premier Objet
                     if (this.user[0].chapter !== 1) return;
                     if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         div1.appendChild(img1);
                         count1 += 1;
                         sommecount += 1;
@@ -906,6 +912,10 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet1" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         count1 += 1;
                         sommecount += 1;
                         alertify.set('notifier', 'position', 'bottom-left');
@@ -917,6 +927,10 @@ class CharacterControllerDemo {
 
                     //Deuxième Objet
                     if (div2.childElementCount == 0 & this.clickedObject.userData.name == "Dechet2" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         div2.appendChild(img2);
                         count2 += 1;
                         sommecount += 1;
@@ -931,7 +945,10 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet2" & sommecount <= 5) {
-
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         count2 += 1;
                         sommecount += 1;
                         alertify.set('notifier', 'position', 'bottom-left');
@@ -943,6 +960,10 @@ class CharacterControllerDemo {
 
                     //Troisème Objet
                     if (div3.childElementCount == 0 & this.clickedObject.userData.name == "Dechet3" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         div3.appendChild(img3);
                         count3 += 1;
                         sommecount += 1;
@@ -957,6 +978,10 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet3" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         count3 += 1;
                         sommecount += 1;
                         alertify.set('notifier', 'position', 'bottom-left');
@@ -968,6 +993,10 @@ class CharacterControllerDemo {
 
                     //Quatrième Objet
                     if (div4.childElementCount == 0 & this.clickedObject.userData.name == "Dechet4" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         div4.appendChild(img4);
                         count4 += 1;
                         sommecount += 1;
@@ -981,7 +1010,10 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet4" & sommecount <= 5) {
-
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         this._scene.remove(found[0].object);
                         count4 += 1;
                         sommecount += 1;
@@ -994,6 +1026,10 @@ class CharacterControllerDemo {
 
                     //Cinqième Objet
                     if (div5.childElementCount == 0 & this.clickedObject.userData.name == "Dechet5" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         div5.appendChild(img5);
                         count5 += 1;
                         sommecount += 1;
@@ -1007,6 +1043,10 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet5" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         count5 += 1;
                         sommecount += 1;
                         alertify.set('notifier', 'position', 'bottom-left');
@@ -1018,6 +1058,10 @@ class CharacterControllerDemo {
 
                     //Sixième Objet
                     if (div6.childElementCount == 0 & this.clickedObject.userData.name == "Dechet6" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         div6.appendChild(img6);
                         count6 += 1;
                         sommecount += 1;
@@ -1032,6 +1076,10 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet6" & sommecount <= 5) {
+                        pickup = true;
+                        setTimeout(() => {
+                            pickup = false;
+                        }, 1000)
                         count6 += 1;
                         sommecount += 1;
                         alertify.set('notifier', 'position', 'bottom-left');
@@ -1054,6 +1102,7 @@ class CharacterControllerDemo {
 
                 case 49: // 1
                     //console.log("trié " + trashTrie + " Maltrié " + trashMalTrie + " Score: " + scoreTrie + " : " + scoreMalTrie)
+
                     let PoubelleGreen1;
                     listChildren.children.forEach(elem => {
                         if (elem.userData.name === "PoubelleGreen")
@@ -1084,6 +1133,10 @@ class CharacterControllerDemo {
                     let distBoutYy = Math.abs(PoubelleYellow1.position.y - posPlayer.y);
                     let distBoutYz = Math.abs(PoubelleYellow1.position.z - posPlayer.z);
                     if (count1 > 0 && rep == false && distBoutRx < 30 && distBoutRy < 30 && distBoutRz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count1 -= 1;
                         sommecount -= 1;
@@ -1097,6 +1150,10 @@ class CharacterControllerDemo {
                         }
                     }
                     if (count1 > 0 && rep == false && distBoutBx < 30 && distBoutBy < 30 && distBoutBz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count1 -= 1;
                         sommecount -= 1;
@@ -1110,6 +1167,10 @@ class CharacterControllerDemo {
                         }
                     }
                     if (count1 > 0 && rep == false && distBoutYx < 30 && distBoutYy < 30 && distBoutYz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count1 -= 1;
                         sommecount -= 1;
@@ -1158,6 +1219,10 @@ class CharacterControllerDemo {
                     let distCanYz = Math.abs(PoubelleYellow2.position.z - posPlayer.z);
 
                     if (count2 > 0 && rep == false && distCanRx < 30 && distCanRy < 30 && distCanRz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count2 -= 1; //on soustrait un au compteur de cannettes
                         sommecount -= 1;
@@ -1174,6 +1239,10 @@ class CharacterControllerDemo {
                     }
 
                     if (count2 > 0 && rep == false && distCanBx < 30 && distCanBy < 30 && distCanBz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count2 -= 1; //on soustrait un au compteur de cannettes
                         sommecount -= 1;
@@ -1187,6 +1256,10 @@ class CharacterControllerDemo {
                         }
                     }
                     if (count2 > 0 && rep == false && distCanYx < 30 && distCanYy < 30 && distCanYz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count2 -= 1; //on soustrait un au compteur de cannettes
                         sommecount -= 1;
@@ -1232,6 +1305,10 @@ class CharacterControllerDemo {
                     let distAlYy = Math.abs(PoubelleYellow3.position.y - posPlayer.y);
                     let distAlYz = Math.abs(PoubelleYellow3.position.z - posPlayer.z);
                     if (count3 > 0 && rep == false && distAlRx < 30 && distAlRy < 30 && distAlRz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count3 -= 1;
                         sommecount -= 1;
@@ -1246,6 +1323,10 @@ class CharacterControllerDemo {
                     }
 
                     if (count3 > 0 && rep == false && distAlBx < 30 && distAlBy < 30 && distAlBz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count3 -= 1;
                         sommecount -= 1;
@@ -1260,6 +1341,10 @@ class CharacterControllerDemo {
                     }
 
                     if (count3 > 0 && rep == false && distAlYx < 30 && distAlYy < 30 && distAlYz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count3 -= 1;
                         sommecount -= 1;
@@ -1306,6 +1391,10 @@ class CharacterControllerDemo {
                     let distCartYz = Math.abs(PoubelleYellow4.position.z - posPlayer.z);
 
                     if (count4 > 0 && rep == false && distCartYx < 30 && distCartYy < 30 && distCartYz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count4 -= 1;
                         sommecount -= 1;
@@ -1318,6 +1407,10 @@ class CharacterControllerDemo {
                             document.getElementById("countSlot4").setAttribute("style", "opacity: 0")
                         }
                     } else if (count4 > 0 && rep == false && ((distCartBx < 30 && distCartBy < 30 && distCartBz < 30) || (distCartRx < 30 && distCartRy < 30 && distCartRz < 30))) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count4 -= 1;
                         sommecount -= 1;
@@ -1364,7 +1457,10 @@ class CharacterControllerDemo {
                     let distPlasYz = Math.abs(PoubelleYellow5.position.z - posPlayer.z);
 
                     if (count5 > 0 && rep == false && distPlasRx < 30 && distPlasRy < 30 && distPlasRz < 30) {
-
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count5 -= 1;
                         sommecount -= 1;
@@ -1380,7 +1476,10 @@ class CharacterControllerDemo {
                     }
 
                     if (count5 > 0 && rep == false && distPlasBx < 30 && distPlasBy < 30 && distPlasBz < 30) {
-
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count5 -= 1;
                         sommecount -= 1;
@@ -1396,7 +1495,10 @@ class CharacterControllerDemo {
                     }
 
                     if (count5 > 0 && rep == false && distPlasYx < 30 && distPlasYy < 30 && distPlasYz < 30) {
-
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count5 -= 1;
                         sommecount -= 1;
@@ -1444,6 +1546,10 @@ class CharacterControllerDemo {
                     let distCigYz = Math.abs(PoubelleYellow6.position.z - posPlayer.z);
 
                     if (count6 > 0 && rep == false && distCigRx < 30 && distCigRy < 30 && distCigRz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count6 -= 1;
                         sommecount -= 1;
@@ -1458,6 +1564,10 @@ class CharacterControllerDemo {
                     }
 
                     if (count6 > 0 && rep == false && distCigBx < 30 && distCigBy < 30 && distCigBz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count6 -= 1;
                         sommecount -= 1;
@@ -1472,6 +1582,10 @@ class CharacterControllerDemo {
                     }
 
                     if (count6 > 0 && rep == false && distCigYx < 30 && distCigYy < 30 && distCigYz < 30) {
+                        jeter = true;
+                        setTimeout(() => {
+                            jeter = false;
+                        }, 1000)
                         rep = true;
                         count6 -= 1;
                         sommecount -= 1;
@@ -1622,4 +1736,4 @@ class CharacterControllerDemo {
 }
 
 export { CharacterControllerDemo };
-export { colliders, pickup};
+export { colliders, pickup, jeter};
