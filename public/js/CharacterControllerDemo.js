@@ -125,8 +125,9 @@ class CharacterControllerDemo {
             // optional: remove loader from DOM via event listener
             loadingScreen.addEventListener('transitionend', onTransitionEnd);
         });
-        this.manager.onStart = function (url, itemsLoaded, itemsTotal) {
 
+        this.manager.onStart = function (url, itemsLoaded, itemsTotal) {
+            // Number from 0.0 to 1.0
             console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
 
         };
@@ -134,29 +135,62 @@ class CharacterControllerDemo {
         this.manager.onLoad = async function () {
             const loadingScreen = document.getElementById('loading-screen');
             await loadingScreen.classList.add('fade-out');
-            setInterval(function () { loadingScreen.remove() }, 3000);
-            console.log('Loading complete!');
-            alertify.alert()
-                .setting({
-                    transition: 'zoom',
-                    'modal': false,
-                    'closable': false,
-                    'padding': 10,
-                    'invokeOnCloseOff': true,
-                    'pinnable': false,
-                    'label': 'Jouer',
-                    'message': `Bienvenue sur le <strong> Three Séléctif </strong>!
+            let intervalLoading = setInterval(function () {
+                loadingScreen.remove();
+                alertify.alert()
+                    .setting({
+                        transition: 'zoom',
+                        'modal': false,
+                        'closable': false,
+                        'padding': 10,
+                        'invokeOnCloseOff': true,
+                        'pinnable': false,
+                        'label': 'Jouer',
+                        'message': `Bienvenue sur le <strong> Three Séléctif </strong>!
                     <br><br> Pour commencer le jeu tu vas devoir compléter un questionnaire pour tester tes connaissances sur le tri séléctif et le recyclage. 
                     Pour ce faire, tu vas te rendre derrière toi dans un batiment marron à côté d'un magnifique panneau Junia tu trouveras un Ordinateur où tu cliqueras pour commencer le questionnaire.
                     <br><br> <i>Bon jeu!</i>`,
-                }).setHeader('<strong> Bienvenue </strong>').show()
+                    }).setHeader('<strong> Bienvenue </strong>').show()
+                clearInterval(intervalLoading);
+           }, 3000);
+            console.log('Loading complete!');
+
 
         };
 
+        let bar = new ProgressBar.Line("#progressBar", {
+            strokeWidth: 4,
+            easing: 'linear',
+            duration: 100,
+            color: '#93c47d',
+            trailColor: '#eee',
+            trailWidth: 1,
+            svgStyle: {width: '100%', height: '100%'},
+            text: {
+                style: {
+                    // Text color.
+                    // Default: same as stroke color (options.color)
+                    color: '#999',
+                    position: 'absolute',
+                    right: '40%',
+                    top: '50%',
+                    padding: 0,
+                    margin: 0,
+
+
+
+                    transform: null
+                },
+                autoStyleContainer: false
+            },
+            from: {color: '#FFEA82'},
+            to: {color: '#ED6A5A'},
+        });
 
         this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-
-            console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+            let percent = Math.floor(itemsLoaded / itemsTotal * 100);
+            bar.animate(percent / 100);
+            //console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
 
         };
 
@@ -1013,7 +1047,6 @@ class CharacterControllerDemo {
         function KeyDown(event) {
             switch (event.keyCode) {
                 case 49: // 1
-                    console.log("trié " + trashTrie + " Maltrié " + trashMalTrie + " Score: " + scoreTrie + " : " + scoreMalTrie)
                     let PoubelleGreen1;
                     listChildren.children.forEach(elem => {
                         if (elem.userData.name === "PoubelleGreen")
@@ -1443,7 +1476,6 @@ class CharacterControllerDemo {
                     break;
             }
             if (trashMalTrie + trashTrie == 18) {
-                console.log(game)
                 game.testTimer();
                 return;
             }

@@ -22,7 +22,6 @@ class BasicCharacterController {
             new BasicCharacterControllerProxy(this._animations));
 
         this._LoadModels(params);
-        console.log(colliders)
     }
 
     _LoadModels(params) {

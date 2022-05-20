@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/img/threeselect.png">
   <link rel="stylesheet" type="text/css" href="/static/styles/alertify.min.css">
 
-  
+
 
 
 
@@ -19,7 +19,12 @@
 
   <section id="loading-screen">
 
-    <div id="loader"></div>
+    <div id="loader">
+      <img src="/static/assets/html/logo.png" class="loadingImage">
+    </div>
+    <div id="progressBar">
+
+    </div>
 
   </section>
 
@@ -98,7 +103,7 @@
     </div>
   </div>
 
-  
+
 
   <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js"></script>
@@ -106,11 +111,11 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
   <script src="/static/assets/libs/inflate.min.js"></script>
   <script src="/static/assets/libs/FBXLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/0.6.1/progressbar.min.js" integrity="sha512-7IoDEsIJGxz/gNyJY/0LRtS45wDSvPFXGPuC7Fo4YueWMNOmWKMAllEqo2Im3pgOjeEwsOoieyliRgdkZnY0ow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
   <script>
     let username = "<%=username%>"
-    console.log(username)
   </script>
   <script src="/static/js/index.js" type="module"></script>
 </body>

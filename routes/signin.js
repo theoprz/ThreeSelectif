@@ -16,11 +16,9 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var username = req.body.uname;
-    console.log(username);
     var password = req.body.password;
     var checkUser=userModule.findOne({username: username});
     checkUser.exec((err, data)=>{
-        console.log(data)
         if(data==null){
             res.render('signin', { msg:"Invalid Username and Password." });
         }else{
