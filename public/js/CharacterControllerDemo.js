@@ -6,7 +6,6 @@ import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm
 
 let colliders = [];
 //Positions possibles pour les objets
-
 //Bouteille de verre
 let pos1Trash1 = { x: -187, y: 0, z: 520 };
 let pos2Trash1 = { x: 206, y: 0, z: 744 };
@@ -15,16 +14,14 @@ let pos4Trash1 = { x: 420, y: 0, z: -621 };
 let pos5Trash1 = { x: 103, y: 0, z: -1030 };
 let pos6Trash1 = { x: -207, y: 0, z: -445 };
 let valuesTrash1 = [pos1Trash1, pos2Trash1, pos3Trash1, pos4Trash1, pos5Trash1, pos6Trash1];
-
 //Canettes
-let pos1Trash2 = { x: 623, y: 0, z: 80 };
-let pos2Trash2 = { x: 292, y: 0, z: 99 };
-let pos3Trash2 = { x: 201, y: 0, z: 213 };
-let pos4Trash2 = { x: 407, y: -2, z: -160 };
-let pos5Trash2 = { x: -107, y: -2, z: 376 };
-let pos6Trash2 = { x: -194, y: 0, z: -743 };
+let pos1Trash2 = { x: 623, y: 1, z: 80 };
+let pos2Trash2 = { x: 292, y: 1, z: 99 };
+let pos3Trash2 = { x: 201, y: 1, z: 213 };
+let pos4Trash2 = { x: 407, y: -1, z: -160 };
+let pos5Trash2 = { x: -107, y: -1, z: 376 };
+let pos6Trash2 = { x: -194, y: 1, z: -743 };
 let valuesTrash2 = [pos1Trash2, pos2Trash2, pos3Trash2, pos4Trash2, pos5Trash2, pos6Trash2];
-
 //Déchets alimentaires
 let pos1Trash3 = { x: 902, y: -1, z: 230 };
 let pos2Trash3 = { x: 457, y: -1, z: 476 };
@@ -33,7 +30,6 @@ let pos4Trash3 = { x: 416, y: -1, z: 37 };
 let pos5Trash3 = { x: 1018, y: -1, z: 38 };
 let pos6Trash3 = { x: -186, y: -1, z: -790 };
 let valuesTrash3 = [pos1Trash3, pos2Trash3, pos3Trash3, pos4Trash3, pos5Trash3, pos6Trash3];
-
 //Cartons
 let pos1Trash4 = { x: 945, y: 7, z: -430 };
 let pos2Trash4 = { x: 22, y: 4, z: 800 };
@@ -42,8 +38,6 @@ let pos4Trash4 = { x: 432, y: 1, z: -1150 };
 let pos5Trash4 = { x: -190, y: 2, z: -890 };
 let pos6Trash4 = { x: 960, y: 6, z: 121 };
 let valuesTrash4 = [pos1Trash4, pos2Trash4, pos3Trash4, pos4Trash4, pos5Trash4, pos6Trash4];
-
-
 //Plastiques
 let pos1Trash5 = { x: 983, y: 0, z: -1061 };
 let pos2Trash5 = { x: 364, y: 0, z: -237 };
@@ -52,8 +46,6 @@ let pos4Trash5 = { x: 74, y: 0, z: 449 };
 let pos5Trash5 = { x: 562, y: 0, z: 312 };
 let pos6Trash5 = { x: 234, y: 0, z: -438 };
 let valuesTrash5 = [pos1Trash5, pos2Trash5, pos3Trash5, pos4Trash5, pos5Trash5, pos6Trash5];
-
-
 //Mégots de cigarettes
 let pos1Trash6 = { x: 913, y: 1, z: -183 };
 let pos2Trash6 = { x: 766, y: 1, z: 771 };
@@ -62,14 +54,9 @@ let pos4Trash6 = { x: -209, y: 1, z: 97 };
 let pos5Trash6 = { x: 519, y: 1, z: -211 };
 let pos6Trash6 = { x: 15, y: 1, z: -946 };
 let valuesTrash6 = [pos1Trash6, pos2Trash6, pos3Trash6, pos4Trash6, pos5Trash6, pos6Trash6];
-
-
 let pospoubelleGreen = { x: 17, y: -3, z: 381 };
 let pospoubelleGrey = { x: 17, y: -3, z: 290 }
 let pospoubelleYellow = { x: 17, y: -3, z: 203 };
-
-
-
 let trashTrie = 0;
 let scoreTrie = 0;
 let trashMalTrie = 0;
@@ -109,7 +96,7 @@ class CharacterControllerDemo {
         const fov = 60;
         const aspect = 1920 / 1080;
         const near = 1.0;
-        const far = 1000.0;
+        const far = 5000.0;
         this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
         this._camera.position.set(25, 10, 25);
 
@@ -153,11 +140,7 @@ class CharacterControllerDemo {
                 clearInterval(intervalLoading);
             }, 3000);
             console.log('Loading complete!');
-
-
-
         };
-
 
         this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
 
@@ -192,8 +175,9 @@ class CharacterControllerDemo {
         this._scene.add(light);
 
         //Texture du background
-
-
+        // let bgTexture = new THREE.TextureLoader().load('/static/assets/game/sky.jpg');
+        // this._scene.background = bgTexture;
+        
         const loader = new THREE.CubeTextureLoader(this.manager);
         const texture = loader.load([
             '/static/assets/game/posx.jpg',
@@ -204,8 +188,7 @@ class CharacterControllerDemo {
             '/static/assets/game/negz.jpg',
         ]);
         texture.encoding = THREE.sRGBEncoding;
-        this._scene.background = texture;
-
+        this._scene.background = texture; 
 
         this._LoadMap();
 
@@ -239,7 +222,6 @@ class CharacterControllerDemo {
         this.addObject("trash3");
         this.addObject("trash3");
         this.addObject("trash3");
-
         //carton
         this.addObject("trash4");
         this.addObject("trash4");
@@ -248,7 +230,6 @@ class CharacterControllerDemo {
         this.addObject("trash5");
         this.addObject("trash5");
         this.addObject("trash5");
-
         //Cigarette
         this.addObject("trash6");
         this.addObject("trash6");
@@ -256,13 +237,10 @@ class CharacterControllerDemo {
 
         //poubelle Verte
         this.addObject("poubelleGreen");
-
         //poubelle Grise
         this.addObject("poubelleGrey");
-
         //poubelle Jaune
         this.addObject("poubelleYellow");
-
 
         this._mixers = [];
         this._previousRAF = null;
@@ -271,8 +249,6 @@ class CharacterControllerDemo {
 
         this.clickOnObject();
         this._RAF();
-
-
     }
 
     timer(state) { //Cooldown pour le chapitre 2
@@ -309,8 +285,6 @@ class CharacterControllerDemo {
             timeMinChapter2 = parseInt(timeChapter2 / 60, 10);
             timeSecChapter2 = parseInt(timeChapter2 % 60, 10);
         }, 1000);
-
-
     }
 
     randomPosTrash(array) {
@@ -320,9 +294,7 @@ class CharacterControllerDemo {
         return valueToUse
     }
 
-
     addObject(type) {
-
         switch (type) {
             case "questionnaire":
                 {
@@ -384,7 +356,7 @@ class CharacterControllerDemo {
                     loaderTrash2.load("/static/assets/game/objects/trash-canette.fbx", function (object) {
                         const canette = object.children[0];
                         let pos2 = { x: tempPos2.x, y: tempPos2.y, z: tempPos2.z }
-                        canette.scale.multiplyScalar(0.02)
+                        canette.scale.multiplyScalar(0.1)
                         canette.position.set(pos2.x, pos2.y, pos2.z);
                         canette.userData.name = 'Dechet2';
                         canette.userData.draggable = true;
@@ -432,8 +404,6 @@ class CharacterControllerDemo {
                 }
             case "trash4":
                 {
-
-
                     let tempPos = this.randomPosTrash(valuesTrash4);
                     const game = this;
                     let loaderTrash4 = new THREE.FBXLoader(this.manager);
@@ -567,7 +537,6 @@ class CharacterControllerDemo {
                 }
             case "poubelleYellow":
                 {
-
                     const game = this;
                     let loaderpoubelleYellow = new THREE.FBXLoader(this.manager);
                     loaderpoubelleYellow.load("/static/assets/game/objects/poubelleYellow.fbx", function (object) {
@@ -592,7 +561,6 @@ class CharacterControllerDemo {
                     break;
 
                 }
-
         }
     }
 
@@ -677,7 +645,6 @@ class CharacterControllerDemo {
                         }
                         this.iterationsWin += 1;
                         this.iterations += 1;
-
                         this.tab.push(theRandomNumber);
                         this.question(theRandomNumber);
                     })
@@ -701,9 +668,13 @@ class CharacterControllerDemo {
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
-                                        html: 'Dans ce chapitre vous aller devoir ramassé le plus de déchets possible en 5 min',
+                                        html: `Dans ce chapitre vous allez devoir ramasser et trier le plus de déchets possible en 10 min. Il y a 18 déchets en tout. Il y a trois poubelles dans le parc, mettez les déchets dans les bonnes poubelles.<br><br> Pour récupérer un déchet approchez vous de lui et cliquer dessus, pour le déposer dans une poubelle approchez vous d'une poubelle et appuyez sur 1, 2, 3, 4, 5, ou 6 sur votre clavier`,
                                         confirmButtonText: 'Start',
+                                    }).then(async (result) => {
+                                        this.timer(true);
+                                        await this.db.updateChapter(username, { chapter: 1 });
                                     });
+
                                     return;
                                 });
                                 return;
@@ -728,7 +699,6 @@ class CharacterControllerDemo {
                                 return;
                             }
                         }
-
                         this.iterations += 1;
                         this.tab.push(theRandomNumber);
                         this.question(theRandomNumber)
@@ -768,9 +738,6 @@ class CharacterControllerDemo {
         let count6 = 0;
         let sommecount = 0;
         let rep = false //variable pour empêcher le repeat pour le keyDown de l'inventaire
-
-
-
         //création de l'image pour l'afficher dans l'inventaire
         //Bouteille en Ver
         let img1 = document.createElement("img");
@@ -1048,6 +1015,7 @@ class CharacterControllerDemo {
                     let distBoutYx = Math.abs(PoubelleYellow1.position.x - posPlayer.x);
                     let distBoutYy = Math.abs(PoubelleYellow1.position.y - posPlayer.y);
                     let distBoutYz = Math.abs(PoubelleYellow1.position.z - posPlayer.z);
+
                     if (count1 > 0 && rep == false && distBoutRx < 30 && distBoutRy < 30 && distBoutRz < 30) {
                         rep = true;
                         count1 -= 1;
@@ -1061,20 +1029,7 @@ class CharacterControllerDemo {
                             document.getElementById("countSlot1").setAttribute("style", "opacity: 0")
                         }
                     }
-                    if (count1 > 0 && rep == false && distBoutBx < 30 && distBoutBy < 30 && distBoutBz < 30) {
-                        rep = true;
-                        count1 -= 1;
-                        sommecount -= 1;
-                        trashMalTrie += 1;
-                        scoreMalTrie = trashMalTrie * 15;
-                        alertify.error("Tu as mal trié ton déchet");
-                        document.getElementById("countSlot1").innerHTML = count1;
-                        if (count1 == 0) {
-                            div1.removeChild(div1.children[0])
-                            document.getElementById("countSlot1").setAttribute("style", "opacity: 0")
-                        }
-                    }
-                    if (count1 > 0 && rep == false && distBoutYx < 30 && distBoutYy < 30 && distBoutYz < 30) {
+                    if (count1 > 0 && rep == false && ((distBoutBx < 30 && distBoutBy < 30 && distBoutBz < 30) || (distBoutYx < 30 && distBoutYy < 30 && distBoutYz < 30))) {
                         rep = true;
                         count1 -= 1;
                         sommecount -= 1;
@@ -1088,6 +1043,9 @@ class CharacterControllerDemo {
                         }
                     }
 
+                    else if (count1 > 0 && (distBoutRx > 30 || distBoutRy > 30 || distBoutRz > 30) && (distBoutBx > 30 || distBoutBy > 30 || distBoutBz > 30) && (distBoutYx > 30 || distBoutYy > 30 || distBoutYz > 30)) {
+                        alertify.error("Tu es trop loin d'une poubelle");
+                    }
 
                     break;
                 case 50: // 2
@@ -1122,35 +1080,7 @@ class CharacterControllerDemo {
                     let distCanYy = Math.abs(PoubelleYellow2.position.y - posPlayer.y);
                     let distCanYz = Math.abs(PoubelleYellow2.position.z - posPlayer.z);
 
-                    if (count2 > 0 && rep == false && distCanRx < 30 && distCanRy < 30 && distCanRz < 30) {
-                        rep = true;
-                        count2 -= 1; //on soustrait un au compteur de cannettes
-                        sommecount -= 1;
-                        trashMalTrie += 1;
-                        scoreMalTrie = trashMalTrie * 15;
-                        alertify.error("Tu as mal trié ton déchet");
-                        //On soustrait un à la somme des compteurs
-                        document.getElementById("countSlot2").innerHTML = count2;
-                        if (count2 == 0) {
-                            div2.removeChild(div2.children[0])
-                            document.getElementById("countSlot2").setAttribute("style", "opacity: 0");
-                        }
 
-                    }
-
-                    if (count2 > 0 && rep == false && distCanBx < 30 && distCanBy < 30 && distCanBz < 30) {
-                        rep = true;
-                        count2 -= 1; //on soustrait un au compteur de cannettes
-                        sommecount -= 1;
-                        trashMalTrie += 1;
-                        scoreMalTrie = trashMalTrie * 15;
-                        alertify.error("Tu as mal trié ton déchet");
-                        document.getElementById("countSlot2").innerHTML = count2;
-                        if (count2 == 0) {
-                            div2.removeChild(div2.children[0])
-                            document.getElementById("countSlot2").setAttribute("style", "opacity: 0");
-                        }
-                    }
                     if (count2 > 0 && rep == false && distCanYx < 30 && distCanYy < 30 && distCanYz < 30) {
                         rep = true;
                         count2 -= 1; //on soustrait un au compteur de cannettes
@@ -1164,6 +1094,25 @@ class CharacterControllerDemo {
                             document.getElementById("countSlot2").setAttribute("style", "opacity: 0");
                         }
                     }
+
+                    if (count2 > 0 && rep == false && ((distCanBx < 30 && distCanBy < 30 && distCanBz < 30) || (distCanRx < 30 && distCanRy < 30 && distCanRz < 30))) {
+                        rep = true;
+                        count2 -= 1; //on soustrait un au compteur de cannettes
+                        sommecount -= 1;
+                        trashMalTrie += 1;
+                        scoreMalTrie = trashMalTrie * 15;
+                        alertify.error("Tu as mal trié ton déchet");
+                        document.getElementById("countSlot2").innerHTML = count2;
+                        if (count2 == 0) {
+                            div2.removeChild(div2.children[0])
+                            document.getElementById("countSlot2").setAttribute("style", "opacity: 0");
+                        }
+                    }
+
+                    else if (count2 > 0 && (distCanRx > 30 || distCanRy > 30 || distCanRz > 30) && (distCanBx > 30 || distCanBy > 30 || distCanBz > 30) && (distCanYx > 30 || distCanYy > 30 || distCanYz > 30)) {
+                        alertify.error("Tu es trop loin d'une poubelle");
+                    }
+
                     break;
                 case 51: // 3
                     let PoubelleGreen3;
@@ -1196,7 +1145,8 @@ class CharacterControllerDemo {
                     let distAlYx = Math.abs(PoubelleYellow3.position.x - posPlayer.x);
                     let distAlYy = Math.abs(PoubelleYellow3.position.y - posPlayer.y);
                     let distAlYz = Math.abs(PoubelleYellow3.position.z - posPlayer.z);
-                    if (count3 > 0 && rep == false && distAlRx < 30 && distAlRy < 30 && distAlRz < 30) {
+
+                    if (count3 > 0 && rep == false && ((distAlRx < 30 && distAlRy < 30 && distAlRz < 30) || (count3 > 0 && rep == false && distAlYx < 30 && distAlYy < 30 && distAlYz < 30))) {
                         rep = true;
                         count3 -= 1;
                         sommecount -= 1;
@@ -1223,20 +1173,10 @@ class CharacterControllerDemo {
                             document.getElementById("countSlot3").setAttribute("style", "opacity: 0")
                         }
                     }
-
-                    if (count3 > 0 && rep == false && distAlYx < 30 && distAlYy < 30 && distAlYz < 30) {
-                        rep = true;
-                        count3 -= 1;
-                        sommecount -= 1;
-                        trashMalTrie += 1;
-                        scoreMalTrie = trashMalTrie * 15;
-                        alertify.error("Tu as mal trié ton déchet");
-                        document.getElementById("countSlot3").innerHTML = count3;
-                        if (count3 == 0) {
-                            div3.removeChild(div3.children[0])
-                            document.getElementById("countSlot3").setAttribute("style", "opacity: 0")
-                        }
+                    else if (count3 > 0 && (distAlRx > 30 || distAlRy > 30 || distAlRz > 30) && (distAlBx > 30 || distAlBy > 30 || distAlBz > 30) && (distAlYx > 30 || distAlYy > 30 || distAlYz > 30)) {
+                        alertify.error("Tu es trop loin d'une poubelle");
                     }
+
                     break;
                 case 52: // 4
                     let PoubelleGreen4;
@@ -1282,7 +1222,8 @@ class CharacterControllerDemo {
                             div4.removeChild(div4.children[0])
                             document.getElementById("countSlot4").setAttribute("style", "opacity: 0")
                         }
-                    } else if (count4 > 0 && rep == false && ((distCartBx < 30 && distCartBy < 30 && distCartBz < 30) || (distCartRx < 30 && distCartRy < 30 && distCartRz < 30))) {
+                    }
+                    if (count4 > 0 && rep == false && ((distCartBx < 30 && distCartBy < 30 && distCartBz < 30) || (distCartRx < 30 && distCartRy < 30 && distCartRz < 30))) {
                         rep = true;
                         count4 -= 1;
                         sommecount -= 1;
@@ -1295,6 +1236,10 @@ class CharacterControllerDemo {
                             document.getElementById("countSlot4").setAttribute("style", "opacity: 0")
                         }
                     }
+                    else if (count4 > 0 && (distCartRx > 30 || distCartRy > 30 || distCartRz > 30) && (distCartBx > 30 || distCartBy > 30 || distCartBz > 30) && (distCartYx > 30 || distCartYy > 30 || distCartYz > 30)) {
+                        alertify.error("Tu es trop loin d'une poubelle");
+                    }
+
                     break;
                 case 53: // 5
                     let PoubelleGreen5;
@@ -1328,24 +1273,9 @@ class CharacterControllerDemo {
                     let distPlasYy = Math.abs(PoubelleYellow5.position.y - posPlayer.y);
                     let distPlasYz = Math.abs(PoubelleYellow5.position.z - posPlayer.z);
 
-                    if (count5 > 0 && rep == false && distPlasRx < 30 && distPlasRy < 30 && distPlasRz < 30) {
 
-                        rep = true;
-                        count5 -= 1;
-                        sommecount -= 1;
-                        trashMalTrie += 1;
-                        scoreMalTrie = trashMalTrie * 15;
-                        alertify.error("Tu as mal trié ton déchet");
-                        document.getElementById("countSlot5").innerHTML = count5;
-                        if (count5 == 0) {
-                            div5.removeChild(div5.children[0])
-                            document.getElementById("countSlot5").setAttribute("style", "opacity: 0")
-                        }
 
-                    }
-
-                    if (count5 > 0 && rep == false && distPlasBx < 30 && distPlasBy < 30 && distPlasBz < 30) {
-
+                    if (count5 > 0 && rep == false && ((distPlasRx < 30 && distPlasRy < 30 && distPlasRz < 30) || (distPlasBx < 30 && distPlasBy < 30 && distPlasBz < 30))) {
                         rep = true;
                         count5 -= 1;
                         sommecount -= 1;
@@ -1361,7 +1291,6 @@ class CharacterControllerDemo {
                     }
 
                     if (count5 > 0 && rep == false && distPlasYx < 30 && distPlasYy < 30 && distPlasYz < 30) {
-
                         rep = true;
                         count5 -= 1;
                         sommecount -= 1;
@@ -1373,7 +1302,9 @@ class CharacterControllerDemo {
                             div5.removeChild(div5.children[0])
                             document.getElementById("countSlot5").setAttribute("style", "opacity: 0")
                         }
-
+                    }
+                    else if (count5 > 0 && (distPlasRx > 30 || distPlasRy > 30 || distPlasRz > 30) && (distPlasBx > 30 || distPlasBy > 30 || distPlasBz > 30) && (distPlasYx > 30 || distPlasYy > 30 || distPlasYz > 30)) {
+                        alertify.error("Tu es trop loin d'une poubelle");
                     }
                     break;
                 case 54: // 6
@@ -1408,20 +1339,6 @@ class CharacterControllerDemo {
                     let distCigYy = Math.abs(PoubelleYellow6.position.y - posPlayer.y);
                     let distCigYz = Math.abs(PoubelleYellow6.position.z - posPlayer.z);
 
-                    if (count6 > 0 && rep == false && distCigRx < 30 && distCigRy < 30 && distCigRz < 30) {
-                        rep = true;
-                        count6 -= 1;
-                        sommecount -= 1;
-                        trashMalTrie += 1;
-                        scoreMalTrie = trashMalTrie * 15;
-                        alertify.error("Tu as mal trié ton déchet");
-                        document.getElementById("countSlot6").innerHTML = count6;
-                        if (count6 == 0) {
-                            div6.removeChild(div6.children[0])
-                            document.getElementById("countSlot6").setAttribute("style", "opacity: 0")
-                        }
-                    }
-
                     if (count6 > 0 && rep == false && distCigBx < 30 && distCigBy < 30 && distCigBz < 30) {
                         rep = true;
                         count6 -= 1;
@@ -1436,7 +1353,7 @@ class CharacterControllerDemo {
                         }
                     }
 
-                    if (count6 > 0 && rep == false && distCigYx < 30 && distCigYy < 30 && distCigYz < 30) {
+                    if (count6 > 0 && rep == false && ((distCigYx < 30 && distCigYy < 30 && distCigYz < 30) || (distCigRx < 30 && distCigRy < 30 && distCigRz < 30))) {
                         rep = true;
                         count6 -= 1;
                         sommecount -= 1;
@@ -1449,8 +1366,12 @@ class CharacterControllerDemo {
                             document.getElementById("countSlot6").setAttribute("style", "opacity: 0")
                         }
                     }
+                    else if (count6 > 0 && (distCigRx > 30 || distCigRy > 30 || distCigRz > 30) && (distCigBx > 30 || distCigBy > 30 || distCigBz > 30) && (distCigYx > 30 || distCigYy > 30 || distCigYz > 30)) {
+                        alertify.error("Tu es trop loin d'une poubelle");
+                    }
                     break;
             }
+
             if (trashMalTrie + trashTrie == 18) {
                 console.log(game)
                 game.testTimer();
@@ -1499,7 +1420,7 @@ class CharacterControllerDemo {
                 'pinnable': false,
                 'labels': { ok: 'Rejouer', cancel: 'En savoir plus' },
                 'onok': function () { document.location.href = "/"; },
-                'oncancel': function () { /*document.location.href = "/ytb";*/ },
+                'oncancel': function () { document.location.href = "/ytb"; },
                 'message': `Bien joué<strong> ${username}</strong>, tu as fini le 2ème mini jeu. On va te faire un petit récapitulatif de ta performance:
         <br><br>Tu as bien trié: <strong>${trashTrie}  déchets</strong>.
         <br>Tu as mal trié: <strong>${trashMalTrie} déchets</strong>.
@@ -1507,7 +1428,7 @@ class CharacterControllerDemo {
         <br><br> Si jamais tu veux rejouer clique sur le bouton Rejouer et si tu veux en apprendre plus sur le tri sélectif je te laisse aller sur: En savoir plus.
         <br><br><i> Merci d'avoir jouer à notre jeu!</i>`,
             }).setHeader('Félicitations').show()
-        this.db.newScore(username, {finalScore: this.score})
+        this.db.newScore(username, { finalScore: this.score })
     }
 
     intersect(pos) {
@@ -1562,9 +1483,7 @@ class CharacterControllerDemo {
             if (this._previousRAF === null) {
                 this._previousRAF = t;
             }
-
             this._RAF();
-
             this._threejs.render(this._scene, this._camera);
             this._Step(t - this._previousRAF);
             this._previousRAF = t;
