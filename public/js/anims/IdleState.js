@@ -1,4 +1,7 @@
 import State from "/static/js/State.js"
+import { pickup } from "/static/js/CharacterControllerDemo.js"
+
+
 
 class IdleState extends State {
     constructor(parent) {
@@ -27,8 +30,11 @@ class IdleState extends State {
     Exit() {}
 
     Update(_, input) {
+
         if (input._keys.forward || input._keys.backward) {
             this._parent.SetState('walk');
+        } else if(input._keys.space || pickup){
+            this._parent.SetState('pick');
         }
     }
 }

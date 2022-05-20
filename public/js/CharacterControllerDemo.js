@@ -1,10 +1,12 @@
 import ApiFetching from "/static/js/ApiFetching.js"
 import BasicCharacterController from "/static/js/BasicCharacterController.js"
 import ThirdPersonCamera from "/static/js/ThirdPersonCamera.js"
+
 import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/loaders/OBJLoader.js";
 
 
 let colliders = [];
+let pickup = false;
 //Positions possibles pour les objets
 //Bouteille de verre
 let pos1Trash1 = { x: -187, y: 0, z: 520 };
@@ -96,7 +98,7 @@ class CharacterControllerDemo {
         const fov = 60;
         const aspect = 1920 / 1080;
         const near = 1.0;
-        const far = 5000.0;
+        const far = 3000.0;
         this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
         this._camera.position.set(25, 10, 25);
 
@@ -112,8 +114,9 @@ class CharacterControllerDemo {
             // optional: remove loader from DOM via event listener
             loadingScreen.addEventListener('transitionend', onTransitionEnd);
         });
-        this.manager.onStart = function (url, itemsLoaded, itemsTotal) {
 
+        this.manager.onStart = function (url, itemsLoaded, itemsTotal) {
+            // Number from 0.0 to 1.0
             console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
 
         };
@@ -138,13 +141,43 @@ class CharacterControllerDemo {
                     <br><br> <i>Bon jeu!</i>`,
                     }).setHeader('<strong> Bienvenue </strong>').show()
                 clearInterval(intervalLoading);
-            }, 3000);
+           }, 3000);
             console.log('Loading complete!');
         };
 
-        this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+        let bar = new ProgressBar.Line("#progressBar", {
+            strokeWidth: 4,
+            easing: 'linear',
+            duration: 100,
+            color: '#93c47d',
+            trailColor: '#eee',
+            trailWidth: 1,
+            svgStyle: {width: '100%', height: '100%'},
+            text: {
+                style: {
+                    // Text color.
+                    // Default: same as stroke color (options.color)
+                    color: '#999',
+                    position: 'absolute',
+                    right: '40%',
+                    top: '50%',
+                    padding: 0,
+                    margin: 0,
 
-            console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+
+
+                    transform: null
+                },
+                autoStyleContainer: false
+            },
+            from: {color: '#FFEA82'},
+            to: {color: '#ED6A5A'},
+        });
+
+        this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+            let percent = Math.floor(itemsLoaded / itemsTotal * 100);
+            bar.animate(percent / 100);
+            //console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
 
         };
 
@@ -564,6 +597,27 @@ class CharacterControllerDemo {
         }
     }
 
+    questionFinal(score){
+        Swal.fire({
+            title: 'Question Finale',
+            icon: 'question',
+            input: 'range',
+            inputLabel: 'ans',
+            html:"Combien avez vous fait economiser à la terre en temp de dégradation ? (100 ans pres) ",
+            confirmButton:"Ok",
+            inputAttributes: {
+                min: 0,
+                max: 20000,
+                step: 100,
+            },
+            inputValue: 0
+        }).then((result) =>{
+            if (result == score){
+                console.log("WIN")
+            }
+        })
+    }
+
     question(questionNumber) {
 
         var theRandomNumber = this.pasDeRepetitionQuestion();
@@ -584,6 +638,7 @@ class CharacterControllerDemo {
                 const { value: color } = await Swal.fire({
                     icon: 'question',
                     title: await data.questions,
+                    html: ` Question :${this.iterations}/10`,
                     input: 'radio',
                     inputOptions: inputOptions,
                     inputValidator: (value) => {
@@ -601,7 +656,7 @@ class CharacterControllerDemo {
                         confirmButtonText: 'Suivant',
 
                     }).then((result) => {
-                        if (this.iterations == 9) {
+                        if (this.iterations == 10) {
                             if (this.iterationsWin >= 6) {
                                 Swal.fire({
                                     icon: 'success',
@@ -629,14 +684,18 @@ class CharacterControllerDemo {
                                     title: 'PERDU',
                                     showDenyButton: true,
                                     showConfirmButton: true,
-                                    html: `Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste`,
+                                    html: 'Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste',
                                     confirmButtonText: 'Relancer',
                                     denyButtonText: 'Menu principal',
-                                }).then((result) => {
+                            }).then((result) => {
                                     if (result.isConfirmed) {
+                                        this.iterations = 1;
+                                        this.iterationsWin = 1;
+                                        this.tab = [];
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
+                                        window.location.href='/'
                                         // A faire
                                     }
                                 });
@@ -655,7 +714,7 @@ class CharacterControllerDemo {
                         html: data.bad,
                         confirmButtonText: 'Suivant'
                     }).then((result) => {
-                        if (this.iterations == 9) {
+                        if (this.iterations == 10) {
 
                             if (this.iterationsWin >= 6) {
                                 Swal.fire({
@@ -690,9 +749,13 @@ class CharacterControllerDemo {
                                     denyButtonText: 'Menu principal',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
+                                        this.iterations = 1;
+                                        this.iterationsWin = 1;
+                                        this.tab = [];
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
+                                        window.location.href='/'
                                         // A faire
                                     }
                                 })
@@ -810,7 +873,7 @@ class CharacterControllerDemo {
 
                     // Quand on appuie sur l'objet de l'étape 1 question
                     if (this.clickedObject.userData.name === "BoiteQuestionnaire") {
-                        this.iterations = 0;
+                        this.iterations = 1;
                         this.iterationsWin = 1;
                         this.tab = [];
                         this.startquestion();
@@ -866,6 +929,7 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet2" & sommecount <= 5) {
+
                         count2 += 1;
                         sommecount += 1;
                         alertify.set('notifier', 'position', 'bottom-left');
@@ -915,6 +979,7 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet4" & sommecount <= 5) {
+
                         this._scene.remove(found[0].object);
                         count4 += 1;
                         sommecount += 1;
@@ -984,8 +1049,8 @@ class CharacterControllerDemo {
         let game = this;
         function KeyDown(event) {
             switch (event.keyCode) {
+
                 case 49: // 1
-                    //console.log("trié " + trashTrie + " Maltrié " + trashMalTrie + " Score: " + scoreTrie + " : " + scoreMalTrie)
                     let PoubelleGreen1;
                     listChildren.children.forEach(elem => {
                         if (elem.userData.name === "PoubelleGreen")
@@ -1370,16 +1435,17 @@ class CharacterControllerDemo {
                         alertify.error("Tu es trop loin d'une poubelle");
                     }
                     break;
+
             }
 
             if (trashMalTrie + trashTrie == 18) {
-                console.log(game)
                 game.testTimer();
                 return;
             }
         }
         function KeyUp(event) {
             switch (event.keyCode) {
+
                 case 49: // 1
                     rep = false;
                     break;
@@ -1406,7 +1472,7 @@ class CharacterControllerDemo {
             }
         }
     }
-    endChapter2() {
+    async endChapter2() {
         //BDD score
         this.score += scoreTrie;
         this.score -= scoreMalTrie
@@ -1428,7 +1494,8 @@ class CharacterControllerDemo {
         <br><br> Si jamais tu veux rejouer clique sur le bouton Rejouer et si tu veux en apprendre plus sur le tri sélectif je te laisse aller sur: En savoir plus.
         <br><br><i> Merci d'avoir jouer à notre jeu!</i>`,
             }).setHeader('Félicitations').show()
-        this.db.newScore(username, { finalScore: this.score })
+        this.db.newScore(username, {finalScore: this.score})
+        await this.db.updateChapter(username, { chapter: 0 });
     }
 
     intersect(pos) {
@@ -1504,4 +1571,4 @@ class CharacterControllerDemo {
 }
 
 export { CharacterControllerDemo };
-export { colliders };
+export { colliders, pickup};

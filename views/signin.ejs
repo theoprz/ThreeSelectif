@@ -2,14 +2,17 @@
 <html lang="fr">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" href="/static/styles/style.css">
-  <link rel="stylesheet" href="/static/styles/usercss/user.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-  <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/img/threeselect.png">
-  <title>Three Sélectif</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="/static/styles/usercss/user.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/img/threeselect.png">
+    <link rel="stylesheet" href="/static/styles/style3.css">
+    <title>Three Sélectif</title>
 </head>
 
 <body>
@@ -28,46 +31,58 @@
     </menu>
   </div>
 
-  <div class="align">
 
-    <div class="grid align__item">
 
-      <div class="register">
 
-        <svg xmlns="http://www.w3.org/2000/svg" class="site__logo" width="56" height="84" viewBox="77.7 214.9 274.7 412">
-          <defs>
-            <linearGradient id="a" x1="0%" y1="0%" y2="0%">
-              <stop offset="0%" stop-color="#8ceabb" />
-              <stop offset="100%" stop-color="#378f7b" />
-            </linearGradient>
-          </defs>
-          <path fill="url(#a)" d="M215 214.9c-83.6 123.5-137.3 200.8-137.3 275.9 0 75.2 61.4 136.1 137.3 136.1s137.3-60.9 137.3-136.1c0-75.1-53.7-152.4-137.3-275.9z" />
-        </svg>
 
-        <h2>Sign Up</h2>
-        <% if(msg != ''){ %>
-        <p style="text-align: center"> <%= msg %></p>
-        <% } %>
-        <form action="" method="post" class="form">
+<div class="main">
 
-          <div class="form__field">
-            <input type="text" name="uname" placeholder="ACoolUsername">
-          </div>
 
-          <div class="form__field">
-            <input type="password" name="password" placeholder="password">
-          </div>
+    <div class="container">
+        <center>
+            <h2>Connexion</h2>
+            <br>
+            <% if(msg != ''){ %>
+                <p style="text-align: center">   <%= msg %></p>
+                <br>
+            <% } %>
+            <div class="middle">
+                <div id="login">
 
-          <div class="form__field">
-            <input type="submit" name="submit" value="Sign In">
-          </div>
+                    <form action="" method="post">
 
-        </form>
+                        <fieldset class="clearfix">
 
-        <p>Pas encore de compte ? <a href="/signup">Créez en un !</a></p>
-      </div>
+                            <p ><span class="fa fa-user"></span><input type="text" name="uname"  Placeholder="Nom d'utilisateur" required></p>
+                            <p><span class="fa fa-lock"></span><input type="password" name="password"  Placeholder="Mot de passe" required></p>
+
+                            <div>
+                                <span style="width:48%; text-align:left;  display: inline-block;"><a class="small-text" href="/signup">
+                                    Pas encore de compte ?
+                                </a></span>
+                                <span style="width:50%; text-align:right;  display: inline-block;"><input type="submit" name="submit" value="Envoyer"></span>
+                            </div>
+
+                        </fieldset>
+                        <div class="clearfix"></div>
+                    </form>
+
+                    <div class="clearfix"></div>
+
+                </div> <!-- end login -->
+                <div class="logo">    <a href="/">
+                        <img src="/static/assets/html/logo.png" height="200px"
+                             width="200px"  />
+                    </a>
+
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </center>
     </div>
-  </div>
+
+</div>
 </body>
 
 </html>
