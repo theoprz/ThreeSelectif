@@ -1,10 +1,12 @@
 import ApiFetching from "/static/js/ApiFetching.js"
 import BasicCharacterController from "/static/js/BasicCharacterController.js"
 import ThirdPersonCamera from "/static/js/ThirdPersonCamera.js"
+
 import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/loaders/OBJLoader.js";
 
 
 let colliders = [];
+let pickup = false;
 //Positions possibles pour les objets
 
 //Bouteille de verre
@@ -589,6 +591,27 @@ class CharacterControllerDemo {
         }
     }
 
+    questionFinal(score){
+        Swal.fire({
+            title: 'Question Finale',
+            icon: 'question',
+            input: 'range',
+            inputLabel: 'ans',
+            html:"Combien avez vous fait economiser à la terre en temp de dégradation ? (100 ans pres) ",
+            confirmButton:"Ok",
+            inputAttributes: {
+                min: 0,
+                max: 20000,
+                step: 100,
+            },
+            inputValue: 0
+        }).then((result) =>{
+            if (result == score){
+                console.log("WIN")
+            }
+        })
+    }
+
     question(questionNumber) {
 
         var theRandomNumber = this.pasDeRepetitionQuestion();
@@ -609,6 +632,7 @@ class CharacterControllerDemo {
                 const { value: color } = await Swal.fire({
                     icon: 'question',
                     title: await data.questions,
+                    html: ` Question :${this.iterations}/10`,
                     input: 'radio',
                     inputOptions: inputOptions,
                     inputValidator: (value) => {
@@ -626,7 +650,7 @@ class CharacterControllerDemo {
                         confirmButtonText: 'Suivant',
 
                     }).then((result) => {
-                        if (this.iterations == 9) {
+                        if (this.iterations == 10) {
                             if (this.iterationsWin >= 6) {
                                 Swal.fire({
                                     icon: 'success',
@@ -654,14 +678,18 @@ class CharacterControllerDemo {
                                     title: 'PERDU',
                                     showDenyButton: true,
                                     showConfirmButton: true,
-                                    html: `Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste`,
+                                    html: 'Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste',
                                     confirmButtonText: 'Relancer',
                                     denyButtonText: 'Menu principal',
-                                }).then((result) => {
+                            }).then((result) => {
                                     if (result.isConfirmed) {
+                                        this.iterations = 1;
+                                        this.iterationsWin = 1;
+                                        this.tab = [];
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
+                                        window.location.href='/'
                                         // A faire
                                     }
                                 });
@@ -681,7 +709,7 @@ class CharacterControllerDemo {
                         html: data.bad,
                         confirmButtonText: 'Suivant'
                     }).then((result) => {
-                        if (this.iterations == 9) {
+                        if (this.iterations == 10) {
 
                             if (this.iterationsWin >= 6) {
                                 Swal.fire({
@@ -712,9 +740,13 @@ class CharacterControllerDemo {
                                     denyButtonText: 'Menu principal',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
+                                        this.iterations = 1;
+                                        this.iterationsWin = 1;
+                                        this.tab = [];
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
+                                        window.location.href='/'
                                         // A faire
                                     }
                                 })
@@ -836,7 +868,7 @@ class CharacterControllerDemo {
 
                     // Quand on appuie sur l'objet de l'étape 1 question
                     if (this.clickedObject.userData.name === "BoiteQuestionnaire") {
-                        this.iterations = 0;
+                        this.iterations = 1;
                         this.iterationsWin = 1;
                         this.tab = [];
                         this.startquestion();
@@ -892,6 +924,7 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet2" & sommecount <= 5) {
+
                         count2 += 1;
                         sommecount += 1;
                         alertify.set('notifier', 'position', 'bottom-left');
@@ -941,6 +974,7 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet4" & sommecount <= 5) {
+
                         this._scene.remove(found[0].object);
                         count4 += 1;
                         sommecount += 1;
@@ -1010,6 +1044,7 @@ class CharacterControllerDemo {
         let game = this;
         function KeyDown(event) {
             switch (event.keyCode) {
+
                 case 49: // 1
                     console.log("trié " + trashTrie + " Maltrié " + trashMalTrie + " Score: " + scoreTrie + " : " + scoreMalTrie)
                     let PoubelleGreen1;
@@ -1439,6 +1474,7 @@ class CharacterControllerDemo {
                         }
                     }
                     break;
+
             }
             if (trashMalTrie + trashTrie == 18) {
                 console.log(game)
@@ -1448,6 +1484,7 @@ class CharacterControllerDemo {
         }
         function KeyUp(event) {
             switch (event.keyCode) {
+
                 case 49: // 1
                     rep = false;
                     break;
@@ -1571,4 +1608,4 @@ class CharacterControllerDemo {
 }
 
 export { CharacterControllerDemo };
-export { colliders };
+export { colliders, pickup};
