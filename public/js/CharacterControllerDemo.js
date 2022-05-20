@@ -111,7 +111,7 @@ class CharacterControllerDemo {
         const fov = 60;
         const aspect = 1920 / 1080;
         const near = 1.0;
-        const far = 1000.0;
+        const far = 3000.0;
         this._camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
         this._camera.position.set(25, 10, 25);
 
@@ -1549,7 +1549,7 @@ class CharacterControllerDemo {
             }
         }
     }
-    endChapter2() {
+    async endChapter2() {
         //BDD score
         this.score += scoreTrie;
         this.score -= scoreMalTrie
@@ -1572,6 +1572,7 @@ class CharacterControllerDemo {
         <br><br><i> Merci d'avoir jouer à notre jeu!</i>`,
             }).setHeader('Félicitations').show()
         this.db.newScore(username, {finalScore: this.score})
+        await this.db.updateChapter(username, { chapter: 0 });
     }
 
     intersect(pos) {

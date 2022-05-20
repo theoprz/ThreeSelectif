@@ -51,7 +51,7 @@ function checkEmail(req,res,next){
 router.get('/', function(req, res, next) {
     var loginUser=localStorage.getItem('loginUser');
     if(loginUser){
-        res.redirect('./dashboard');
+        res.redirect('/');
     }else{
         res.render('signup', { title: 'Password Management System', msg:'' });
     }

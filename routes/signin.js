@@ -8,7 +8,7 @@ const { check, validationResult } = require('express-validator');
 router.get('/', function(req, res, next) {
     var loginUser = localStorage.getItem('loginUser');
     if(loginUser){
-        res.redirect('./dashboard');
+        res.redirect('/');
     }else{
         res.render('signin', { msg:'' });
     }
@@ -33,7 +33,7 @@ router.post('/', function(req, res, next) {
                 localStorage.setItem('loginUser', username);
                 var now = new Date().getTime();
                 localStorage.setItem('setupTime', now);
-                res.redirect('/dashboard');
+                res.redirect('/');
             }else{
                 res.render('signin', { title: 'Password Management System', msg:"Invalid Username and Password." });
 
