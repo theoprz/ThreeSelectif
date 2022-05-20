@@ -205,6 +205,15 @@ body {
     vertical-align: middle;
 }
 
+.touche {
+    position: absolute;
+    bottom: 4.2vw;
+    margin-left: 0.2vw;
+    font-weight: 800;
+    color: white; 
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
 .slot .AlignVertical {
     height: 9vw;
     vertical-align: middle;

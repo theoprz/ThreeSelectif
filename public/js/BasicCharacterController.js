@@ -59,6 +59,8 @@ class BasicCharacterController {
             loader.load('/static/assets/game/zombie/walk.fbx', (a) => { _OnLoad('walk', a); });
             loader.load('/static/assets/game/zombie/run.fbx', (a) => { _OnLoad('run', a); });
             loader.load('/static/assets/game/zombie/idle.fbx', (a) => { _OnLoad('idle', a); });
+            loader.load('/static/assets/game/zombie/pick.fbx', (a) => { _OnLoad('pick', a); });
+
         });
 
     }

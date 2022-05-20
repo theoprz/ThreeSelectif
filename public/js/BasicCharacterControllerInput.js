@@ -11,13 +11,19 @@ class BasicCharacterControllerInput {
             right: false,
             space: false,
             shift: false,
+            click: false,
         };
+
         document.addEventListener('keydown', (e) => this._onKeyDown(e), false);
         document.addEventListener('keyup', (e) => this._onKeyUp(e), false);
+
+
+
     }
 
     _onKeyDown(event) {
         switch (event.keyCode) {
+
             case 90: // z
                 this._keys.forward = true;
                 break;

@@ -1,10 +1,12 @@
 import ApiFetching from "/static/js/ApiFetching.js"
 import BasicCharacterController from "/static/js/BasicCharacterController.js"
 import ThirdPersonCamera from "/static/js/ThirdPersonCamera.js"
+
 import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/loaders/OBJLoader.js";
 
 
 let colliders = [];
+let pickup = false;
 //Positions possibles pour les objets
 
 //Bouteille de verre
@@ -625,6 +627,27 @@ class CharacterControllerDemo {
         }
     }
 
+    questionFinal(score){
+        Swal.fire({
+            title: 'Question Finale',
+            icon: 'question',
+            input: 'range',
+            inputLabel: 'ans',
+            html:"Combien avez vous fait economiser à la terre en temp de dégradation ? (100 ans pres) ",
+            confirmButton:"Ok",
+            inputAttributes: {
+                min: 0,
+                max: 20000,
+                step: 100,
+            },
+            inputValue: 0
+        }).then((result) =>{
+            if (result == score){
+                console.log("WIN")
+            }
+        })
+    }
+
     question(questionNumber) {
 
         var theRandomNumber = this.pasDeRepetitionQuestion();
@@ -645,6 +668,7 @@ class CharacterControllerDemo {
                 const { value: color } = await Swal.fire({
                     icon: 'question',
                     title: await data.questions,
+                    html: ` Question :${this.iterations}/10`,
                     input: 'radio',
                     inputOptions: inputOptions,
                     inputValidator: (value) => {
@@ -662,7 +686,7 @@ class CharacterControllerDemo {
                         confirmButtonText: 'Suivant',
 
                     }).then((result) => {
-                        if (this.iterations == 9) {
+                        if (this.iterations == 10) {
                             if (this.iterationsWin >= 6) {
                                 Swal.fire({
                                     icon: 'success',
@@ -674,7 +698,7 @@ class CharacterControllerDemo {
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
-                                        html: 'Dans ce chapitre vous aller devoir ramassé le plus de déchets possible en 5 min',
+                                        html: `Dans ce chapitre vous allez devoir ramasser et trier le plus de déchets possible en 10 min. Il y a 18 déchets en tout. Il y a trois poubelles dans le parc, mettez les déchets dans les bonnes poubelles.<br><br> Pour récupérer un déchet approchez vous de lui et cliquer dessus, pour le déposer dans une poubelle approchez vous d'une poubelle et appuyez sur 1, 2, 3, 4, 5, ou 6 sur votre clavier`,
                                         confirmButtonText: 'Start',
                                     }).then(async (result) => {
                                         this.timer(true);
@@ -690,14 +714,18 @@ class CharacterControllerDemo {
                                     title: 'PERDU',
                                     showDenyButton: true,
                                     showConfirmButton: true,
-                                    html: `Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste`,
+                                    html: 'Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste',
                                     confirmButtonText: 'Relancer',
                                     denyButtonText: 'Menu principal',
-                                }).then((result) => {
+                            }).then((result) => {
                                     if (result.isConfirmed) {
+                                        this.iterations = 1;
+                                        this.iterationsWin = 1;
+                                        this.tab = [];
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
+                                        window.location.href='/'
                                         // A faire
                                     }
                                 });
@@ -717,7 +745,7 @@ class CharacterControllerDemo {
                         html: data.bad,
                         confirmButtonText: 'Suivant'
                     }).then((result) => {
-                        if (this.iterations == 9) {
+                        if (this.iterations == 10) {
 
                             if (this.iterationsWin >= 6) {
                                 Swal.fire({
@@ -748,9 +776,13 @@ class CharacterControllerDemo {
                                     denyButtonText: 'Menu principal',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
+                                        this.iterations = 1;
+                                        this.iterationsWin = 1;
+                                        this.tab = [];
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
+                                        window.location.href='/'
                                         // A faire
                                     }
                                 })
@@ -872,7 +904,7 @@ class CharacterControllerDemo {
 
                     // Quand on appuie sur l'objet de l'étape 1 question
                     if (this.clickedObject.userData.name === "BoiteQuestionnaire") {
-                        this.iterations = 0;
+                        this.iterations = 1;
                         this.iterationsWin = 1;
                         this.tab = [];
                         this.startquestion();
@@ -928,6 +960,7 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet2" & sommecount <= 5) {
+
                         count2 += 1;
                         sommecount += 1;
                         alertify.set('notifier', 'position', 'bottom-left');
@@ -977,6 +1010,7 @@ class CharacterControllerDemo {
 
                     // Si il y a déjà l'image
                     else if (this.clickedObject.userData.name == "Dechet4" & sommecount <= 5) {
+
                         this._scene.remove(found[0].object);
                         count4 += 1;
                         sommecount += 1;
@@ -1046,6 +1080,7 @@ class CharacterControllerDemo {
         let game = this;
         function KeyDown(event) {
             switch (event.keyCode) {
+
                 case 49: // 1
                     let PoubelleGreen1;
                     listChildren.children.forEach(elem => {
@@ -1082,7 +1117,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashTrie += 1;
                         scoreTrie = trashTrie * 10;
-
+                        alertify.succes("Bravo!");
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -1095,7 +1130,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
-
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -1108,7 +1143,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
-
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -1156,7 +1191,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
-
+                        alertify.error("Tu as mal trié ton déchet");
                         //On soustrait un à la somme des compteurs
                         document.getElementById("countSlot2").innerHTML = count2;
                         if (count2 == 0) {
@@ -1172,6 +1207,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot2").innerHTML = count2;
                         if (count2 == 0) {
                             div2.removeChild(div2.children[0])
@@ -1184,7 +1220,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashTrie += 1;
                         scoreTrie = trashTrie * 10
-
+                        alertify.success("Bravo!");
                         document.getElementById("countSlot2").innerHTML = count2;
                         if (count2 == 0) {
                             div2.removeChild(div2.children[0])
@@ -1229,7 +1265,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
-
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot3").innerHTML = count3;
                         if (count3 == 0) {
                             div3.removeChild(div3.children[0])
@@ -1243,7 +1279,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashTrie += 1;
                         scoreTrie = trashTrie * 10;
-
+                        alertify.success("Bravo!");
                         document.getElementById("countSlot3").innerHTML = count3;
                         if (count3 == 0) {
                             div3.removeChild(div3.children[0])
@@ -1257,7 +1293,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
-
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot3").innerHTML = count3;
                         if (count3 == 0) {
                             div3.removeChild(div3.children[0])
@@ -1303,6 +1339,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashTrie += 1;
                         scoreTrie = trashTrie * 10;
+                        alertify.success("Bravo!");
                         document.getElementById("countSlot4").innerHTML = count4;
                         if (count4 == 0) {
                             div4.removeChild(div4.children[0])
@@ -1314,6 +1351,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot4").innerHTML = count4;
                         if (count4 == 0) {
                             div4.removeChild(div4.children[0])
@@ -1360,7 +1398,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
-
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot5").innerHTML = count5;
                         if (count5 == 0) {
                             div5.removeChild(div5.children[0])
@@ -1376,7 +1414,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
-
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot5").innerHTML = count5;
                         if (count5 == 0) {
                             div5.removeChild(div5.children[0])
@@ -1392,7 +1430,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashTrie += 1;
                         scoreTrie = trashTrie * 10;
-
+                        alertify.success("Bravo!");
                         document.getElementById("countSlot5").innerHTML = count5;
                         if (count5 == 0) {
                             div5.removeChild(div5.children[0])
@@ -1439,7 +1477,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
-
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot6").innerHTML = count6;
                         if (count6 == 0) {
                             div6.removeChild(div6.children[0])
@@ -1453,7 +1491,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashTrie += 1;
                         scoreTrie = trashTrie * 10;
-
+                        alertify.success("Bravo!");
                         document.getElementById("countSlot6").innerHTML = count6;
                         if (count6 == 0) {
                             div6.removeChild(div6.children[0])
@@ -1467,6 +1505,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashMalTrie += 1;
                         scoreMalTrie = trashMalTrie * 15;
+                        alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot6").innerHTML = count6;
                         if (count6 == 0) {
                             div6.removeChild(div6.children[0])
@@ -1474,6 +1513,7 @@ class CharacterControllerDemo {
                         }
                     }
                     break;
+
             }
             if (trashMalTrie + trashTrie == 18) {
                 game.testTimer();
@@ -1482,6 +1522,7 @@ class CharacterControllerDemo {
         }
         function KeyUp(event) {
             switch (event.keyCode) {
+
                 case 49: // 1
                     rep = false;
                     break;
@@ -1608,4 +1649,4 @@ class CharacterControllerDemo {
 }
 
 export { CharacterControllerDemo };
-export { colliders };
+export { colliders, pickup};
