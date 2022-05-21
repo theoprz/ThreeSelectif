@@ -80,6 +80,8 @@ let timeSecChapter2 = 0;
 let timeMinChapter2 = 0;
 let timeChapter2 = 0;
 
+let actualChapter = 0;
+
 class CharacterControllerDemo {
     constructor() {
         this._Initialize();
@@ -91,7 +93,7 @@ class CharacterControllerDemo {
             event.target.remove();
         }
 
-        this.player;
+        this.player = {};
         this.score = 0;
         this._threejs = new THREE.WebGLRenderer({
             antialias: true,
@@ -702,9 +704,9 @@ class CharacterControllerDemo {
                                         confirmButtonText: 'Start',
                                     }).then(async (result) => {
                                         this.timer(true);
+                                        actualChapter = 1;
                                         await this.db.updateChapter(username, { chapter: 1 });
                                     });
-                                    return;
                                 });
                                 return;
 
@@ -760,8 +762,11 @@ class CharacterControllerDemo {
                                         title: 'CHAPITRE 2',
                                         html: 'Dans ce chapitre vous aller devoir ramassé le plus de déchets possible en 5 min',
                                         confirmButtonText: 'Start',
+                                    }).then(async (result) => {
+                                        this.timer(true);
+                                        actualChapter = 1;
+                                        await this.db.updateChapter(username, { chapter: 1 });
                                     });
-                                    return;
                                 });
                                 return;
 
@@ -919,7 +924,8 @@ class CharacterControllerDemo {
                         alertify.error('Ton inventaire est plein, va trier tes déchets dans les poubelles');
                     }
                     //Premier Objet
-                    if (this.user[0].chapter !== 1) return;
+                    console.log(actualChapter)
+                    if (actualChapter !== 1) return;
                     if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1" & sommecount <= 5) {
                         div1.appendChild(img1);
                         count1 += 1;
@@ -1571,6 +1577,7 @@ class CharacterControllerDemo {
         <br><br> Si jamais tu veux rejouer clique sur le bouton Rejouer et si tu veux en apprendre plus sur le tri sélectif je te laisse aller sur: En savoir plus.
         <br><br><i> Merci d'avoir jouer à notre jeu!</i>`,
             }).setHeader('Félicitations').show()
+        console.log(this.score)
         this.db.newScore(username, {finalScore: this.score})
         await this.db.updateChapter(username, { chapter: 0 });
     }
