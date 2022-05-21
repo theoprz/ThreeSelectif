@@ -213,7 +213,7 @@ class CharacterControllerDemo {
         //Texture du background
         // let bgTexture = new THREE.TextureLoader().load('/static/assets/game/sky.jpg');
         // this._scene.background = bgTexture;
-        
+
         const loader = new THREE.CubeTextureLoader(this.manager);
         const texture = loader.load([
             '/static/assets/game/posx.jpg',
@@ -224,7 +224,7 @@ class CharacterControllerDemo {
             '/static/assets/game/negz.jpg',
         ]);
         texture.encoding = THREE.sRGBEncoding;
-        this._scene.background = texture; 
+        this._scene.background = texture;
 
         this._LoadMap();
 
@@ -307,6 +307,7 @@ class CharacterControllerDemo {
                 if (timerElement) {
                     timerElement.remove()
                 }
+                this.score += temps;
                 this.endChapter2();
                 clearInterval(interval);
                 return;
@@ -317,7 +318,6 @@ class CharacterControllerDemo {
             temps = temps <= 0 ? 0 : temps - 1;
             scoreTemps = scoreTemps <= 0 ? 0 : scoreTemps - 1;
             timeChapter2 = 600 - temps;
-            this.score += timeChapter2;
             timeMinChapter2 = parseInt(timeChapter2 / 60, 10);
             timeSecChapter2 = parseInt(timeChapter2 % 60, 10);
         }, 1000);
@@ -667,7 +667,7 @@ class CharacterControllerDemo {
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
-                                    this.score += timeChapter2;
+                                    this.score += this.iterationsWin * 10;
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -726,7 +726,7 @@ class CharacterControllerDemo {
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
-                                    this.score += timeChapter2;
+                                    this.score += this.iterationsWin * 10;
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -1141,7 +1141,7 @@ class CharacterControllerDemo {
                         sommecount -= 1;
                         trashTrie += 1;
                         scoreTrie = trashTrie * 10;
-                        alertify.succes("Bravo!");
+                        alertify.success("Bravo!");
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
                             div1.removeChild(div1.children[0])
@@ -1420,7 +1420,7 @@ class CharacterControllerDemo {
                     let distPlasYy = Math.abs(PoubelleYellow5.position.y - posPlayer.y);
                     let distPlasYz = Math.abs(PoubelleYellow5.position.z - posPlayer.z);
 
-                
+
 
                     if (count5 > 0 && rep == false && ((distPlasRx < 30 && distPlasRy < 30 && distPlasRz < 30) || (distPlasBx < 30 && distPlasBy < 30 && distPlasBz < 30))) {
                                jeter = true;
@@ -1494,7 +1494,7 @@ class CharacterControllerDemo {
                     let distCigYy = Math.abs(PoubelleYellow6.position.y - posPlayer.y);
                     let distCigYz = Math.abs(PoubelleYellow6.position.z - posPlayer.z);
 
-                
+
                     if (count6 > 0 && rep == false && distCigBx < 30 && distCigBy < 30 && distCigBz < 30) {
                         jeter = true;
                         setTimeout(() => {
