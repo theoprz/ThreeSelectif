@@ -391,6 +391,7 @@ main {
     padding: 1% 2%;
     box-sizing: border-box;
     text-align: center;
+    border-radius: 2%;
 }
 
 header {
@@ -439,4 +440,9 @@ main p{
 .scrollUp{
     padding: 10px 0 10px 0;
 
+}
+
+main a{
+    text-decoration: none;
+    color: #009e44;
 }

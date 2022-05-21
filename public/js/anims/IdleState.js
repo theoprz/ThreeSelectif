@@ -1,5 +1,5 @@
 import State from "/static/js/State.js"
-import { pickup } from "/static/js/CharacterControllerDemo.js"
+import { pickup, jeter } from "/static/js/CharacterControllerDemo.js"
 
 
 
@@ -31,10 +31,16 @@ class IdleState extends State {
 
     Update(_, input) {
 
-        if (input._keys.forward || input._keys.backward) {
+        if (input._keys.forward ) {
             this._parent.SetState('walk');
-        } else if(input._keys.space || pickup){
+        }else if(input._keys.backward){
+            this._parent.SetState('walkb');
+        }
+        else if(input._keys.space || pickup){
             this._parent.SetState('pick');
+        }
+        else if(input._keys.t || jeter){
+            this._parent.SetState('throw');
         }
     }
 }

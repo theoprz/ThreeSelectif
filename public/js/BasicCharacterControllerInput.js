@@ -11,6 +11,7 @@ class BasicCharacterControllerInput {
             right: false,
             space: false,
             shift: false,
+            t:false,
             click: false,
         };
 
@@ -42,6 +43,9 @@ class BasicCharacterControllerInput {
             case 16: // SHIFT
                 this._keys.shift = true;
                 break;
+            case 84:
+                this._keys.t = true;
+                break;
         }
     }
 
@@ -64,6 +68,9 @@ class BasicCharacterControllerInput {
                 break;
             case 16: // SHIFT
                 this._keys.shift = false;
+                break;
+            case 84:
+                this._keys.t = false;
                 break;
         }
     }
