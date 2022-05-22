@@ -1,21 +1,19 @@
-*{
+* {
     margin: 0;
     padding: 0;
 
 }
 
-body{
+body {
     padding: 0;
     margin: 0;
-    font-family: ubuntu;
 }
 
-h2{
+h2 {
     text-align: center;
 }
 
-footer{
-
+footer {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -23,15 +21,13 @@ footer{
     background: #111;
     height: auto;
     width: 100%;
-    font-family: Monospace;
     padding-top: 10px;
     color: #fff;
 }
 
 
 
-.footer-content{
-
+.footer-content {
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -39,72 +35,70 @@ footer{
 
 }
 
-.footer-content h3{
+.footer-content h3 {
     font-size: 1.8rem;
     font-weight: 400;
     text-transform: capitalize;
     line-height: 3rem;
 }
 
-.footer-content p{
+.footer-content p {
     max-width: 500px;
     margin: 10px auto;
     line-height: 28px;
     font-size: 14px;
 }
 
-.footer-content img{
+.footer-content img {
     width: 60px;
 }
 
-.socials{
+.socials {
     list-style: none;
     display: flex;
     align-items: center;
-    justify-content:center;
-    margin: 5px 0 5px 40px ;
+    justify-content: center;
+    margin: 5px 0 5px 0px;
 
 }
 
-.socials li{
+.socials li {
     margin: 0 10px;
     padding: 0 10px;
 }
 
-.socials a{
+.socials a {
     text-decoration: none;
     color: #fff;
 }
 
-.socials a i{
+.socials a i {
     font-size: 1.1rem;
     transition: color .4s ease;
 }
 
-.socials a:hover i{
+.socials a:hover i {
     color: aqua;
 }
 
-.footer-bottom{
+.footer-bottom {
     background: #000;
-    width: 100vw;
     padding: 5px 0;
     text-align: center;
 }
 
-.footer-bottom p{
+.footer-bottom p {
     font-size: 14px;
     word-spacing: 2px;
-    text-transform: capitalize;
+    text-align: center;
 }
 
-.footer-bottom span{
-    text-transform: uppercase;
+.footer-bottom span {
     opacity: .4;
     font-weight: 200;
 }
 
-.footer-bottom span a{
+.footer-bottom span a {
     text-decoration: none;
     color: #fff;
 }
@@ -118,19 +112,19 @@ footer{
     z-index: 1;
 }
 
-.wrapper ul{
+.wrapper ul {
     height: 50px;
     display: flex;
     justify-content: center;
 }
 
-.wrapper ul li{
+.wrapper ul li {
     display: inline-block;
     padding: 40px 15px;
 
 }
 
-.wrapper ul li a{
+.wrapper ul li a {
     text-decoration: none;
     color: #fff;
     text-transform: uppercase;
@@ -138,12 +132,12 @@ footer{
     padding: 5px 10px;
 }
 
-.wrapper ul li a:hover{
+.wrapper ul li a:hover {
     background: #fff;
     color: #000;
 }
 
-.wrapper h2{
+.wrapper h2 {
     text-align: center;
     color: #fff;
     font-size: 50px;
@@ -151,7 +145,7 @@ footer{
     margin-bottom: 15px;
 }
 
-.wrapper p{
+.wrapper p {
     text-align: center;
     font-size: 18px;
     width: 35%;
@@ -160,22 +154,22 @@ footer{
     line-height: 1.7;
 }
 
-.objects{
+.objects {
     background: linear-gradient(to right, #159957, #155799);
     width: 100%;
     height: 100vh;
 }
 
-.box{
+.box {
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
 }
 
-.box li{
+.box li {
     position: absolute;
     display: block;
     list-style: none;
@@ -187,14 +181,14 @@ footer{
     border-radius: 50%;
 }
 
-.box li:nth-child(1){
+.box li:nth-child(1) {
     left: 86%;
     width: 80px;
     height: 80px;
     animation-delay: 0s;
 }
 
-.box li:nth-child(2){
+.box li:nth-child(2) {
     left: 12%;
     width: 30px;
     height: 30px;
@@ -203,7 +197,7 @@ footer{
 
 }
 
-.box li:nth-child(3){
+.box li:nth-child(3) {
     left: 70%;
     width: 100px;
     height: 100px;
@@ -211,7 +205,7 @@ footer{
 
 }
 
-.box li:nth-child(4){
+.box li:nth-child(4) {
     left: 45%;
     width: 150px;
     height: 150px;
@@ -220,7 +214,7 @@ footer{
 
 }
 
-.box li:nth-child(5){
+.box li:nth-child(5) {
     left: 65%;
     width: 40px;
     height: 40px;
@@ -228,7 +222,7 @@ footer{
 
 }
 
-.box li:nth-child(6){
+.box li:nth-child(6) {
     left: 15%;
     width: 110px;
     height: 110px;
@@ -236,12 +230,12 @@ footer{
 
 }
 
-@keyframes animate{
-    0%{
+@keyframes animate {
+    0% {
         transform: translateY(0) scale(0);
     }
 
-    100%{
+    100% {
         transform: translateY(-800px) scale(2);
     }
 }
@@ -263,9 +257,9 @@ header {
     padding: 1% 2%;
 }
 
-iframe{
-    padding: 50px 0;
-}
+
+
+
 
 
 .buttons {
@@ -276,7 +270,7 @@ iframe{
     padding: 5px 10px;
 }
 
-.buttons:hover{
+.buttons:hover {
     background-color: hsla(100, 0%, 60%, .3);
     border-radius: 30px;
 }

@@ -18,12 +18,12 @@ let pos5Trash1 = { x: 103, y: 0, z: -1030 };
 let pos6Trash1 = { x: -207, y: 0, z: -445 };
 let valuesTrash1 = [pos1Trash1, pos2Trash1, pos3Trash1, pos4Trash1, pos5Trash1, pos6Trash1];
 //Canettes
-let pos1Trash2 = { x: 623, y: 1, z: 80 };
-let pos2Trash2 = { x: 292, y: 1, z: 99 };
-let pos3Trash2 = { x: 201, y: 1, z: 213 };
-let pos4Trash2 = { x: 407, y: -1, z: -160 };
-let pos5Trash2 = { x: -107, y: -1, z: 376 };
-let pos6Trash2 = { x: -194, y: 1, z: -743 };
+let pos1Trash2 = { x: 623, y: 3, z: 80 };
+let pos2Trash2 = { x: 292, y: 3, z: 99 };
+let pos3Trash2 = { x: 201, y: 3, z: 213 };
+let pos4Trash2 = { x: 407, y: 1, z: -160 };
+let pos5Trash2 = { x: -107, y: 1, z: 376 };
+let pos6Trash2 = { x: -194, y: 3, z: -743 };
 let valuesTrash2 = [pos1Trash2, pos2Trash2, pos3Trash2, pos4Trash2, pos5Trash2, pos6Trash2];
 //Déchets alimentaires
 let pos1Trash3 = { x: 902, y: -1, z: 230 };
@@ -67,9 +67,11 @@ let scoreMalTrie = 0;
 let timeSecChapter2 = 0;
 let timeMinChapter2 = 0;
 let timeChapter2 = 0;
-
+let scoreQuestion = 0;
+let scoreChapter2 = 0;
+let gameFinish = false;
 let actualChapter = 0;
-
+let temps = 600;
 class CharacterControllerDemo {
     constructor() {
         this._Initialize();
@@ -138,13 +140,14 @@ class CharacterControllerDemo {
                         'invokeOnCloseOff': true,
                         'pinnable': false,
                         'label': 'Jouer',
+                        'onok': function () { alertify.success('Bienvenue'); },
                         'message': `Bienvenue sur le <strong> Three Séléctif </strong>!
                     <br><br> Pour commencer le jeu tu vas devoir compléter un questionnaire pour tester tes connaissances sur le tri séléctif et le recyclage. 
                     Pour ce faire, tu vas te rendre derrière toi dans un batiment marron à côté d'un magnifique panneau Junia tu trouveras un Ordinateur où tu cliqueras pour commencer le questionnaire.
                     <br><br> <i>Bon jeu!</i>`,
                     }).setHeader('<strong> Bienvenue </strong>').show()
                 clearInterval(intervalLoading);
-           }, 3000);
+            }, 5000);
             console.log('Loading complete!');
         };
 
@@ -155,7 +158,7 @@ class CharacterControllerDemo {
             color: '#93c47d',
             trailColor: '#eee',
             trailWidth: 1,
-            svgStyle: {width: '100%', height: '100%'},
+            svgStyle: { width: '100%', height: '100%' },
             text: {
                 style: {
                     // Text color.
@@ -166,15 +169,12 @@ class CharacterControllerDemo {
                     top: '50%',
                     padding: 0,
                     margin: 0,
-
-
-
                     transform: null
                 },
                 autoStyleContainer: false
             },
-            from: {color: '#FFEA82'},
-            to: {color: '#ED6A5A'},
+            from: { color: '#FFEA82' },
+            to: { color: '#ED6A5A' },
         });
 
         this.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
@@ -288,9 +288,6 @@ class CharacterControllerDemo {
     }
 
     timer(state) { //Cooldown pour le chapitre 2
-        let scoreTemps = 600;
-        let temps = 600;
-        let CheckStop = false;
         const timerElement = document.getElementById("timer");
 
         let interval = setInterval(() => {
@@ -307,7 +304,7 @@ class CharacterControllerDemo {
                 if (timerElement) {
                     timerElement.remove()
                 }
-                this.score += temps;
+                gameFinish = true;
                 this.endChapter2();
                 clearInterval(interval);
                 return;
@@ -392,7 +389,7 @@ class CharacterControllerDemo {
                     loaderTrash2.load("/static/assets/game/objects/trash-canette.fbx", function (object) {
                         const canette = object.children[0];
                         let pos2 = { x: tempPos2.x, y: tempPos2.y, z: tempPos2.z }
-                        canette.scale.multiplyScalar(0.1)
+                        canette.scale.multiplyScalar(0.03)
                         canette.position.set(pos2.x, pos2.y, pos2.z);
                         canette.userData.name = 'Dechet2';
                         canette.userData.draggable = true;
@@ -600,22 +597,22 @@ class CharacterControllerDemo {
         }
     }
 
-    questionFinal(score){
+    questionFinal(score) {
         Swal.fire({
             title: 'Question Finale',
             icon: 'question',
             input: 'range',
             inputLabel: 'ans',
-            html:"Combien avez vous fait economiser à la terre en temp de dégradation ? (100 ans pres) ",
-            confirmButton:"Ok",
+            html: "Combien avez vous fait economiser à la terre en temp de dégradation ? (100 ans pres) ",
+            confirmButton: "Ok",
             inputAttributes: {
                 min: 0,
                 max: 20000,
                 step: 100,
             },
             inputValue: 0
-        }).then((result) =>{
-            if (result == score){
+        }).then((result) => {
+            if (result == score) {
                 console.log("WIN")
             }
         })
@@ -667,7 +664,8 @@ class CharacterControllerDemo {
                                     html: `Bravo tu as répondu correctement à :  ${this.iterationsWin} questions`,
                                     confirmButtonText: 'Chapitre suivant',
                                 }).then((result) => {
-                                    this.score += this.iterationsWin * 10;
+                                    scoreQuestion = this.iterationsWin * 10
+                                    this.score += scoreQuestion;
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'CHAPITRE 2',
@@ -687,10 +685,10 @@ class CharacterControllerDemo {
                                     title: 'PERDU',
                                     showDenyButton: true,
                                     showConfirmButton: true,
-                                    html: 'Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste',
+                                    html: `Dommage tu as répondu juste que à : ${this.iterationsWin} questions , il te faut un  minimum de 5 réponse juste`,
                                     confirmButtonText: 'Relancer',
                                     denyButtonText: 'Menu principal',
-                            }).then((result) => {
+                                }).then((result) => {
                                     if (result.isConfirmed) {
                                         this.iterations = 1;
                                         this.iterationsWin = 1;
@@ -698,7 +696,7 @@ class CharacterControllerDemo {
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
-                                        window.location.href='/'
+                                        window.location.href = '/'
                                         // A faire
                                     }
                                 });
@@ -757,7 +755,7 @@ class CharacterControllerDemo {
                                         this.startquestion();
                                         // A revoir
                                     } else if (result.isDenied) {
-                                        window.location.href='/'
+                                        window.location.href = '/'
                                         // A faire
                                     }
                                 })
@@ -855,14 +853,11 @@ class CharacterControllerDemo {
         //Sixième case de l'inventaire
         let div6 = document.getElementById("texteSlot6")
         window.addEventListener('click', event => {
-            //alertify.set('notifier', 'position', 'top-right');
-            //alertify.success(`GG ${username} tu es chaud`);
 
             this.clickMouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             this.clickMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
             //Pour afficher les enfants de la scène (objets/light, etc...)
             //console.log(this.player)
-
             const found = this.intersect(this.clickMouse);
             if (found.length > 0) {
                 this.clickedObject = found[0].object;
@@ -888,11 +883,11 @@ class CharacterControllerDemo {
                     //Pour l'inventaire:
                     if (sommecount > 5) {
                         alertify.set('notifier', 'position', 'bottom-left');
-                        alertify.error('Ton inventaire est plein, va trier tes déchets dans les poubelles');
+                        alertify.error('Ton sac est plein, va trier tes déchets dans les poubelles');
                     }
                     //Premier Objet
-                    console.log(actualChapter)
                     if (actualChapter !== 1) return;
+
                     if (div1.childElementCount === 0 & this.clickedObject.userData.name === "Dechet1" & sommecount <= 5) {
                         pickup = true;
                         setTimeout(() => {
@@ -905,8 +900,10 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé une Bouteille en verre');
                         document.getElementById("countSlot1").innerHTML = count1;
                         document.getElementById("countSlot1").setAttribute("style", "opacity: 1")
-
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -922,6 +919,9 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé une Bouteille en verre');
                         document.getElementById("countSlot1").innerHTML = count1;
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -938,8 +938,10 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé une canette');
                         document.getElementById("countSlot2").innerHTML = count2;
                         document.getElementById("countSlot2").setAttribute("style", "opacity: 1")
-
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -955,6 +957,9 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé une canette');
                         document.getElementById("countSlot2").innerHTML = count2;
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -971,8 +976,10 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé des déchets alimentaires');
                         document.getElementById("countSlot3").innerHTML = count3;
                         document.getElementById("countSlot3").setAttribute("style", "opacity: 1")
-
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -988,6 +995,9 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé des déchets alimentaires');
                         document.getElementById("countSlot3").innerHTML = count3;
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -1005,6 +1015,9 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot4").innerHTML = count4;
                         document.getElementById("countSlot4").setAttribute("style", "opacity: 1")
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -1021,6 +1034,9 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé des cartons usagés');
                         document.getElementById("countSlot4").innerHTML = count4;
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -1038,6 +1054,9 @@ class CharacterControllerDemo {
                         document.getElementById("countSlot5").innerHTML = count5;
                         document.getElementById("countSlot5").setAttribute("style", "opacity: 1")
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -1053,6 +1072,9 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé une bouteille en plastique');
                         document.getElementById("countSlot5").innerHTML = count5;
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -1069,8 +1091,10 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé un mégot');
                         document.getElementById("countSlot6").innerHTML = count6;
                         document.getElementById("countSlot6").setAttribute("style", "opacity: 1")
-
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
 
@@ -1086,6 +1110,9 @@ class CharacterControllerDemo {
                         alertify.success('Tu as ramassé un mégot');
                         document.getElementById("countSlot6").innerHTML = count6;
                         this._scene.remove(found[0].object);
+                        if (sommecount == 6) {
+                            alertify.warning('Attention, ton sac est plein.');
+                        }
                         //this.db.updateInventory("Test", { inventory: { cannettes: count1 } });
                     }
                 }
@@ -1099,7 +1126,6 @@ class CharacterControllerDemo {
         let game = this;
         function KeyDown(event) {
             switch (event.keyCode) {
-
                 case 49: // 1
                     let PoubelleGreen1;
                     listChildren.children.forEach(elem => {
@@ -1136,6 +1162,8 @@ class CharacterControllerDemo {
                         setTimeout(() => {
                             jeter = false;
                         }, 1000)
+                        console.log("tes chaud")
+
                         rep = true;
                         count1 -= 1;
                         sommecount -= 1;
@@ -1144,6 +1172,8 @@ class CharacterControllerDemo {
                         alertify.success("Bravo!");
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
+                            console.log("il faut enle")
+
                             div1.removeChild(div1.children[0])
                             document.getElementById("countSlot1").setAttribute("style", "opacity: 0")
                         }
@@ -1153,6 +1183,8 @@ class CharacterControllerDemo {
                         setTimeout(() => {
                             jeter = false;
                         }, 1000)
+
+                        console.log("tes chaud2")
                         rep = true;
                         count1 -= 1;
                         sommecount -= 1;
@@ -1161,6 +1193,8 @@ class CharacterControllerDemo {
                         alertify.error("Tu as mal trié ton déchet");
                         document.getElementById("countSlot1").innerHTML = count1;
                         if (count1 == 0) {
+                            console.log("tes il faut enlever ça")
+
                             div1.removeChild(div1.children[0])
                             document.getElementById("countSlot1").setAttribute("style", "opacity: 0")
                         }
@@ -1423,7 +1457,7 @@ class CharacterControllerDemo {
 
 
                     if (count5 > 0 && rep == false && ((distPlasRx < 30 && distPlasRy < 30 && distPlasRz < 30) || (distPlasBx < 30 && distPlasBy < 30 && distPlasBz < 30))) {
-                               jeter = true;
+                        jeter = true;
                         setTimeout(() => {
                             jeter = false;
                         }, 1000)
@@ -1537,7 +1571,7 @@ class CharacterControllerDemo {
 
             }
 
-            if (trashMalTrie + trashTrie == 18) {
+            if (trashMalTrie + trashTrie == 18 && !gameFinish) {
                 game.testTimer();
                 return;
             }
@@ -1573,8 +1607,8 @@ class CharacterControllerDemo {
     }
     async endChapter2() {
         //BDD score
-        this.score += scoreTrie;
-        this.score -= scoreMalTrie
+        scoreChapter2 =temps + scoreTrie -scoreMalTrie ;
+        this.score += scoreChapter2;
         alertify.confirm()
             .setting({
                 transition: 'zoom',
@@ -1583,18 +1617,21 @@ class CharacterControllerDemo {
                 'padding': 10,
                 'invokeOnCloseOff': true,
                 'pinnable': false,
-                'labels': { ok: 'Rejouer', cancel: 'En savoir plus' },
+                'labels': { ok: 'Rejouer', cancel: 'Voir le leaderboard' },
                 'onok': function () { document.location.href = "/"; },
-                'oncancel': function () { document.location.href = "/ytb"; },
+                'oncancel': function () { document.location.href = "/settings"; },
                 'message': `Bien joué<strong> ${username}</strong>, tu as fini le 2ème mini jeu. On va te faire un petit récapitulatif de ta performance:
         <br><br>Tu as bien trié: <strong>${trashTrie}  déchets</strong>.
         <br>Tu as mal trié: <strong>${trashMalTrie} déchets</strong>.
         <br> Et tu as finis le jeu en<strong> ${timeMinChapter2} minutes et ${timeSecChapter2} secondes. </strong>
-        <br><br> Si jamais tu veux rejouer clique sur le bouton Rejouer et si tu veux en apprendre plus sur le tri sélectif je te laisse aller sur: En savoir plus.
-        <br><br><i> Merci d'avoir jouer à notre jeu!</i>`,
+        <br><br>Tu as eu ${this.iterationsWin} au questionnaire tu as donc eu ${scoreQuestion} points au questionnaire. <br><br>
+        Pour le recyclage et triage tu as eu ${scoreChapter2} points.<br><br>
+        <br><strong>Tu as donc un score de total ${this.score} points! Bien joué<br>
+        <br><br> Si jamais tu veux rejouer clique sur le bouton Rejouer et si tu veux voir le classement je te laisse cliquer sur: Voir le leaderboard.
+        <br><br><i> Merci d'avoir joué à notre jeu!</i>`,
             }).setHeader('Félicitations').show()
-        console.log(this.score)
-        this.db.newScore(username, {finalScore: this.score})
+
+        this.db.newScore(username, { finalScore: this.score })
         await this.db.updateChapter(username, { chapter: 0 });
     }
 
@@ -1671,4 +1708,4 @@ class CharacterControllerDemo {
 }
 
 export { CharacterControllerDemo };
-export { colliders, pickup, jeter};
+export { colliders, pickup, jeter };
