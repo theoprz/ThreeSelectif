@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Users = require("../../models/users");
-const Questions = require("../../models/questions");
+const Users = require("../../models/Users.js");
+const Questions = require("../../models/Questions.js");
 const axios = require("axios");
 
 router.get("/users", async (req, res) => {

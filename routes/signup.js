@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var userModule = require('../models/users');
+var userModule = require('../models/Users.js');
 var bcrypt =require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
